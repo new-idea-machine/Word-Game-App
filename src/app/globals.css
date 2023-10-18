@@ -2,26 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.flipRow {
+  animation: flip 0.5s ease forwards;
+}
+.flipRow:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.flipRow:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.flipRow:nth-child(4) {
+  animation-delay: 0.9s;
+}
+.flipRow:nth-child(5) {
+  animation-delay: 1.2s;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+    background: white;
+    border: 2px solid #6b7280;
+    color: black;
   }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  45% {
+    transform: rotateX(90deg);
+    background: white;
+    border: 2px solid #6b7280;
+    color: black;
+  }
+  55% {
+    transform: rotateX(90deg);
+    background: #6AAA64;
+    border: 2px solid #6AAA64;
+    color: white;
+  }
+  100% {
+    transform: rotateX(0);
+    background: #6AAA64;
+    border: 2px solid #6AAA64;
+    color: white;
+  }
 }
