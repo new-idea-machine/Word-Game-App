@@ -1,6 +1,16 @@
+import { type Puzzle } from './Game';
+import { Dispatch, SetStateAction } from "react";
 import Row from "./Row";
 
-export default function Grid({ puzzle, step, guess, fadeIn, setFadeIn }) {
+interface GridProps {
+  puzzle: Puzzle[];
+  step: number;
+  guess: string;
+  fadeIn: boolean;
+  setFadeIn: Dispatch<SetStateAction<boolean>>
+}
+
+export default function Grid({ puzzle, step, guess, fadeIn, setFadeIn }: GridProps) {
   // Only show the words that have been guessed and the clue to the next word
   const completedWords = puzzle.slice(0, step);
   // The guess needs to be 5 letters long to render the divs, so pad with spaces
@@ -10,7 +20,7 @@ export default function Grid({ puzzle, step, guess, fadeIn, setFadeIn }) {
   // Give the fade-in animation time to complete before resetting the className
   setTimeout(() => {
     setFadeIn(false);
-  }, 3000);
+  }, 1000);
 
   return (
     <div>

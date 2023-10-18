@@ -1,4 +1,9 @@
-export default function Row({ word, guessed }) {
+interface RowProps {
+  word: string;
+  guessed: boolean;
+}
+
+export default function Row({ word, guessed }: RowProps) {
   const boxFormat = guessed ? "flipRow" : "border-2 border-gray-500";
 
   return (

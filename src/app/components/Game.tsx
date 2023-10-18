@@ -3,7 +3,13 @@
 import { useState, useEffect } from "react";
 import Grid from "./Grid";
 
-const puzzle = [
+export interface Puzzle {
+  id: number;
+  word: string;
+  clue: string;
+}
+
+const puzzle: Puzzle[] = [
   {id: 1, word: "BENCH", clue: "Long seat"},
   {id: 2, word: "BEACH", clue: "Sand"},
   {id: 3, word: "PEACH", clue: "Fruit"},
@@ -18,7 +24,7 @@ export default function Game() {
   const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
-    const handleKeyup = function(e) {
+    const handleKeyup = function(e: KeyboardEvent) {
       if (guess.length === 5 && e.key === 'Enter') {
 
         if (guess.toUpperCase() === puzzle[step].word.toUpperCase()) {
