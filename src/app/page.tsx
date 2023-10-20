@@ -9,7 +9,7 @@ while (randomIndexes.length < 2) {
 
 export default function Home() {
   return (
-    <main className="bg-white w-screen h-screen">
+    <main className="w-screen h-screen">
       <Game randomIndexes={randomIndexes} />
     </main>
   );

@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-bg-color: #E0F0FF;
+}
+
+body {
+  background: var(--main-bg-color);
+}
+
 .flipRow {
   animation: flip 0.5s ease forwards;
 }
@@ -21,26 +29,26 @@
 @keyframes flip {
   0% {
     transform: rotateX(0);
-    background: white;
+    background: var(--main-bg-color);
     border: 2px solid #6b7280;
     color: black;
   }
   45% {
     transform: rotateX(90deg);
-    background: white;
+    background: var(--main-bg-color);
     border: 2px solid #6b7280;
     color: black;
   }
   55% {
     transform: rotateX(90deg);
-    background: #6AAA64;
-    border: 2px solid #6AAA64;
+    background: theme('colors.green.600');
+    border: 2px solid theme('colors.green.600');
     color: white;
   }
   100% {
     transform: rotateX(0);
-    background: #6AAA64;
-    border: 2px solid #6AAA64;
+    background: theme('colors.green.600');
+    border: 2px solid theme('colors.green.600');
     color: white;
   }
 }
