@@ -25,7 +25,7 @@ export default function Row({ firstAnswer, guess, guessed, wrongGuess, randomInd
           return (
             <div
               key={i}
-              className={`${rowFormat} bg-green-600 border-green-600 text-white`}
+              className={`${rowFormat} bg-letter-correct border-letter-correct text-white`}
             >
               {firstAnswer[i]}
             </div>

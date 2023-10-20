@@ -102,7 +102,7 @@ export default function Game({ randomIndexes }: GameProps) {
   }
 
   return (
-    <div className="w-full max-w-2xl h-full px-4 md:px-24 m-20 flex flex-col">
+    <div className="w-full h-full px-4 md:px-24 mt-20 flex flex-col items-center">
       {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
       <section className="flex-1">
         {puzzle &&
