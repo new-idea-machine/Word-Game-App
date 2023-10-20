@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Grid from "./Grid";
+import VirtualKeyboard from "./VirtualKeyboard";
 
 export interface Puzzle {
   id: number;
@@ -10,12 +11,12 @@ export interface Puzzle {
 }
 
 const puzzle: Puzzle[] = [
-  {id: 1, word: "BENCH", clue: "Long seat"},
-  {id: 2, word: "BEACH", clue: "Sand"},
-  {id: 3, word: "PEACH", clue: "Fruit"},
-  {id: 4, word: "PEACE", clue: "Tranquility"},
-  {id: 5, word: "PLACE", clue: "Position"},
-  {id: 6, word: "PLANE", clue: "Wings"}
+  { id: 1, word: "BENCH", clue: "Long seat" },
+  { id: 2, word: "BEACH", clue: "Sand" },
+  { id: 3, word: "PEACH", clue: "Fruit" },
+  { id: 4, word: "PEACE", clue: "Tranquility" },
+  { id: 5, word: "PLACE", clue: "Position" },
+  { id: 6, word: "PLANE", clue: "Wings" }
 ];
 
 interface GameProps {
@@ -28,33 +29,38 @@ export default function Game({ randomIndexes }: GameProps) {
   const [fadeIn, setFadeIn] = useState(false);
   const [wrongGuess, setWrongGuess] = useState(false);
 
+  const handleInput = function(character: string) {
+    if (guess.length === 5 && character === 'Enter') {
+      if (guess.toUpperCase() === puzzle[step].word.toUpperCase()) {
+        setStep(prev => prev + 1);
+        setGuess("");
+        setFadeIn(true);
+      } else {
+        setWrongGuess(true);
+      }
+    }
+    if (guess.length > 0 && character === 'Backspace') {
+      setGuess(prev => prev.slice(0, prev.length - 1));
+
+      // Handle given letters in first word
+      if (step === 0 && randomIndexes.includes(guess.length - 1)) {
+        setGuess(prev => prev.slice(0, prev.length - 1));
+        if (step === 0 && randomIndexes.includes(guess.length - 2)) {
+          setGuess(prev => prev.slice(0, prev.length - 1));
+        }
+      }
+
+    }
+    if (guess.length < 5 && character.match(/^[a-zA-Z]{1}$/)) {
+      setGuess(prev => prev + character.toUpperCase());
+    }
+
+  };
+
   // Handle physical keyboard
   useEffect(() => {
     const handleKeyup = function(e: KeyboardEvent) {
-      if (guess.length === 5 && e.key === 'Enter') {
-        if (guess.toUpperCase() === puzzle[step].word.toUpperCase()) {
-          setStep(prev => prev + 1);
-          setGuess("");
-          setFadeIn(true);
-        } else {
-          setWrongGuess(true);
-        }
-      }
-      if (guess.length > 0 && e.key === 'Backspace') {
-        setGuess(prev => prev.slice(0, prev.length - 1));
-
-        // Handle given letters in first word
-        if (step === 0 && randomIndexes.includes(guess.length - 1)) {
-          setGuess(prev => prev.slice(0, prev.length - 1));
-          if (step === 0 && randomIndexes.includes(guess.length - 2)) {
-            setGuess(prev => prev.slice(0, prev.length - 1));
-          }
-        }
-
-      }
-      if (guess.length < 5 && e.key.match(/^[a-zA-Z]{1}$/)) {
-        setGuess(prev => prev + e.key.toUpperCase());
-      }
+      handleInput(e.key);
     };
 
     window.addEventListener('keyup', handleKeyup);
@@ -108,6 +114,7 @@ export default function Game({ randomIndexes }: GameProps) {
           randomIndexes={randomIndexes.sort()}
         />
       }
+      <VirtualKeyboard keyFunction={handleInput} />
     </div>
   );
 }
