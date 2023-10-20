@@ -42,6 +42,15 @@ export default function Game({ randomIndexes }: GameProps) {
       }
       if (guess.length > 0 && e.key === 'Backspace') {
         setGuess(prev => prev.slice(0, prev.length - 1));
+
+        // Handle given letters in first word
+        if (step === 0 && randomIndexes.includes(guess.length - 1)) {
+          setGuess(prev => prev.slice(0, prev.length - 1));
+          if (step === 0 && randomIndexes.includes(guess.length - 2)) {
+            setGuess(prev => prev.slice(0, prev.length - 1));
+          }
+        }
+
       }
       if (guess.length < 5 && e.key.match(/^[a-zA-Z]{1}$/)) {
         setGuess(prev => prev + e.key.toUpperCase());
@@ -53,7 +62,7 @@ export default function Game({ randomIndexes }: GameProps) {
     return () => {
       window.removeEventListener('keyup', handleKeyup);
     };
-  }, [guess, step]);
+  }, [guess, step, randomIndexes]);
 
   // Handle fade in animation for new row
   useEffect(() => {

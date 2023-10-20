@@ -19,7 +19,7 @@ export default function Grid({ puzzle, step, guess, wrongGuess, fadeIn, randomIn
   
   return (
     <div>
-      {step < 6
+      {step < puzzle.length
         ?
         <h2 className={`text-center text-xl font-semibold mb-4 ${fadeInCSS}`}>{puzzle[step].clue.toUpperCase()}</h2>
         :
@@ -40,7 +40,7 @@ export default function Grid({ puzzle, step, guess, wrongGuess, fadeIn, randomIn
         );
       })}
 
-      {step < 6 && (
+      {step < puzzle.length && (
         <div className={fadeInCSS}>
           <Row
             firstAnswer={puzzle[0].word}
