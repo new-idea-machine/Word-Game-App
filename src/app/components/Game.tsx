@@ -18,12 +18,17 @@ const puzzle: Puzzle[] = [
   {id: 6, word: "PLANE", clue: "Wings"}
 ];
 
-export default function Game() {
+interface GameProps {
+  randomIndexes: number[];
+}
+
+export default function Game({ randomIndexes }: GameProps) {
   const [guess, setGuess] = useState("");
   const [step, setStep] = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
   const [wrongGuess, setWrongGuess] = useState(false);
 
+  // Handle physical keyboard
   useEffect(() => {
     const handleKeyup = function(e: KeyboardEvent) {
       if (guess.length === 5 && e.key === 'Enter') {
@@ -76,6 +81,11 @@ export default function Game() {
     };
   }, [wrongGuess]);
 
+  // Handle given letters in first word, do not need to be retyped
+  if (step === 0 && randomIndexes.includes(guess.length)) {
+    setGuess(prev => prev + puzzle[0].word[guess.length]);
+  }
+
   return (
     <div className="w-full max-w-2xl px-4 md:px-24 mt-20">
       {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
@@ -86,8 +96,9 @@ export default function Game() {
           guess={guess}
           fadeIn={fadeIn}
           wrongGuess={wrongGuess}
-          setFadeIn={setFadeIn}
-        />}
+          randomIndexes={randomIndexes.sort()}
+        />
+      }
     </div>
   );
 }
