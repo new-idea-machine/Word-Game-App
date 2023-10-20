@@ -1,3 +1,5 @@
+import classnames from 'classnames';
+
 interface RowProps {
   firstAnswer: string;
   guess: string;
@@ -7,12 +9,15 @@ interface RowProps {
   step: number;
 }
 
-
 export default function Row({ firstAnswer, guess, guessed, wrongGuess, randomIndexes, step }: RowProps) {
-  const baseFormat = "flex justify-center items-center w-[52px] h-[52px] m-1 text-center uppercase font-extrabold text-[2em]";
-  const boxFormat = guessed ? "flipRow" : "border-2 border-gray-500";
-  const errorFormat = wrongGuess ? "wrongGuess" : '';
-
+  const rowFormat = classnames(
+    "flex justify-center items-center w-[52px] h-[52px] m-1 text-center uppercase font-extrabold text-[2em]",
+    {
+      "flipRow": guessed,
+      "border-2 border-gray-500": !guessed,
+      "wrongGuess": wrongGuess
+    }
+  );
   return (
     <div className="flex justify-center">
       {guess.split('').map((letter, i) => {
@@ -20,7 +25,7 @@ export default function Row({ firstAnswer, guess, guessed, wrongGuess, randomInd
           return (
             <div
               key={i}
-              className={`${baseFormat} ${errorFormat} bg-[#6AAA64] border-[#6AAA64] text-white`}
+              className={`${rowFormat} bg-green-600 border-green-600 text-white`}
             >
               {firstAnswer[i]}
             </div>
@@ -29,7 +34,7 @@ export default function Row({ firstAnswer, guess, guessed, wrongGuess, randomInd
         return (
           <div
             key={i}
-            className={`${baseFormat} ${boxFormat} ${errorFormat}`}
+            className={rowFormat}
           >
             {letter}
           </div>
