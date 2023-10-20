@@ -102,19 +102,23 @@ export default function Game({ randomIndexes }: GameProps) {
   }
 
   return (
-    <div className="w-full max-w-2xl px-4 md:px-24 mt-20">
+    <div className="w-full h-full px-4 md:px-24 mt-20 flex flex-col items-center">
       {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
-      {puzzle &&
-        <Grid
-          puzzle={puzzle}
-          step={step}
-          guess={guess}
-          fadeIn={fadeIn}
-          wrongGuess={wrongGuess}
-          randomIndexes={randomIndexes.sort()}
-        />
-      }
-      <VirtualKeyboard keyFunction={handleInput} />
+      <section className="flex-1">
+        {puzzle &&
+          <Grid
+            puzzle={puzzle}
+            step={step}
+            guess={guess}
+            fadeIn={fadeIn}
+            wrongGuess={wrongGuess}
+            randomIndexes={randomIndexes.sort()}
+          />
+        }
+      </section>
+      <section className="flex-1">
+        <VirtualKeyboard keyFunction={handleInput} />
+      </section>
     </div>
   );
 }

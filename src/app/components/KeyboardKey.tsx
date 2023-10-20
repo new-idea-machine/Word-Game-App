@@ -10,7 +10,7 @@ interface KeyProps {
 export default function KeyboardKey({ character, onClick }: KeyProps) {
   return (
     <button
-      className='min-w-fit px-1 w-10 h-10 m-0.5 bg-blue-300 text-cyan-950 capitalize font-semibold rounded-md hover:bg-blue-200 active:bg-blue-400 active:mt-1 active:mb-0 transition'
+      className='min-w-fit px-1 w-12 h-12 m-0.5 bg-keyboard-key text-keyboard-letter capitalize font-semibold rounded-md hover:bg-keyboard-hover active:bg-keyboard-press active:mt-1 active:mb-0 transition'
       onClick={onClick}
     >{character}</button>
   );
