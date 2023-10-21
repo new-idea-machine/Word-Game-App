@@ -1,5 +1,6 @@
 import Game from "./components/Game";
 import GameLauncher from "./components/GameLauncher";
+import Auth from "./components/Auth";
 
 // Generate the places for the 2 random letters that will be shown for the first word
 const randomIndexes: number[] = [];
@@ -11,9 +12,10 @@ while (randomIndexes.length < 2) {
 export default function Home() {
   return (
     <main className="w-screen h-screen">
-      <GameLauncher>
+      <Auth />
+      {/* <GameLauncher>
         <Game randomIndexes={randomIndexes} />
-      </GameLauncher>   
+      </GameLauncher>    */}
     </main>
   );
 }
