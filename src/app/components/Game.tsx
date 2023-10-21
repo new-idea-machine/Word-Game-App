@@ -29,6 +29,7 @@ export default function Game({ randomIndexes }: GameProps) {
   const [fadeIn, setFadeIn] = useState(false);
   const [wrongGuess, setWrongGuess] = useState(false);
 
+
   const handleInput = function(character: string) {
     if (guess.length === 5 && character === 'Enter') {
       if (guess.toUpperCase() === puzzle[step].word.toUpperCase()) {
@@ -92,6 +93,7 @@ export default function Game({ randomIndexes }: GameProps) {
       setWrongGuess(false);
     }, 820);
     return () => {
+      setGuess("");
       window.clearTimeout(timeoutId);
     };
   }, [wrongGuess]);
