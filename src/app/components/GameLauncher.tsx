@@ -16,7 +16,7 @@ export default function GameLauncher({ children }: Props) {
   useEffect(() => {
     // Set timeToNextGame to 120 seconds for dev testing
     // We will need to update it to 24 hours for production
-    const timeToNextGame = 120;
+    const timeToNextGame = 12;
 
     if (!cookies.lastGameTime) {
       setCookie("lastGameTime", Date.now(), { path: '/', maxAge: timeToNextGame });

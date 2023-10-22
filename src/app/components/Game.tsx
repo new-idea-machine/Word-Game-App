@@ -28,6 +28,15 @@ export default function Game({ randomIndexes }: GameProps) {
   const [step, setStep] = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
   const [wrongGuess, setWrongGuess] = useState(false);
+  const [gridIsCompleted, setGridIsCompleted] = useState(false);
+
+  //* Handle hidden physical keyboard
+  const handleCompletedGrid = function() {
+    if (step > 5 ) {
+       return setGridIsCompleted(true);
+    }
+       return setGridIsCompleted(false);
+  };
 
 
   const handleInput = function(character: string) {
@@ -36,6 +45,7 @@ export default function Game({ randomIndexes }: GameProps) {
         setStep(prev => prev + 1);
         setGuess("");
         setFadeIn(true);
+
       } else {
         setWrongGuess(true);
       }
@@ -62,6 +72,7 @@ export default function Game({ randomIndexes }: GameProps) {
   useEffect(() => {
     const handleKeyup = function(e: KeyboardEvent) {
       handleInput(e.key);
+      handleCompletedGrid();
     };
 
     window.addEventListener('keyup', handleKeyup);
@@ -119,7 +130,14 @@ export default function Game({ randomIndexes }: GameProps) {
         }
       </section>
       <section className="flex-1">
-        <VirtualKeyboard keyFunction={handleInput} />
+        { step <= 5 && !gridIsCompleted &&
+          <VirtualKeyboard keyFunction={handleInput} />    
+        }
+          
+        { step > 5 && gridIsCompleted && ( 
+          <h2>PROBANDO</h2>
+          )
+        }
       </section>
     </div>
   );
