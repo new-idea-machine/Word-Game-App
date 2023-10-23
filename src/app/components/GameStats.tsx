@@ -1,41 +1,44 @@
+import GameCountdown from "./GameCountdown";
+
+interface Stats {
+  id: number,
+  won: number,
+  lost: number,
+  date: Date;
+}
+
+const stats: Stats[] = [
+  { id: 1, won: 2, lost: 1, date: new Date(2023, 10, 11, 13, 18) },
+  { id: 2, won: 3, lost: 2, date: new Date(2023, 10, 10, 13, 18) },
+  { id: 3, won: 1, lost: 4, date: new Date(2023, 10, 9, 13, 18) }
+];
+
 export default function GameStats() {
   return (
-    <div className="container ml-3">
-      <h2 className="text-black text-xl font-bold" >Excelent! You have completed the Puzzle!</h2>
-      <hr />
+    <section className="container ml-3">
+      <GameCountdown onComplete={() => window.location.reload()}/>
       <h3 className="text-center font-bold">Here are your achievements:</h3>
-      <div className="p-8">
-        <table className="table-auto border-x border-b p-6">
-          <thead>
-            <tr>
-              <th className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 bg-gray-500 text-white">Played</th>
-              <th className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 bg-gray-500 text-white">Winned</th>
-              <th className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 bg-gray-500 text-white">Lost</th>
-              <th className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 bg-gray-500 text-white">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="odd:bg-gray-100 hover:!bg-stone-200">
-              <td className="p-2 border-b border-l text-center">15</td>
-              <td className="p-2 border-b border-l text-center">25</td>
-              <td className="p-2 border-b border-l text-center">25</td>
-              <td className="py-2 px-4 border-b border-l text-center">7/23/2023</td>
-            </tr>
-            <tr className="odd:bg-gray-100 hover:!bg-stone-200">
-              <td className="p-2 border-b border-l text-center">16</td>
-              <td className="p-2 border-b border-l text-center">26</td>
-              <td className="p-2 border-b border-l text-center">25</td>
-              <td className="py-2 px-4 border-b border-l text-center">7/24/2023</td>
-            </tr>
-            <tr className="odd:bg-gray-100 hover:!bg-stone-200">
-              <td className="p-2 border-b border-l text-center">15</td>
-              <td className="p-2 border-b border-l text-center">25</td>
-              <td className="p-2 border-b border-l text-center">25</td>
-              <td className="py-2 px-4 border-b border-l text-center">7/25/2023</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+      <table className="table-auto border-x border-b p-6">
+        <thead>
+          <tr>
+            {["Games Played", "Wins", "Losses", "Date"].map(label => {
+              return <th key={label} className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 bg-gray-500 text-white">{label}</th>;
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {stats.map(stat => {
+            return (
+              <tr key={stat.id} className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
+                <td className="p-2 border-b border-l">{stat.won + stat.lost}</td>
+                <td className="p-2 border-b border-l">{stat.won}</td>
+                <td className="p-2 border-b border-l">{stat.lost}</td>
+                <td className="p-2 border-b border-l">{stat.date.toLocaleString("en-CA")}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
   );
 }

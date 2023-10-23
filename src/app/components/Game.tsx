@@ -23,7 +23,8 @@ const puzzle: Puzzle[] = [
 
 export default function Game() {
 
-  const maxSteps: number = 3; //number = puzzle.length;
+  //Dynamic variables defined by the puzzle itself
+  const maxSteps: number = puzzle.length;
   const wordLength: number = puzzle[0].word.length;
 
   const [guess, setGuess] = useState("");
@@ -31,45 +32,14 @@ export default function Game() {
   const [fadeIn, setFadeIn] = useState(false);
   const [wrongGuess, setWrongGuess] = useState(false);
   const [gridIsCompleted, setGridIsCompleted] = useState(false);
-
-  const generateIndices = function() {
-    const indices = [];
-
-    while (indices.length < 2) {
-
-      const index = Math.floor(Math.random() * wordLength);
-      if (indices.indexOf(index) === -1) {
-        indices.push(index);
-      }
-    }
-    return indices;
-  };
-
-  /*
-  Generate the places for the 2 random letters that will be shown for the first word
-  TODO: We will have to consider whether each user gets the same two letters, and also
-  prevent it from regenerating new letters when the user refreshes the page.
-  They will have to be stored in a temporary place in the database.
-  */
-  const [randomIndices] = useState(generateIndices());
+  const [randomIndices] = useState([2, 4]);
 
   const setTimeoutCookie = function() {
-    // Set timeToNextGame to 120 seconds for dev testing
+    // Set timeToNextGame to 60 seconds from victory for dev testing
     // We will need to update it to time remaining until midnight for production
-    const timeToNextGame = 120;
-    setCookie('timeToNextGame', Date.now(), { path: '/', maxAge: timeToNextGame, sameSite: "none", secure: true });
+    const timeToNextGame = Date.now() + (60 * 1000);
+    setCookie('timeToNextGame', timeToNextGame, { path: '/', maxAge: timeToNextGame, sameSite: "none", secure: true });
   };
-
-  // //* Handles events for victory condition 
-  // const handleCompletedGrid = function() {
-  //   console.log(step, maxSteps);
-  //   if (step >= maxSteps) {
-  //     console.log("Grid Complete");
-  //     setTimeoutCookie();
-  //     return setGridIsCompleted(true);
-  //   }
-  //   return setGridIsCompleted(false);
-  // };
 
   const handleInput = function(character: string) {
     if (guess.length === wordLength && character === 'Enter') {
@@ -154,7 +124,7 @@ export default function Game() {
   }
 
   return (
-    <div className="w-full h-full px-4 md:px-24 mt-20 flex flex-col items-center">
+    <div className="w-full h-full px-4 md:px-24 flex flex-col items-center">
       {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
       <section className="flex-1">
         {puzzle &&
@@ -170,15 +140,11 @@ export default function Game() {
         }
       </section>
       <section className="flex-1">
-        {step <= maxSteps && !gridIsCompleted ? (
-          <div>
-            <VirtualKeyboard keyFunction={handleInput} />
-          </div>
-        ) : (
-          <section>
-            <GameStats />
-          </section>
-        )}
+        {!gridIsCompleted ? 
+          <VirtualKeyboard keyFunction={handleInput} />
+          :
+          <GameStats />
+          }
       </section>
 
     </div>
