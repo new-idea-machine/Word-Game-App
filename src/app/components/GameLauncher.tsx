@@ -6,7 +6,7 @@ import { getCookie } from "cookies-next";
 import Game from "./Game";
 
 export default function GameLauncher() {
-  const [launch, setLaunch] = useState<boolean | undefined>(true);
+  const [launch, setLaunch] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     const timeoutCookie = getCookie('timeToNextGame');
@@ -19,7 +19,8 @@ export default function GameLauncher() {
 
   return (
     <div className="container h-full pt-20 mx-auto">
-      {launch ? <Game /> : <GameCountdown onComplete={() => setLaunch(true)} />}
+      {launch && <Game />}
+      {(launch === false) && <GameCountdown onComplete={() => setLaunch(true)} />}
     </div>
   );
 } 
