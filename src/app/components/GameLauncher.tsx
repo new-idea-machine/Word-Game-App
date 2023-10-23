@@ -6,7 +6,7 @@ import { getCookie } from "cookies-next";
 import Game from "./Game";
 
 export default function GameLauncher() {
-  const [launch, setLaunch] = useState<boolean | undefined>(undefined);
+  const [launch, setLaunch] = useState<boolean | null>(null);
 
   useEffect(() => {
     const timeoutCookie = getCookie('timeToNextGame');
