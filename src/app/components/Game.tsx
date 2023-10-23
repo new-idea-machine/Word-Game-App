@@ -75,7 +75,7 @@ export default function Game() {
       setGridIsCompleted(gameCompleted);
     }
     
-  }, [step]);
+  }, [step, maxSteps]);
 
   // Handle physical keyboard
   useEffect(() => {
