@@ -14,11 +14,11 @@ export default function VirtualKeyboard({ keyFunction }: KeyboardProps) {
     ['z', 'x', 'c', 'v', 'b', 'n', 'm', null, null]
   ];
 
-  const renderedKeys = keyboardLayout.map((row, index) => {
-    const keyboardRow = row.map(c => {
+  const renderedKeys = keyboardLayout.map((row, rowIndex) => {
+    const keyboardRow = row.map((c, i) => {
       switch (c) {
         case null:
-          return <div key='0' className='w-12 h-12 m-0.5'></div>;
+          return <div key={`null${rowIndex}${i}`} className='w-12 h-12 m-0.5'></div>;
         case -1:
           return <KeyboardKey key='backspace' character='Back' onClick={() => keyFunction('Backspace')} />;
         case 1:
@@ -28,7 +28,7 @@ export default function VirtualKeyboard({ keyFunction }: KeyboardProps) {
       }
     });
 
-    return <div className='flex justify-center' key={`row${index}`}>{keyboardRow}</div>;
+    return <div className='flex justify-center' key={`row${rowIndex}`}>{keyboardRow}</div>;
 
   });
 

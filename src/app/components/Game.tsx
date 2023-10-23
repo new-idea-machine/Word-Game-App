@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Grid from "./Grid";
 import VirtualKeyboard from "./VirtualKeyboard";
 import GameStats from "./GameStats";
-
+import { setCookie } from "cookies-next";
 
 export interface Puzzle {
   id: number;
@@ -21,21 +21,58 @@ const puzzle: Puzzle[] = [
   { id: 6, word: "PLANE", clue: "Wings" }
 ];
 
-interface GameProps {
-  randomIndexes: number[];
-}
+export default function Game() {
 
-export default function Game({ randomIndexes }: GameProps) {
+  const maxSteps: number = 3; //number = puzzle.length;
+  const wordLength: number = puzzle[0].word.length;
+
   const [guess, setGuess] = useState("");
   const [step, setStep] = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
   const [wrongGuess, setWrongGuess] = useState(false);
   const [gridIsCompleted, setGridIsCompleted] = useState(false);
 
+  const generateIndices = function() {
+    const indices = [];
 
+    while (indices.length < 2) {
+
+      const index = Math.floor(Math.random() * wordLength);
+      if (indices.indexOf(index) === -1) {
+        indices.push(index);
+      }
+    }
+    return indices;
+  };
+
+  /*
+  Generate the places for the 2 random letters that will be shown for the first word
+  TODO: We will have to consider whether each user gets the same two letters, and also
+  prevent it from regenerating new letters when the user refreshes the page.
+  They will have to be stored in a temporary place in the database.
+  */
+  const [randomIndices] = useState(generateIndices());
+
+  const setTimeoutCookie = function() {
+    // Set timeToNextGame to 120 seconds for dev testing
+    // We will need to update it to time remaining until midnight for production
+    const timeToNextGame = 120;
+    setCookie('timeToNextGame', Date.now(), { path: '/', maxAge: timeToNextGame, sameSite: "none", secure: true });
+  };
+
+  // //* Handles events for victory condition 
+  // const handleCompletedGrid = function() {
+  //   console.log(step, maxSteps);
+  //   if (step >= maxSteps) {
+  //     console.log("Grid Complete");
+  //     setTimeoutCookie();
+  //     return setGridIsCompleted(true);
+  //   }
+  //   return setGridIsCompleted(false);
+  // };
 
   const handleInput = function(character: string) {
-    if (guess.length === 5 && character === 'Enter') {
+    if (guess.length === wordLength && character === 'Enter') {
       if (guess.toUpperCase() === puzzle[step].word.toUpperCase()) {
         setStep(prev => prev + 1);
         setGuess("");
@@ -48,41 +85,41 @@ export default function Game({ randomIndexes }: GameProps) {
       setGuess(prev => prev.slice(0, prev.length - 1));
 
       // Handle given letters in first word
-      if (step === 0 && randomIndexes.includes(guess.length - 1)) {
+      if (step === 0 && randomIndices.includes(guess.length - 1)) {
         setGuess(prev => prev.slice(0, prev.length - 1));
-        if (step === 0 && randomIndexes.includes(guess.length - 2)) {
+        if (step === 0 && randomIndices.includes(guess.length - 2)) {
           setGuess(prev => prev.slice(0, prev.length - 1));
         }
       }
     }
-    if (guess.length < 5 && character.match(/^[a-zA-Z]{1}$/)) {
+    if (guess.length < wordLength && character.match(/^[a-zA-Z]{1}$/)) {
       setGuess(prev => prev + character.toUpperCase());
     }
   };
 
-
-  //* Handle hidden physical keyboard 
-  const handleCompletedGrid = function() {
-    if (step > 5 ) {
-       return setGridIsCompleted(true);
+  // Handle checking for victory condition
+  useEffect(() => {
+    const gameCompleted = step >= maxSteps;
+    if (gameCompleted) {
+      console.log("Grid Complete");
+      setTimeoutCookie();
+      setGridIsCompleted(gameCompleted);
     }
-       return setGridIsCompleted(false);
-  };
-
+    
+  }, [step]);
 
   // Handle physical keyboard
   useEffect(() => {
     const handleKeyup = function(e: KeyboardEvent) {
       handleInput(e.key);
-      handleCompletedGrid();
     };
 
-    window.addEventListener('keyup', handleKeyup);
+    document.addEventListener('keyup', handleKeyup);
 
     return () => {
-      window.removeEventListener('keyup', handleKeyup);
+      document.removeEventListener('keyup', handleKeyup);
     };
-  }, [guess, step, randomIndexes]);
+  }, [guess]);
 
   // Handle fade in animation for new row
   useEffect(() => {
@@ -111,10 +148,8 @@ export default function Game({ randomIndexes }: GameProps) {
     };
   }, [wrongGuess]);
 
-
-
   // Handle given letters in first word, do not need to be retyped
-  if (step === 0 && randomIndexes.includes(guess.length)) {
+  if (step === 0 && randomIndices.includes(guess.length)) {
     setGuess(prev => prev + puzzle[0].word[guess.length]);
   }
 
@@ -125,21 +160,24 @@ export default function Game({ randomIndexes }: GameProps) {
         {puzzle &&
           <Grid
             puzzle={puzzle}
+            maxSteps={maxSteps}
             step={step}
             guess={guess}
             fadeIn={fadeIn}
             wrongGuess={wrongGuess}
-            randomIndexes={randomIndexes.sort()}
+            randomIndices={randomIndices.sort()}
           />
         }
       </section>
       <section className="flex-1">
-        {step <= 5 && !gridIsCompleted ? (
+        {step <= maxSteps && !gridIsCompleted ? (
           <div>
             <VirtualKeyboard keyFunction={handleInput} />
           </div>
         ) : (
-          <GameStats />
+          <section>
+            <GameStats />
+          </section>
         )}
       </section>
 

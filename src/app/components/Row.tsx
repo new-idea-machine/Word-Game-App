@@ -5,11 +5,11 @@ interface RowProps {
   guess: string;
   guessed: boolean;
   wrongGuess: boolean;
-  randomIndexes: number[];
+  randomIndices: number[];
   step: number;
 }
 
-export default function Row({ firstAnswer, guess, guessed, wrongGuess, randomIndexes, step }: RowProps) {
+export default function Row({ firstAnswer, guess, guessed, wrongGuess, randomIndices, step }: RowProps) {
   const rowFormat = classnames(
     "flex justify-center items-center w-[52px] h-[52px] m-1 text-center uppercase font-extrabold text-[2em]",
     {
@@ -21,7 +21,7 @@ export default function Row({ firstAnswer, guess, guessed, wrongGuess, randomInd
   return (
     <div className="flex justify-center">
       {guess.split('').map((letter, i) => {
-        if (step === 0 && randomIndexes.includes(i)) {
+        if (step === 0 && randomIndices.includes(i)) {
           return (
             <div
               key={i}
