@@ -71,7 +71,6 @@ export default function Game() {
   useEffect(() => {
     const gameCompleted = step >= maxSteps;
     if (gameCompleted) {
-      console.log("Grid Complete");
       setTimeoutCookie();
       setGridIsCompleted(gameCompleted);
     }
