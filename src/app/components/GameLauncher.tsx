@@ -15,8 +15,6 @@ export default function GameLauncher() {
     }
 
     setLaunch(false);
-    const cookieTimeout = Number(timeoutCookie);
-    // setCountdownMilliSeconds(cookieTimeout);
   }, []);
 
   return (
