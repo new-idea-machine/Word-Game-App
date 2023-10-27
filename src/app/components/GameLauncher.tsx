@@ -11,7 +11,7 @@ export default function GameLauncher() {
 
   useEffect(() => {
     const timeoutCookie = getCookie('timeToNextGame');
-    if(!timeoutCookie) {
+    if (!timeoutCookie) {
       return;
     }
 
@@ -20,10 +20,10 @@ export default function GameLauncher() {
 
   return (
     <div className="container h-full pt-20 mx-auto">
-      <GameTimer interval={11000} countDirection="down" />
+      <GameTimer interval={3000} countDirection="down" />
       <Game />
       {/* {launch && <Game />}
       {(launch === false) && <GameCountdown onComplete={() => setLaunch(true)} />} */}
     </div>
   );
-} 
+}

@@ -23,7 +23,12 @@ export default function GameTimer({ interval, countDirection }: Props) {
       return <Completionist />;
     } else {
       // Render a countdown
-      return <span>{minutes}m {(seconds + "").padStart(2, "0")}s</span>;
+      return (
+        <section className='relative flex flex-col items-start'>
+          <div className="pulse" />
+          <span className='absolute left-11 top-7 text-white'>{minutes}m {(seconds + "").padStart(2, "0")}s</span>
+        </section>
+      );
     }
   };
 
