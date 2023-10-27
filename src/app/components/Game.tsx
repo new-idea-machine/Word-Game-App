@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Grid from "./Grid";
 import VirtualKeyboard from "./VirtualKeyboard";
 import GameStats from "./GameStats";
+import StartModal from "./StartModal";
 import { setCookie } from "cookies-next";
 
 export interface Puzzle {
@@ -124,6 +125,8 @@ export default function Game() {
 
   return (
     <div className="w-full h-full px-4 md:px-24 flex flex-col items-center">
+      <StartModal />
+      
       {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
       <section className="flex-1">
         {puzzle &&
