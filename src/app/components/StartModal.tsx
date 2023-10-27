@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function StartModal () {
+interface Props {
+  onClose: Function;
+}
+
+export default function StartModal({ onClose }: Props) {
   const [showModal, setShowModal] = useState(true);
 
   // Handle start button clicked
   const handleStartClick = () => {
+    onClose();
     setShowModal(false);
-  }
+  };
+
+  //Uncomment when testing to save time
+  useEffect(() => {
+    handleStartClick();
+  }, []);
 
   return (
     <>
@@ -23,15 +33,14 @@ export default function StartModal () {
                   <p>• Change one letter from the previous word to guess the next word</p>
                 </div>
               </div>
-              <div className="flex justify-center text-lg text-blue-600 mb-8">Are you ready to play?</div>
+              <div className="flex justify-center text-lg text-gray-800 mb-8">Are you ready to play?</div>
               <div className="flex justify-center ">
                 <button onClick={handleStartClick} className=" rounded-full px-8 py-2 text-white bg-green-700">Start</button>
               </div>
             </div>
           </div>
-        </div>
-      }
+        </div>}
     </>
-  )
+  );
 
 }
