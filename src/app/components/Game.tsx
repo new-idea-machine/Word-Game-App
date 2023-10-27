@@ -147,9 +147,10 @@ export default function Game() {
         {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
         {puzzle &&
           <section className="flex-1 h-full w-full m-auto">
+            {/* Timer goes here? */}
             <div className="grid grid-cols-3 h-20">
               <div className="flex justify-end items-center font-semibold text-2xl">
-                {/* Extra tries component goes here */}
+                {/* Extra tries component goes here? */}
               </div>
               <div className="flex justify-center items-center font-semibold text-2xl">
                 {gameState === game.over && <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}
