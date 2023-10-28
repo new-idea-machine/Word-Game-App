@@ -34,7 +34,6 @@ export default function CountDown({ timeLimit, gameState: [gameState, setGameSta
       break;
     case 'over':
       setTimerOn(false);
-      console.log('limit', timeLimit, 'timeRemaining', timeRemaining);
       setWinningTime(timeLimit - timeRemaining);
       break;
     default:
