@@ -14,9 +14,9 @@ export default function StartModal({ onClose }: Props) {
   };
 
   //Uncomment when testing to save time
-  useEffect(() => {
-    handleStartClick();
-  }, []);
+  // useEffect(() => {
+  //   handleStartClick();
+  // }, []);
 
   return (
     <>
