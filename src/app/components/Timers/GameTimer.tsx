@@ -9,12 +9,10 @@ interface Props {
 export default function GameTimer({ interval, countDirection }: Props) {
   return (
     <div>
-      {/* {countDirection === 'down'
+      {countDirection === 'down'
         ? <Timer interval={interval} />
-        : <Stopwatch />
-      } */}
-      <Timer interval={interval} />
-      <Stopwatch limit={interval} />
+        : <Stopwatch limit={interval} />
+      }
     </div>
   );
 }

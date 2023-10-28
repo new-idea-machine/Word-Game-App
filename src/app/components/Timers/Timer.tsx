@@ -17,11 +17,11 @@ export default function Timer({ interval }: Props) {
     return (
       <section className='flex flex-col items-start'>
         <div className="pulse flex justify-center items-center will-change-transform">
-          <span className='text-white'>{minutes}m {(seconds + "").padStart(2, "0")}s</span>
+          {completed
+            ? <span>Time Up!</span>
+            : <span className='text-white'>{minutes}m {(seconds + "").padStart(2, "0")}s</span>
+          }
         </div>
-        {completed && (
-          <span>Time&apos;s Up!</span>
-        )}
       </section>
     );
   };

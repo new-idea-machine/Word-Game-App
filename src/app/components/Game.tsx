@@ -5,6 +5,7 @@ import Grid from "./Grid";
 import VirtualKeyboard from "./VirtualKeyboard";
 import GameStats from "./GameStats";
 import { setCookie } from "cookies-next";
+import GameTimer from "./Timers/GameTimer";
 
 export interface Puzzle {
   id: number;
@@ -124,8 +125,9 @@ export default function Game() {
 
   return (
     <div className="w-full h-full px-4 md:px-24 flex flex-col items-center">
-      {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
+      <GameTimer interval={10000} countDirection="down" />
       <section className="flex-1">
+        {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
         {puzzle &&
           <Grid
             puzzle={puzzle}
@@ -139,11 +141,11 @@ export default function Game() {
         }
       </section>
       <section className="flex-1">
-        {!gridIsCompleted ? 
+        {!gridIsCompleted ?
           <VirtualKeyboard keyFunction={handleInput} />
           :
           <GameStats />
-          }
+        }
       </section>
 
     </div>

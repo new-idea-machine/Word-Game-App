@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import GameCountdown from "./GameCountdown";
 import { getCookie } from "cookies-next";
 import Game from "./Game";
-import GameTimer from "./Timers/GameTimer";
 
 export default function GameLauncher() {
   const [launch, setLaunch] = useState<boolean | null>(null);
@@ -12,18 +11,16 @@ export default function GameLauncher() {
   useEffect(() => {
     const timeoutCookie = getCookie('timeToNextGame');
     if (!timeoutCookie) {
-      return;
+      return setLaunch(true);
     }
-
     setLaunch(false);
   }, []);
 
   return (
-    <div className="container h-full pt-20 mx-auto">
-      <GameTimer interval={3000} countDirection="down" />
-      <Game />
-      {/* {launch && <Game />}
-      {(launch === false) && <GameCountdown onComplete={() => setLaunch(true)} />} */}
+    <div className="container h-full py-10 mx-auto">
+      {launch
+        ? <Game />
+        : <GameCountdown onComplete={() => setLaunch(true)} />}
     </div>
   );
 }
