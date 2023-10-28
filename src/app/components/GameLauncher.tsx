@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import GameCountdown from "./GameCountdown";
 import { getCookie } from "cookies-next";
 import Game from "./Game";
-import GameTimer from "./GameTimer";
+import GameTimer from "./Timers/GameTimer";
 
 export default function GameLauncher() {
   const [launch, setLaunch] = useState<boolean | null>(null);
