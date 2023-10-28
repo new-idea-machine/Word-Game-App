@@ -4,7 +4,6 @@
 
 body {
   background: theme('colors.background');
-
 }
 
 .flipRow {
@@ -121,123 +120,23 @@ body {
   100% {
     transform: none;
   }
-}@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-  background: theme('colors.background');
-}
-/* Flip the letters in green boxes when the correct answer is guessed */
-.flipRow {
-  animation: flip 0.5s ease forwards;
-}
-
-.flipRow:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-.flipRow:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-.flipRow:nth-child(4) {
-  animation-delay: 0.9s;
-}
-
-.flipRow:nth-child(5) {
-  animation-delay: 1.2s;
-}
-
-@keyframes flip {
-  0% {
-    transform: rotateX(0);
-    background: theme('colors.background');
-    border: 2px solid theme('colors.letter.border');
-    color: black;
-  }
-
-  45% {
-    transform: rotateX(90deg);
-    background: theme('colors.background');
-    border: 2px solid theme('colors.letter.border');
-    color: black;
-  }
-
-  55% {
-    transform: rotateX(90deg);
-    background: theme('colors.letter.correct');
-    border: 2px solid theme('colors.letter.correct');
-    color: white;
-  }
-
-  100% {
-    transform: rotateX(0);
-    background: theme('colors.letter.correct');
-    border: 2px solid theme('colors.letter.correct');
-    color: white;
-  }
-}
-
-/* Turn letters red and shake them when guess is wrong */
-.wrongGuess {
-  color: theme('colors.red.600');
-  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-@keyframes shake {
-
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
-  }
 }
 
 /* Stopwatch animation pulsing oval */
 .pulse {
-	background: rgb(195, 14, 38);
-	border-radius: 100%;
-	margin: 10px;
-	height: 60px;
-	width: 120px;
-  color: white;
-	box-shadow: 0 0 0 0 rgba(195, 14, 38, 1);
-	transform: scale(1);
-	animation: pulse 2s infinite;
+	animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
 	0% {
-		transform: scale(1);
-		box-shadow: 0 0 0 0 rgba(195, 14, 38, 0.7);
+		box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7);
 	}
 
 	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 10px rgba(195, 14, 38, 0);
+		box-shadow: 0 0 0 15px rgba(7, 89, 133, 0);
 	}
 
 	100% {
-		transform: scale(1);
-		box-shadow: 0 0 0 0 rgba(195, 14, 38, 0);
+		box-shadow: 0 0 0 0 rgba(7, 89, 133, 0);
 	}
 }

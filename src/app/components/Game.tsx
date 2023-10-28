@@ -6,9 +6,9 @@ import VirtualKeyboard from "./VirtualKeyboard";
 import GameStats from "./GameStats";
 import StartModal from "./StartModal";
 import { setCookie } from "cookies-next";
-import GameTimer from "./Timers/GameTimer";
 import ExtraHint from "./ExtraHint";
 import { secondsToMidnight } from "@/helpers/helpers";
+import GameTimer from "./Timers/GameTimer";
 
 export interface Puzzle {
   id: number;
@@ -45,6 +45,7 @@ export default function Game() {
   const [randomIndices] = useState([2, 4]);
   const [gameState, setGameState] = useState(game.start);
   const [hintRevealed, setHintRevealed] = useState(false);
+  const [winningTime, setWinningTime] = useState(-1);
 
   const setTimeoutCookie = function() {
     // Set timeToNextGame to 60 seconds from victory for dev testing
@@ -149,7 +150,7 @@ export default function Game() {
     <>
       <StartModal onClose={startGame} />
       <div className="w-full h-full px-4 md:px-24 flex flex-col items-center">
-        <GameTimer interval={10000} countDirection="down" />
+        <GameTimer interval={180000} countDirection="down" gameState={[gameState, setGameState]} setWinningTime={setWinningTime} />
         {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
         {puzzle &&
           <section className="flex-1 h-full w-full m-auto">
@@ -184,14 +185,6 @@ export default function Game() {
             <GameStats />
           }
         </section>
-      </section>
-      <section className="flex-1">
-        {!gridIsCompleted ?
-          <VirtualKeyboard keyFunction={handleInput} />
-          :
-          <GameStats />
-        }
-      </section>
 
       </div>
     </>

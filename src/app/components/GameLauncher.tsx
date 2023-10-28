@@ -12,15 +12,12 @@ export default function GameLauncher() {
     const timeoutCookie = getCookie('timeToNextGame');
     if (!timeoutCookie) {
       return setLaunch(true);
-    if(!timeoutCookie) {
-      return setLaunch(true);
     }
-    console.log("Launch:", launch);
     setLaunch(false);
   }, []);
 
   return (
-    <div className="container h-full py-10 mx-auto">
+    <div className="container h-full pt-10 mx-auto">
       {launch
         ? <Game />
         : <GameCountdown onComplete={() => setLaunch(true)} />}
