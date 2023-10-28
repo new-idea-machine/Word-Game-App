@@ -10,3 +10,9 @@ export function randomLetters(wordLength: number) {
   }
   return indices;
 };
+
+export function secondsToMidnight() {
+  let midnight = new Date();
+  midnight.setHours(24, 0, 0, 0);
+  return (midnight.getTime() - new Date().getTime() / 1000)
+}
