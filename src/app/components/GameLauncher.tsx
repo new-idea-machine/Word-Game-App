@@ -12,7 +12,10 @@ export default function GameLauncher() {
     const timeoutCookie = getCookie('timeToNextGame');
     if (!timeoutCookie) {
       return setLaunch(true);
+    if(!timeoutCookie) {
+      return setLaunch(true);
     }
+    console.log("Launch:", launch);
     setLaunch(false);
   }, []);
 

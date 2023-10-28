@@ -8,6 +8,7 @@ import StartModal from "./StartModal";
 import { setCookie } from "cookies-next";
 import GameTimer from "./Timers/GameTimer";
 import ExtraHint from "./ExtraHint";
+import { secondsToMidnight } from "@/helpers/helpers";
 
 export interface Puzzle {
   id: number;
@@ -48,8 +49,11 @@ export default function Game() {
   const setTimeoutCookie = function() {
     // Set timeToNextGame to 60 seconds from victory for dev testing
     // We will need to update it to time remaining until midnight for production
-    const timeToNextGame = Date.now() + (60 * 1000);
-    setCookie('timeToNextGame', timeToNextGame, { path: '/', maxAge: timeToNextGame, sameSite: "none", secure: true });
+    const timeoutTime = 60; //secondsToMidnight();
+    
+    const timeToNextGame = Date.now() + (timeoutTime * 1000); //When the timeout expires
+
+    setCookie('timeToNextGame', timeToNextGame, { path: '/', maxAge: timeoutTime, sameSite: "none", secure: true });
   };
 
   const startGame = function() {
