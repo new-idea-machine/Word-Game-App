@@ -11,9 +11,9 @@ export default function GameLauncher() {
   useEffect(() => {
     const timeoutCookie = getCookie('timeToNextGame');
     if(!timeoutCookie) {
-      return;
+      return setLaunch(true);
     }
-
+    console.log("Launch:", launch);
     setLaunch(false);
   }, []);
 
