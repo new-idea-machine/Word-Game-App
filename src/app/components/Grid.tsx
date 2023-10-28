@@ -23,15 +23,6 @@ export default function Grid({ puzzle, maxSteps, step, guess, wrongGuess, fadeIn
 
   return (
     <div>
-      {step < maxSteps
-        ?
-        <h2 className={`text-center text-xl font-semibold mb-4 ${fadeInCSS}`}>{puzzle[step].clue.toUpperCase()}</h2>
-        :
-        <div>
-          <h2 className="text-center text-xl font-semibold mb-4 animate-bounce">CONGRATULATIONS!</h2>
-        </div>
-      }
-
       {completedWords.map((wordObject, index) => {
         return (
           <Row

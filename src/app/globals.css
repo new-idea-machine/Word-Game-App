@@ -4,6 +4,7 @@
 
 body {
   background: theme('colors.background');
+
 }
 /* Flip the letters in green boxes when the correct answer is guessed */
 .flipRow {
@@ -117,4 +118,37 @@ body {
 		transform: scale(1);
 		box-shadow: 0 0 0 0 rgba(195, 14, 38, 0);
 	}
+}
+.revealHint {
+  animation: reveal 0.3s ease-out;
+  overflow-x: hidden;
+  /* transition: width 0.5s ease-out, color 0.5s ease-out; */
+  color: #FFFF;
+  width: 12rem;
+}
+
+@keyframes reveal {
+  0% {
+    width: 4rem;
+    color: #00000000;
+  }
+
+  100% {
+    width: 12rem;
+    color: white;
+  }
+}
+
+.animate-droop {
+  animation: droop 2s ease-out;
+}
+
+@keyframes droop {
+  0% {
+    transform: translateY(-50%) scaleY(0.5);
+  }
+
+  100% {
+    transform: none;
+  }
 }
