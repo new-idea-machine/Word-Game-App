@@ -73,6 +73,7 @@ export default function Game() {
         if (retries > 0) {
           setRetries(prev => prev - 1);
         } else {
+          setTimeoutCookie();
           setGameState(game.over);
         }
       }
