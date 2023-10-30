@@ -15,14 +15,14 @@ const stats: Stats[] = [
 
 export default function GameStats() {
   return (
-    <section className="container ml-3">
-      <GameCountdown onComplete={() => window.location.reload()}/>
-      <h3 className="text-center font-bold">Here are your achievements:</h3>
-      <table className="table-auto border-x border-b p-6">
+    <section className="container ml-1">
+      {/* <GameCountdown onComplete={() => window.location.reload()}/> */}
+      <h3 className="text-center font-bold">Statistics:</h3>
+      <table className="border border-slate-300">
         <thead>
           <tr>
             {["Games Played", "Wins", "Losses", "Date"].map(label => {
-              return <th key={label} className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 bg-gray-500 text-white">{label}</th>;
+              return <th key={label} className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 text-black">{label}</th>;
             })}
           </tr>
         </thead>
@@ -30,10 +30,10 @@ export default function GameStats() {
           {stats.map(stat => {
             return (
               <tr key={stat.id} className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
-                <td className="p-2 border-b border-l">{stat.won + stat.lost}</td>
-                <td className="p-2 border-b border-l">{stat.won}</td>
-                <td className="p-2 border-b border-l">{stat.lost}</td>
-                <td className="p-2 border-b border-l">{stat.date.toLocaleString("en-CA")}</td>
+                <td className="border border-slate-300">{stat.won + stat.lost}</td>
+                <td className="border border-slate-300">{stat.won}</td>
+                <td className="border border-slate-300">{stat.lost}</td>
+                <td className="border border-slate-300">{stat.date.toLocaleString("en-CA")}</td>
               </tr>
             );
           })}

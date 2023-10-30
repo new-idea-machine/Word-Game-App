@@ -10,6 +10,8 @@ import ExtraHint from "./ExtraHint";
 import Retry from "./Retry";
 import { secondsToMidnight } from "@/helpers/helpers";
 import GameTimer from "./Timers/GameTimer";
+import GameCountdown from "./GameCountdown";
+import GameResults from "./GameResults";
 
 export interface Puzzle {
   id: number;
@@ -190,7 +192,18 @@ export default function Game() {
           {gameState !== game.over ?
             <VirtualKeyboard keyFunction={handleInput} />
             :
-            <GameStats />
+            <div className="mt-3">
+                <GameCountdown onComplete={() => window.location.reload()}/>
+                  <div className="flex mt-5"> 
+                      <div className="grid-flow-row">
+                          <GameStats />
+                      </div>
+                      <div className="grid-flow-row mt-2">
+                          <GameResults />
+                      </div>
+                  </div>
+              </div>       
+
           }
         </section>
 
