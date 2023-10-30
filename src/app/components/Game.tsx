@@ -7,6 +7,7 @@ import GameStats from "./GameStats";
 import StartModal from "./StartModal";
 import { setCookie } from "cookies-next";
 import ExtraHint from "./ExtraHint";
+import Retry from "./Retry";
 import { secondsToMidnight } from "@/helpers/helpers";
 import GameTimer from "./Timers/GameTimer";
 
@@ -46,6 +47,7 @@ export default function Game() {
   const [gameState, setGameState] = useState(game.start);
   const [hintRevealed, setHintRevealed] = useState(false);
   const [winningTime, setWinningTime] = useState(-1);
+  const [retries, setRetries] = useState(10);
 
   const setTimeoutCookie = function() {
     // Set timeToNextGame to 60 seconds from victory for dev testing
@@ -70,6 +72,12 @@ export default function Game() {
         setFadeIn(true);
       } else {
         setWrongGuess(true);
+        if (retries > 0) {
+          setRetries(prev => prev - 1);
+        } else {
+          setTimeoutCookie();
+          setGameState(game.over);
+        }
       }
     }
     if (guess.length > 0 && character === 'Backspace') {
@@ -157,7 +165,7 @@ export default function Game() {
             {/* Timer goes here? */}
             <div className="grid grid-cols-3 h-20">
               <div className="flex justify-end items-center font-semibold text-2xl">
-                {/* Extra tries component goes here? */}
+                {gameState === game.playing && <Retry retries={retries} />}
               </div>
               <div className="flex justify-center items-center font-semibold text-2xl">
                 {gameState === game.over && <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}

@@ -17,10 +17,9 @@ export default function GameLauncher() {
   }, []);
 
   return (
-    <div className="container h-full pt-10 mx-auto">
-      {launch
-        ? <Game />
-        : <GameCountdown onComplete={() => setLaunch(true)} />}
-    </div>
-  );
-}
+      <div className="container h-full pt-20 mx-auto">
+        {launch && <Game />}
+        {(launch === false) && <GameCountdown onComplete={() => setLaunch(true)} />}
+      </div>
+    );
+} 
