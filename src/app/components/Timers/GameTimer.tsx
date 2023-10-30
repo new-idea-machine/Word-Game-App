@@ -11,7 +11,6 @@ interface Props {
 }
 
 
-
 export default function GameTimer({ interval, countDirection, gameState, setWinningTime }: Props) {
   return (
     <>
