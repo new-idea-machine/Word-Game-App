@@ -3,10 +3,6 @@ import { NextResponse } from "next/server";
 
 const bcrypt = require("bcryptjs");
 
-type ResponseData = {
-  message: string;
-};
-
 type user = { username: string; password: any };
 const mockUsers: user[] = [
   { username: "Mike", password: bcrypt.hashSync("password", 10) },
@@ -28,17 +24,12 @@ export async function POST(req: Request, res: any) {
   }
 
   if (validUser) {
-    console.log(validUser);
+    const validPass = bcrypt.compareSync(password, validUser.password);
 
-    const validPass = bcrypt.compareSync(
-      password,
-      validUser.password
-    );
-    console.log("is valid?: ", validPass);
     if (validPass) {
       return NextResponse.json(
-        { message: "Authentication passed" },
-        { status: 200 }
+        { message: "Authentication passed", username: validUser.username },
+        { status: 200 },
       );
     } else {
       return NextResponse.json(

@@ -1,6 +1,10 @@
+"use client"
+
 import Game from "./components/Game";
 import GameLauncher from "./components/GameLauncher";
 import Auth from "./components/Auth";
+import { hasCookie, getCookies, setCookie  } from 'cookies-next';
+import { useEffect, useState } from "react";
 
 // Generate the places for the 2 random letters that will be shown for the first word
 const randomIndexes: number[] = [];
@@ -10,12 +14,25 @@ while (randomIndexes.length < 2) {
 }
 
 export default function Home() {
+
+  const [hasUser, setHasUser] = useState<boolean | null>(true);
+
+  useEffect(() => {
+    const loggedIn: boolean = hasCookie('username')
+    if(!loggedIn) {
+      return setHasUser(false);
+    } else {
+      setHasUser(true);
+    }
+  }, []);
+  
   return (
     <main className="w-screen h-screen">
-      <Auth />
-      {/* <GameLauncher>
+      {!hasUser && <Auth setHasUser={setHasUser} setCookie={setCookie} />}      
+
+      {hasUser && (<GameLauncher>
         <Game randomIndexes={randomIndexes} />
-      </GameLauncher>    */}
+      </GameLauncher> )  }
     </main>
   );
 }
