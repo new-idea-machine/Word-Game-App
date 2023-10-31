@@ -15,14 +15,14 @@ const stats: Stats[] = [
 
 export default function GameStats() {
   return (
-    <section className="container ml-1">
+    <section className="w-full flex flex-col content-center mt-4">
       {/* <GameCountdown onComplete={() => window.location.reload()}/> */}
       <h3 className="text-center font-bold">Statistics:</h3>
       <table className="border border-slate-300">
         <thead>
           <tr>
             {["Games Played", "Wins", "Losses", "Date"].map(label => {
-              return <th key={label} className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 text-black">{label}</th>;
+              return <th key={label} className="font-bold py-2 px-4 border text-center border-gray-500 text-black">{label}</th>;
             })}
           </tr>
         </thead>

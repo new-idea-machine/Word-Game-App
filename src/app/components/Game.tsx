@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Grid from "./Grid";
 import VirtualKeyboard from "./VirtualKeyboard";
-import GameStats from "./GameStats";
 import StartModal from "./StartModal";
 import { setCookie } from "cookies-next";
 import ExtraHint from "./ExtraHint";
@@ -26,7 +25,7 @@ const puzzle: Puzzle[] = [
   { id: 3, word: "PEACH", clue: "Fruit", extraHint: "Fuzzy" },
   { id: 4, word: "PEACE", clue: "Tranquility", extraHint: "Hippies" },
   { id: 5, word: "PLACE", clue: "Position", extraHint: "Residence" },
-  { id: 6, word: "PLANE", clue: "Wings", extraHint: "Pilot" }
+  // { id: 6, word: "PLANE", clue: "Wings", extraHint: "Pilot" }
 ];
 
 const game = {
@@ -41,6 +40,11 @@ export default function Game() {
   const maxSteps: number = puzzle.length;
   const wordLength: number = puzzle[0].word.length;
 
+  //Other settings, use these variables instead of hard coded numbers
+  const timeLimit: number = 180000;
+  const maxRetries: number = 3;
+  const maxHints: number = 3;
+
   const [guess, setGuess] = useState("");
   const [step, setStep] = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
@@ -48,20 +52,18 @@ export default function Game() {
   const [randomIndices] = useState([2, 4]);
   const [gameState, setGameState] = useState(game.start);
   const [hintRevealed, setHintRevealed] = useState(false);
-  
-  const [counter, setCounter] = useState(0);
 
-  const [extra_hints, setExtra_hints] = useState(0);
+  const [extraHints, setExtraHints] = useState(maxHints);
 
   const [winningTime, setWinningTime] = useState(-1);
 
-  const [retries, setRetries] = useState(10);
+  const [retries, setRetries] = useState(maxRetries);
 
   const setTimeoutCookie = function() {
     // Set timeToNextGame to 60 seconds from victory for dev testing
     // We will need to update it to time remaining until midnight for production
     const timeoutTime = 60; //secondsToMidnight();
-    
+
     const timeToNextGame = Date.now() + (timeoutTime * 1000); //When the timeout expires
 
     setCookie('timeToNextGame', timeToNextGame, { path: '/', maxAge: timeoutTime, sameSite: "none", secure: true });
@@ -78,15 +80,14 @@ export default function Game() {
         setGuess("");
         setHintRevealed(false);
         setFadeIn(true);
-      } else {
-        setWrongGuess(true);
-        if (retries > 0) {
-          setRetries(prev => prev - 1);
-        } else {
-          setTimeoutCookie();
-          setGameState(game.over);
-        }
+        return;
       }
+
+      setWrongGuess(true);
+      if (retries > 0) {
+        setRetries(prev => prev - 1);
+      }
+
     }
     if (guess.length > 0 && character === 'Backspace') {
       setGuess(prev => prev.slice(0, prev.length - 1));
@@ -104,24 +105,14 @@ export default function Game() {
     }
   };
 
-  // Handle checking for victory condition
+  // Handle checking for game over condition
   useEffect(() => {
-    const gameCompleted = step >= maxSteps;
+    const gameCompleted = step >= maxSteps || retries <= 0 || winningTime >= timeLimit;
     if (gameCompleted) {
       setTimeoutCookie();
       setGameState(game.over);
     }
-  }, [step, maxSteps]);
-
-
-    // Handle condition retries and time completed, the game is over
-    useEffect(() => {
-      if (retries <= 0 || winningTime == 180000) {
-        // setTimeoutCookie();
-        setGameState(game.over);
-      }
-    }, [retries, winningTime]);
-
+  }, [step, retries, winningTime, maxSteps]);
 
   // Handle physical keyboard
   useEffect(() => {
@@ -175,33 +166,43 @@ export default function Game() {
   return (
     <>
       <StartModal onClose={startGame} />
-      <div className="w-full h-full px-4 md:px-24 flex flex-col items-center">
-        <GameTimer interval={180000} countDirection="down" gameState={[gameState, setGameState]} setWinningTime={setWinningTime} />
+      <div className="w-full h-full px-4 flex flex-col items-center">
         {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
         {puzzle &&
-          <section className="flex-1 h-full w-full m-auto">
-            {/* Timer goes here? */}
-            <div className="grid grid-cols-3 h-20">
-              <div className="flex justify-end items-center font-semibold text-2xl">
-                {gameState === game.playing && <Retry retries={retries} />}
-              </div>
-              <div className="flex justify-center items-center font-semibold text-2xl">
-                {gameState === game.over && <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}
-                {gameState === game.playing && step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
-              </div>
-              <div className="flex justify-start items-center font-semibold text-2xl">
-                {gameState === game.playing && <ExtraHint hint={hintRevealed ? puzzle[step].extraHint : null} setHint={() => setHintRevealed(true)} counter={counter} setCounter={setCounter}/>}
-              </div>
+          <section className="flex-1 h-full w-full m-auto grid grid-cols-3 grid-rows-{8} gap-2">
+            <div className="col-start-2 justify-self-center self-center">
+              <GameTimer interval={timeLimit} countDirection="down" gameState={[gameState, setGameState]} setWinningTime={setWinningTime} />
             </div>
-            <Grid
-              puzzle={puzzle}
-              maxSteps={maxSteps}
-              step={step}
-              guess={guess}
-              fadeIn={fadeIn}
-              wrongGuess={wrongGuess}
-              randomIndices={randomIndices.sort()}
-            />
+            <div className="col-start-2 font-semibold text-2xl justify-self-center self-center">
+              {gameState === game.over && <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}
+              {gameState === game.playing && step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
+            </div>
+            <div className="self-center">
+              {gameState === game.playing &&
+                <ExtraHint
+                  hint={hintRevealed ? puzzle[step].extraHint : null}
+                  step={step}
+                  setHint={() => {
+                    setHintRevealed(true);
+                    setExtraHints(prev => prev - 1);
+                  }}
+                  numOfHints={extraHints}
+                />}
+            </div>
+            <div className="row-span-6 justify-self-end">
+              {gameState === game.playing && <Retry retries={retries} />}
+            </div>
+            <div className="row-span-6 justify-self-center h-game">
+              <Grid
+                puzzle={puzzle}
+                maxSteps={maxSteps}
+                step={step}
+                guess={guess}
+                fadeIn={fadeIn}
+                wrongGuess={wrongGuess}
+                randomIndices={randomIndices.sort()}
+              />
+            </div>
           </section>
         }
         <section className="flex-1">
@@ -209,16 +210,11 @@ export default function Game() {
             <VirtualKeyboard keyFunction={handleInput} />
             :
             <div className="mt-3">
-                <GameCountdown onComplete={() => window.location.reload()}/>
-                  <div className="flex mt-5"> 
-                      <div className="grid-flow-row">
-                          <GameStats />
-                      </div>
-                      <div className="grid-flow-row mt-2">
-                       <GameResults retries={retries} winningTime={winningTime} extra_hints={extra_hints} counter={counter}/>
-                      </div>
-                  </div>
-              </div>       
+              <GameCountdown onComplete={() => window.location.reload()} />
+              <div className="mt-5">
+                <GameResults retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />
+              </div>
+            </div>
 
           }
         </section>

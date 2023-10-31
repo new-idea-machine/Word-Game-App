@@ -22,7 +22,7 @@ export default function Grid({ puzzle, maxSteps, step, guess, wrongGuess, fadeIn
   const fadeInCSS = fadeIn ? "opacity-0" : "opacity-100 transition-opacity duration-1000 delay-1200 ease-in";
 
   return (
-    <div>
+    <div className='h-[350px]'>
       {completedWords.map((wordObject, index) => {
         return (
           <Row
