@@ -4,15 +4,18 @@ import classnames from "classnames";
 interface Props {
   hint: string | null;
   setHint: Function;
+  counter: number;
+  setCounter: Function
 }
 
-export default function ExtraHint({ hint, setHint }: Props) {
-
+export default function ExtraHint({ hint, setHint, counter, setCounter }: Props) {
+  
   const numOfTries = 3;
 
   const [clicks, setClicks] = useState(numOfTries);
 
   const extraHintFormat = classnames(
+
     "h-12 px-4 text-xl rounded transition",
     {
       "bg-lime-600 cursor-default revealHint": typeof hint === 'string',
@@ -28,10 +31,12 @@ export default function ExtraHint({ hint, setHint }: Props) {
         onClick={e => {
           e.preventDefault();
           if(clicks <= 0 || !!hint) {
-            return;
+            // return clicks;
           }
           setClicks(prev => prev - 1);
           setHint(true);
+          setCounter(counter + 1);
+          // return clicks;
         }}
         title={clicks <= 0 ? 'You are out of extra hints' : !hint ? 'Click to get an extra hint' : 'Extra hint'}
         >
