@@ -215,7 +215,7 @@ export default function Game() {
                           <GameStats />
                       </div>
                       <div className="grid-flow-row mt-2">
-                       <GameResults retries={retries} winningTime={winningTime} extra_hints={extra_hints} counter={counter} gameState={gameState==game.over}/>
+                       <GameResults retries={retries} winningTime={winningTime} extra_hints={extra_hints} counter={counter}/>
                       </div>
                   </div>
               </div>       
