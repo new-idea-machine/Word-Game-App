@@ -1,13 +1,23 @@
+import { useEffect } from "react";
 
 interface ResultsProps {
   extra_hints: number
   counter: number
   retries: number
   winningTime: number;
+  // gameState: [string, React.Dispatch<React.SetStateAction<string>>]
  }
 
- export default function GameResults( { winningTime, retries, counter, extra_hints}: ResultsProps) {
+ export default function GameResults( { winningTime, retries, counter, extra_hints }: ResultsProps) {
    
+
+  // useEffect(() => {
+  //   if ( winningTime === 0 || retries === 0 ) {
+  //     setGameState('over');
+  //   }
+  // }, [setGameState]);
+
+
   return (
     <section className="container ml-6">
       <h3 className="text-center font-bold">This Game Was:</h3>

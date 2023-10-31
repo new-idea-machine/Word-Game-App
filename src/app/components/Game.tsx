@@ -113,6 +113,16 @@ export default function Game() {
     }
   }, [step, maxSteps]);
 
+
+    // Handle condition retries and time completed, the game is over
+    useEffect(() => {
+      if (retries <= 0 || winningTime == 180000) {
+        // setTimeoutCookie();
+        setGameState(game.over);
+      }
+    }, [retries, winningTime]);
+
+
   // Handle physical keyboard
   useEffect(() => {
     if (gameState !== game.playing) {
@@ -205,7 +215,7 @@ export default function Game() {
                           <GameStats />
                       </div>
                       <div className="grid-flow-row mt-2">
-                          <GameResults retries={retries} winningTime={winningTime} extra_hints={extra_hints} counter={counter}/>
+                       <GameResults retries={retries} winningTime={winningTime} extra_hints={extra_hints} counter={counter} gameState={gameState==game.over}/>
                       </div>
                   </div>
               </div>       
