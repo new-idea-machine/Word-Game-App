@@ -10,7 +10,6 @@ interface Props {
   setWinningTime: React.Dispatch<React.SetStateAction<number>>
 }
 
-
 export default function GameTimer({ interval, countDirection, gameState, setWinningTime }: Props) {
   return (
     <>

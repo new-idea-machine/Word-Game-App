@@ -48,7 +48,13 @@ export default function Game() {
   const [randomIndices] = useState([2, 4]);
   const [gameState, setGameState] = useState(game.start);
   const [hintRevealed, setHintRevealed] = useState(false);
+  
+  const [counter, setCounter] = useState(0);
+
+  const [extra_hints, setExtra_hints] = useState(0);
+
   const [winningTime, setWinningTime] = useState(-1);
+
   const [retries, setRetries] = useState(10);
 
   const setTimeoutCookie = function() {
@@ -106,6 +112,16 @@ export default function Game() {
       setGameState(game.over);
     }
   }, [step, maxSteps]);
+
+
+    // Handle condition retries and time completed, the game is over
+    useEffect(() => {
+      if (retries <= 0 || winningTime == 180000) {
+        // setTimeoutCookie();
+        setGameState(game.over);
+      }
+    }, [retries, winningTime]);
+
 
   // Handle physical keyboard
   useEffect(() => {
@@ -174,7 +190,7 @@ export default function Game() {
                 {gameState === game.playing && step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
               </div>
               <div className="flex justify-start items-center font-semibold text-2xl">
-                {gameState === game.playing && <ExtraHint hint={hintRevealed ? puzzle[step].extraHint : null} setHint={() => setHintRevealed(true)} />}
+                {gameState === game.playing && <ExtraHint hint={hintRevealed ? puzzle[step].extraHint : null} setHint={() => setHintRevealed(true)} counter={counter} setCounter={setCounter}/>}
               </div>
             </div>
             <Grid
@@ -199,7 +215,7 @@ export default function Game() {
                           <GameStats />
                       </div>
                       <div className="grid-flow-row mt-2">
-                          <GameResults />
+                       <GameResults retries={retries} winningTime={winningTime} extra_hints={extra_hints} counter={counter}/>
                       </div>
                   </div>
               </div>       
