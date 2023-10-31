@@ -1,12 +1,12 @@
-export interface RetryProps {
-  retries: number
+export interface Props {
+  retries: number;
 }
 
-export default function Retry (props: RetryProps) {
+export default function Retry({ retries }: Props) {
   return (
-    <div className="flex flex-wrap w-32">
-    {Array.from(Array(props.retries).keys())
-      .map(each =>  <button>✅</button>)}
+    <div className="w-fit h-full">
+      {Array.from(Array(retries).keys())
+        .map((each, i) => <div key={`retry${i}`}>✅</div>)}
     </div>
-  )
+  );
 }
