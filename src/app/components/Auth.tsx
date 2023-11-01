@@ -1,12 +1,16 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { setCookie, hasCookie } from "cookies-next";
 
-export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCookie: (arg0: string, arg1: string) => void; }) {
+export default function Auth(props: {
+  setHasUser: (arg0: boolean) => void;
+  setCookie: (arg0: string, arg1: string) => void;
+}) {
   const [username, setUsername] = useState<String | null>(null);
   const [password, setPassword] = useState<String | null | any>(null);
-  const [confirmPassword, setConfirmPassword] = useState<String | null | any>(null);
+  const [confirmPassword, setConfirmPassword] = useState<String | null | any>(
+    null
+  );
   const [errorMessage, setErrorMessage] = useState<String | null>(null);
   const [mode, setMode] = useState<"Login" | "Registration" | null>("Login");
 
@@ -26,10 +30,10 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
         }),
       });
       const data = await response.json();
-      console.log(data);
+      console.log("data: ", data);
       if (data.username) {
         const encodedValue = encodeURIComponent(data.username);
-        console.log("encoded value:", encodedValue)
+        console.log("encoded value:", encodedValue);
         props.setCookie("username", encodedValue);
         props.setHasUser(true);
         setUsername(null);
@@ -49,7 +53,7 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
     event.preventDefault();
     setErrorMessage(null);
     if (password !== confirmPassword) {
-      return setErrorMessage('The passwords you have chosen are different.')
+      return setErrorMessage("The passwords you have chosen are different.");
     }
     console.log("Submitting:", { username, password });
     try {
@@ -64,10 +68,10 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
         }),
       });
       const data = await response.json();
-      console.log(data);
+      console.log("data: ", data);
       if (data.username) {
         const encodedValue = encodeURIComponent(data.username);
-        console.log("encoded value:", encodedValue)
+        console.log("encoded value:", encodedValue);
         props.setCookie("username", encodedValue);
         props.setHasUser(true);
         setUsername(null);
@@ -86,15 +90,13 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
       {mode === "Login" && (
         <div>
           <h1 className="text-center">Sign in</h1>
-          <form
-            action="/api/auth"
-            className="text-center"
-            onSubmit={handleLogin}
-            method="post"
-          >
-            <section>
-              <label htmlFor="username">Username</label>
+          <form className="text-center" onSubmit={handleLogin} method="post">
+            <section className="self-center">
+              <label className="mx-2" htmlFor="username">
+                Username
+              </label>
               <input
+                className="mx-2"
                 onChange={(e) => setUsername(e.target.value)}
                 id="username"
                 name="username"
@@ -103,8 +105,11 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
               />
             </section>
             <section>
-              <label htmlFor="current-password">Password</label>
+              <label className="mx-2" htmlFor="current-password">
+                Password
+              </label>
               <input
+                className="mx-2"
                 onChange={(e) => setPassword(e.target.value)}
                 id="current-password"
                 name="password"
@@ -112,7 +117,7 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
                 required
               />
             </section>
-            
+
             <div className="text-red-500">{errorMessage && errorMessage}</div>
             <div className="my-2">
               <button className="bg-white border-2px mx-4" type="submit">
@@ -123,6 +128,7 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
                 onClick={(e) => {
                   e.preventDefault();
                   setMode("Registration");
+                  setErrorMessage(null);
                 }}
               >
                 I don&apos;t have an account
@@ -136,14 +142,16 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
         <div>
           <h1 className="text-center">Registration</h1>
           <form
-            action="/api/register"
             className="text-center"
             onSubmit={handleRegistration}
             method="post"
           >
             <section>
-              <label htmlFor="username">Username</label>
+              <label className="mx-2" htmlFor="username">
+                Username
+              </label>
               <input
+                className="mx-2"
                 onChange={(e) => setUsername(e.target.value)}
                 id="username"
                 name="username"
@@ -152,8 +160,11 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
               />
             </section>
             <section>
-              <label htmlFor="current-password">Password</label>
+              <label className="mx-2" htmlFor="current-password">
+                Password
+              </label>
               <input
+                className="mx-2"
                 onChange={(e) => setPassword(e.target.value)}
                 id="current-password"
                 name="password"
@@ -162,8 +173,11 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
               />
             </section>
             <section>
-              <label htmlFor="confirm-password">Confirm Password</label>
+              <label className="mx-2" htmlFor="confirm-password">
+                Confirm Password
+              </label>
               <input
+                className="mx-2"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 id="confirm-password"
                 name="password"
@@ -180,6 +194,7 @@ export default function Auth(props: { setHasUser: (arg0: boolean) => void; setCo
                 className="bg-white border-2px mx-4"
                 onClick={(e) => {
                   e.preventDefault();
+                  setErrorMessage(null);
                   setMode("Login");
                 }}
               >
