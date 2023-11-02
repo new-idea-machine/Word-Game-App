@@ -11,6 +11,7 @@ import { secondsToMidnight } from "@/helpers/helpers";
 import GameTimer from "./Timers/GameTimer";
 import GameCountdown from "./GameCountdown";
 import GameResults from "./GameResults";
+import GameRank from "./GameRank";
 
 export interface Puzzle {
   id: number;
@@ -175,6 +176,7 @@ export default function Game() {
             </div>
             <div className="col-start-2 font-semibold text-2xl justify-self-center self-center">
               {gameState === game.over && <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}
+              {gameState === game.over && <GameRank retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />}
               {gameState === game.playing && step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
             </div>
             <div className="self-center">
@@ -191,6 +193,7 @@ export default function Game() {
             </div>
             <div className="row-span-6 justify-self-end">
               {gameState === game.playing && <Retry retries={retries} />}
+           
             </div>
             <div className="row-span-6 justify-self-center h-game">
               <Grid
@@ -209,16 +212,14 @@ export default function Game() {
           {gameState !== game.over ?
             <VirtualKeyboard keyFunction={handleInput} />
             :
-            <div className="mt-3">
+            <div className="mt-1">
               <GameCountdown onComplete={() => window.location.reload()} />
-              <div className="mt-5">
+              <div className="mt-3">
                 <GameResults retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />
               </div>
             </div>
-
           }
         </section>
-
       </div>
     </>
   );

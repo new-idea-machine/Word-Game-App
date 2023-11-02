@@ -64,6 +64,11 @@ body {
   perspective: 1000px;
 }
 
+.star {
+  font-size: 44px; /* Ajusta el tamaño según lo necesites */
+  margin: 5px;
+}
+
 @keyframes shake {
 
   10%,
