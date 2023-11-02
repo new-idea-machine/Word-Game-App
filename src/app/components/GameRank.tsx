@@ -8,16 +8,19 @@ interface Props {
 
 export default function GameRank({ hintsUsed, retries, winningTime }: Props) {
   
+//Declare variables about noumber of stars
   const ceroStar = 0;  
   const oneStar = 1;
   const twoStar = 2;
   const threeStar = 3;
 
+  //Function that render the element star
   const renderStars = (rank: number) => {
     const stars = Array(rank).fill('⭐'); // Llenar un array con estrellas
     return stars.map((star, index) => <span key={index} className="star">{star}</span>);
   };
 
+  //Funcrion that evaluate the conditions of game
   const getGameRank = () => {
     if (retries === 0 && winningTime <= 60000 && hintsUsed === 0) {
       return (
