@@ -88,15 +88,15 @@ export default function Auth(props: {
   return (
     <div className="flex flex-col p-5 justify-center">
       {mode === "Login" && (
-        <div>
+        <div className="flex flex-col">
           <h1 className="text-center">Sign in</h1>
-          <form className="text-center" onSubmit={handleLogin} method="post">
-            <section className="self-center">
-              <label className="mx-2" htmlFor="username">
+          <form className="flex flex-col text-center justify-center" onSubmit={handleLogin} method="post">
+            <section className="flex flex-row self-center w-1/5 my-1">
+              <label className="mx-2 w-1/3" htmlFor="username">
                 Username
               </label>
               <input
-                className="mx-2"
+                className="mx-2  w-4/6"
                 onChange={(e) => setUsername(e.target.value)}
                 id="username"
                 name="username"
@@ -104,12 +104,12 @@ export default function Auth(props: {
                 required
               />
             </section>
-            <section>
-              <label className="mx-2" htmlFor="current-password">
+            <section className="flex flex-row self-center w-1/5 my-1">
+              <label className="mx-2  w-1/3" htmlFor="current-password">
                 Password
               </label>
               <input
-                className="mx-2"
+                className="mx-2  w-4/6"
                 onChange={(e) => setPassword(e.target.value)}
                 id="current-password"
                 name="password"
@@ -118,8 +118,8 @@ export default function Auth(props: {
               />
             </section>
 
-            <div className="text-red-500">{errorMessage && errorMessage}</div>
-            <div className="my-2">
+            <div className="text-red-500 my-2">{errorMessage && errorMessage}</div>
+            <div className="flex my-2 self-center justify-between">
               <button className="bg-white border-2px mx-4" type="submit">
                 Sign in
               </button>
@@ -139,19 +139,19 @@ export default function Auth(props: {
       )}
 
       {mode === "Registration" && (
-        <div>
+        <div className="flex flex-col">
           <h1 className="text-center">Registration</h1>
           <form
-            className="text-center"
+            className="flex flex-col text-center justify-center"
             onSubmit={handleRegistration}
             method="post"
           >
-            <section>
-              <label className="mx-2" htmlFor="username">
+            <section className="flex flex-row self-center w-1/5 my-1">
+              <label className="mx-2 w-1/3" htmlFor="username">
                 Username
               </label>
               <input
-                className="mx-2"
+                className="mx-2 w-4/6"
                 onChange={(e) => setUsername(e.target.value)}
                 id="username"
                 name="username"
@@ -159,12 +159,12 @@ export default function Auth(props: {
                 required
               />
             </section>
-            <section>
-              <label className="mx-2" htmlFor="current-password">
+            <section className="flex flex-row self-center w-1/5 my-1">
+              <label className="mx-2 w-1/3" htmlFor="current-password">
                 Password
               </label>
               <input
-                className="mx-2"
+                className="mx-2 w-4/6"
                 onChange={(e) => setPassword(e.target.value)}
                 id="current-password"
                 name="password"
@@ -172,12 +172,12 @@ export default function Auth(props: {
                 required
               />
             </section>
-            <section>
-              <label className="mx-2" htmlFor="confirm-password">
+            <section className="flex flex-row self-center w-1/5 my-1">
+              <label className="mx-2 w-1/3" htmlFor="confirm-password">
                 Confirm Password
               </label>
               <input
-                className="mx-2"
+                className="flex mx-2 w-4/6 h-6 self-center"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 id="confirm-password"
                 name="password"
@@ -185,7 +185,7 @@ export default function Auth(props: {
                 required
               />
             </section>
-            <div className="text-red-500">{errorMessage && errorMessage}</div>
+            <div className="text-red-500 my-2">{errorMessage && errorMessage}</div>
             <div className="my-2">
               <button className="bg-white border-2px mx-4" type="submit">
                 Register
