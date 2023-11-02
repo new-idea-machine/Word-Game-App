@@ -1,11 +1,14 @@
 "use client";
 
+const jwt = require('jsonwebtoken')
+const secretKey = 'baseOnBalls'
 import { FormEvent, useEffect, useState } from "react";
 
 export default function Auth(props: {
   setHasUser: (arg0: boolean) => void;
   setCookie: (arg0: string, arg1: string) => void;
 }) {
+  // const token = jwt.sign({ foo: 'bar' }, secretKey);
   const [username, setUsername] = useState<String | null>(null);
   const [password, setPassword] = useState<String | null | any>(null);
   const [confirmPassword, setConfirmPassword] = useState<String | null | any>(
@@ -32,18 +35,21 @@ export default function Auth(props: {
       const data = await response.json();
       console.log("data: ", data);
       if (data.username) {
-        const encodedValue = encodeURIComponent(data.username);
+        const encodedValue = jwt.sign({ username: data.username }, secretKey);;
         console.log("encoded value:", encodedValue);
         props.setCookie("username", encodedValue);
         props.setHasUser(true);
         setUsername(null);
         setPassword(null);
+        const decoded = jwt.verify(encodedValue, secretKey);
+        console.log(decoded)
       } else {
         setErrorMessage("Incorrect username or password.");
       }
     } catch (err) {
       // handle error
       console.log("error!");
+      console.log(err)
     }
   };
 
@@ -70,7 +76,7 @@ export default function Auth(props: {
       const data = await response.json();
       console.log("data: ", data);
       if (data.username) {
-        const encodedValue = encodeURIComponent(data.username);
+        const encodedValue = jwt.sign({ username: data.username }, secretKey);;
         console.log("encoded value:", encodedValue);
         props.setCookie("username", encodedValue);
         props.setHasUser(true);
