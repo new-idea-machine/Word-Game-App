@@ -14,7 +14,6 @@ export default function GameResults({ winningTime, retries, hintsUsed }: Results
 
   return (
     <section className="w-full flex flex-col content-center">
-      <h3 className="text-center font-bold">RESULT</h3>
       <table className="border border-slate-300">
         <thead>
           <tr>

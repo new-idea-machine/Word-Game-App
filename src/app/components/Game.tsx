@@ -1,17 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { setCookie } from "cookies-next";
+
 import Grid from "./Grid";
 import VirtualKeyboard from "./VirtualKeyboard";
 import StartModal from "./StartModal";
-import { setCookie } from "cookies-next";
 import ExtraHint from "./ExtraHint";
 import Retry from "./Retry";
-import { secondsToMidnight } from "@/helpers/helpers";
 import GameTimer from "./Timers/GameTimer";
 import GameCountdown from "./GameCountdown";
 import GameResults from "./GameResults";
 import GameRank from "./GameRank";
+
+import starFilled from '../../assets/graphics/star-filled.svg';
+import starEmpty from '../../assets/graphics/star-empty.svg';
+
+import { secondsToMidnight } from "@/helpers/helpers";
 
 export interface Puzzle {
   id: number;
@@ -175,9 +180,11 @@ export default function Game() {
               <GameTimer interval={timeLimit} countDirection="down" gameState={[gameState, setGameState]} setWinningTime={setWinningTime} />
             </div>
             <div className="col-start-2 font-semibold text-2xl justify-self-center self-center">
-              {gameState === game.over && <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}
-             {/* Adding GameRank componente */}
-              {gameState === game.over && <GameRank retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />}
+              {gameState === game.over &&
+                <>
+                  <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>
+                </>
+              }
               {gameState === game.playing && step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
             </div>
             <div className="self-center">
@@ -194,7 +201,7 @@ export default function Game() {
             </div>
             <div className="row-span-6 justify-self-end">
               {gameState === game.playing && <Retry retries={retries} />}
-           
+
             </div>
             <div className="row-span-6 justify-self-center h-game">
               <Grid
@@ -214,10 +221,12 @@ export default function Game() {
             <VirtualKeyboard keyFunction={handleInput} />
             :
             <div className="mt-1">
-              <GameCountdown onComplete={() => window.location.reload()} />
               <div className="mt-3">
+                <h1 className="text-center font-semibold text-2xl">RESULT</h1>
+                <GameRank hintsUsed={extraHints} maxHints={maxHints} retriesLeft={retries} maxRetries={maxRetries} winningTime={winningTime} />
                 <GameResults retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />
               </div>
+              <GameCountdown onComplete={() => window.location.reload()} />
             </div>
           }
         </section>
