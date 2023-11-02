@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="38.147888"
+   height="38.146152"
+   viewBox="0 0 10.093295 10.092836"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="WordGame.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#000000"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="4.5833574"
+     inkscape:cx="78.981403"
+     inkscape:cy="86.072275"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="true">
+    <inkscape:grid
+       id="grid7"
+       units="mm"
+       originx="-246.08557"
+       originy="-18.247109"
+       spacingx="0.99999998"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient9"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop10" />
+      <stop
+         style="stop-color:#820000;stop-opacity:1;"
+         offset="1"
+         id="stop11" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9"
+       id="radialGradient11"
+       cx="67.999687"
+       cy="12.999796"
+       fx="67.999687"
+       fy="12.999796"
+       r="8.0930023"
+       gradientTransform="matrix(0.62358174,0,0,0.62355324,27.753425,1.7682338)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-65.110139,-4.8278809)">
+    <path
+       id="path2"
+       style="fill:url(#radialGradient11);fill-opacity:1;stroke:#d5aaaa;stroke-width:0.329979;stroke-opacity:1"
+       d="m 66.04223,4.9935337 c -0.754585,-0.029763 -1.146782,0.8666034 -0.250385,1.7630013 0.259823,0.2598221 1.721501,1.7211788 3.118041,3.1177182 l -3.118041,3.1180408 c -1.247162,1.247162 -7.4e-5,2.494249 1.247088,1.247087 l 3.118041,-3.118041 3.11804,3.118041 c 1.247162,1.247162 2.49425,7.5e-5 1.247087,-1.247087 l -3.11804,-3.1180408 c 1.398425,-1.3984245 2.871144,-2.8708215 3.11804,-3.1177182 1.247163,-1.2471622 7.5e-5,-2.4942496 -1.247087,-1.2470873 L 70.156974,8.6274882 67.038933,5.5094477 C 66.688169,5.1586833 66.337502,5.0051802 66.04223,4.9935337 Z"
+       inkscape:export-filename="x.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+</svg>

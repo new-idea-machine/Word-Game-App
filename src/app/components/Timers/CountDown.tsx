@@ -1,0 +1,61 @@
+import React, { useEffect, useState } from 'react';
+
+interface Props {
+  timeLimit: number
+  gameState: [string, React.Dispatch<React.SetStateAction<string>>]
+  setWinningTime: React.Dispatch<React.SetStateAction<number>>
+}
+
+export default function CountDown({ timeLimit, gameState: [gameState, setGameState], setWinningTime }: Props) {
+  const [timeRemaining, setTimeRemaining] = useState(timeLimit);
+  const [timerOn, setTimerOn] = useState(false);
+
+  // handle countdown
+  useEffect(() => {
+    let interval: ReturnType<typeof setTimeout> | undefined = undefined;
+
+    timerOn
+      ? (interval = setInterval(() => {
+        setTimeRemaining(prev => prev - 10);
+      }, 10))
+      : clearInterval(interval);
+
+    return () => clearInterval(interval);
+  }, [timerOn]);
+
+  // handle the gameState coming from <Game />
+  useEffect(() => {
+    switch (gameState) {
+    case 'start':
+      setTimerOn(false);
+      break;
+    case 'playing':
+      setTimerOn(true);
+      break;
+    case 'over':
+      setTimerOn(false);
+      setWinningTime(timeLimit - timeRemaining);
+      break;
+    default:
+      return;
+    }
+  }, [gameState, setWinningTime, timeLimit, timeRemaining]);
+
+  // handle out of time event
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      setTimerOn(false);
+      setGameState('over');
+    }
+  }, [setGameState, timeRemaining]);
+
+  return (
+    <div className={`${timerOn ? 'pulse' : ''} bg-sky-600 rounded-[50%] h-16 w-32 flex justify-center items-center will-change-transform`}>
+      <div className='text-white text-xl font-semibold flex ml-2 h-16 items-center'>
+        <div className='min-w-fit w-8'>{('0' + Math.floor((timeRemaining / 60000) % 60)).slice(-2)}:</div>
+        <div className='min-w-fit w-8'>{('0' + Math.floor((timeRemaining / 1000) % 60)).slice(-2)}:</div>
+        <div className='min-w-fit w-8'>{('0' + ((timeRemaining / 10) % 100)).slice(-2)}</div>
+      </div>
+    </div>
+  );
+}

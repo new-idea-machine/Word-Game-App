@@ -1,36 +1,30 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
-import { CookiesProvider, useCookies } from "react-cookie";
-import HideGame from "./HideGame";
+import { useState, useEffect } from "react";
+import GameCountdown from "./GameCountdown";
+import { getCookie } from "cookies-next";
+import Game from "./Game";
+import GameStats from "./GameStats";
 
-interface Props {
-  children: ReactNode
-}
-
-export default function GameLauncher({ children }: Props) {
-  const [cookies, setCookie] = useCookies(["lastGameTime"]);
-  const [launch, setLaunch] = useState<boolean | undefined>(undefined);
-  const [countdownMilliSeconds, setCountdownMilliSeconds] = useState(0);
+export default function GameLauncher() {
+  const [launch, setLaunch] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Set timeToNextGame to 120 seconds for dev testing
-    // We will need to update it to 24 hours for production
-    const timeToNextGame = 120;
-
-    if (!cookies.lastGameTime) {
-      setCookie("lastGameTime", Date.now(), { path: '/', maxAge: timeToNextGame });
-      setLaunch(true);
-    } else {
-      setLaunch(false);
-      setCountdownMilliSeconds(cookies.lastGameTime + (timeToNextGame * 1000));
+    const timeoutCookie = getCookie('timeToNextGame');
+    if (!timeoutCookie) {
+      return setLaunch(true);
     }
+    setLaunch(false);
   }, []);
 
   return (
-    <CookiesProvider>
-      {launch && children}
-      {(launch === false) && <HideGame countdownMilliSeconds={countdownMilliSeconds} setLaunch={setLaunch} />}
-    </CookiesProvider>
+    <div className="container h-full w-fit pt-10 mx-auto">
+      {launch && <Game />}
+      {(launch === false) &&
+        <>
+          <GameCountdown onComplete={() => setLaunch(true)} />
+          <GameStats />
+        </>}
+    </div>
   );
 } 
