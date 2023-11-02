@@ -89,7 +89,7 @@ export default function Auth(props: {
     <div className="flex flex-col p-5 justify-center">
       {mode === "Login" && (
         <div className="flex flex-col">
-          <h1 className="text-center">Sign in</h1>
+          <h1 className="text-center font-bold">Sign in</h1>
           <form className="flex flex-col text-center justify-center" onSubmit={handleLogin} method="post">
             <section className="flex flex-row self-center w-1/5 my-1">
               <label className="mx-2 w-1/3" htmlFor="username">
@@ -140,7 +140,7 @@ export default function Auth(props: {
 
       {mode === "Registration" && (
         <div className="flex flex-col">
-          <h1 className="text-center">Registration</h1>
+          <h1 className="text-center font-bold">Registration</h1>
           <form
             className="flex flex-col text-center justify-center"
             onSubmit={handleRegistration}
