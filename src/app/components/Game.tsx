@@ -81,6 +81,7 @@ export default function Game() {
 
   const handleInput = function(character: string) {
     if (guess.length === wordLength && character === 'Enter') {
+
       if (guess.toUpperCase() === puzzle[step].word.toUpperCase()) {
         setStep(prev => prev + 1);
         setGuess("");
@@ -88,12 +89,7 @@ export default function Game() {
         setFadeIn(true);
         return;
       }
-
       setWrongGuess(true);
-      if (retries > 0) {
-        setRetries(prev => prev - 1);
-      }
-
     }
     if (guess.length > 0 && character === 'Backspace') {
       setGuess(prev => prev.slice(0, prev.length - 1));
@@ -155,9 +151,12 @@ export default function Game() {
       return;
     }
 
+    setRetries(prev => Math.max(0, prev - 1));
+
     const timeoutId = window.setTimeout(() => {
       setWrongGuess(false);
     }, 820);
+
     return () => {
       setGuess("");
       window.clearTimeout(timeoutId);
