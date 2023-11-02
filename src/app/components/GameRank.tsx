@@ -7,6 +7,8 @@ interface Props {
 }
 
 export default function GameRank({ hintsUsed, retries, winningTime }: Props) {
+  
+  const ceroStar = 0;  
   const oneStar = 1;
   const twoStar = 2;
   const threeStar = 3;
@@ -24,14 +26,14 @@ export default function GameRank({ hintsUsed, retries, winningTime }: Props) {
           <p className="text-center">{renderStars(threeStar)}</p>
         </div>
       );
-    } else if (retries === 1 || winningTime <= 120000 || hintsUsed === 1) {
+    } else if (retries === 1 && winningTime <= 120000 && hintsUsed === 1) {
       return (
         <div>
             <h3 className="text-center font-bold mt-2">RANK</h3>
           <p className="text-center">{renderStars(twoStar)}</p>
         </div>
       );
-    } else if (retries === 2 || winningTime <= 200000 || hintsUsed === 2) {
+    } else if (retries === 2 && winningTime <= 200000 && hintsUsed === 2) {
       return (
         <div>
         <h3 className="text-center font-bold mt-2">RANK</h3>
@@ -43,7 +45,7 @@ export default function GameRank({ hintsUsed, retries, winningTime }: Props) {
     return (
       <div>
          <h3 className="text-center font-bold mt-2">RANK</h3>
-        <p>{renderStars(oneStar)}</p>
+        <p>{renderStars(ceroStar)}</p>
       </div>
     );
   };
