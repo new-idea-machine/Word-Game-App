@@ -183,7 +183,7 @@ export default function Game() {
               {step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
             </div>}
             {gameState === game.over &&
-            <div className="col-start-2 font-semibold text-2xl justify-self-center self-center">
+            <div className="col-start-1 col-span-3 font-semibold text-2xl justify-self-center self-center">
               <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>
             </div>}
             <div className="self-center">
