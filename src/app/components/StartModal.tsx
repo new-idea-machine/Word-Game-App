@@ -23,7 +23,7 @@ export default function StartModal({ onClose }: Props) {
       {showModal &&
         <div className="bg-sky-50 bg-opacity-80 fixed inset-0 z-50">
           <div className="flex h-screen justify-center items-center">
-            <div className="flex-col justify-center fixed top-20 bg-white py-7 px-7 rounded-xl shadow-2xl shadow-gray-800">
+            <div className="mx-5 flex-col justify-center fixed top-20 bg-white py-7 px-7 rounded-xl shadow-2xl shadow-gray-800">
               <div className="flex justify-center text-3xl font-bold text-black mb-10">Letter Ladder</div>
               <div className="flex-row justify-center text-base text-gray-500 mb-10">
                 How to play:

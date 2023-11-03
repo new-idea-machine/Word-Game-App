@@ -93,7 +93,8 @@ body {
   overflow-x: hidden;
   /* transition: width 0.5s ease-out, color 0.5s ease-out; */
   color: #FFFF;
-  width: 12rem;
+  width: 10rem;
+  margin-left: -2rem
 }
 
 @keyframes reveal {
