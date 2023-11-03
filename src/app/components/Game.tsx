@@ -1,17 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { setCookie } from "cookies-next";
+
 import Grid from "./Grid";
 import VirtualKeyboard from "./VirtualKeyboard";
 import StartModal from "./StartModal";
-import { setCookie } from "cookies-next";
 import ExtraHint from "./ExtraHint";
 import Retry from "./Retry";
-import { secondsToMidnight } from "@/helpers/helpers";
 import GameTimer from "./Timers/GameTimer";
 import GameCountdown from "./GameCountdown";
 import GameResults from "./GameResults";
 import GameRank from "./GameRank";
+
+import starFilled from '../../assets/graphics/star-filled.svg';
+import starEmpty from '../../assets/graphics/star-empty.svg';
+
+import { secondsToMidnight } from "@/helpers/helpers";
 
 export interface Puzzle {
   id: number;
@@ -76,6 +81,7 @@ export default function Game() {
 
   const handleInput = function(character: string) {
     if (guess.length === wordLength && character === 'Enter') {
+
       if (guess.toUpperCase() === puzzle[step].word.toUpperCase()) {
         setStep(prev => prev + 1);
         setGuess("");
@@ -83,12 +89,7 @@ export default function Game() {
         setFadeIn(true);
         return;
       }
-
       setWrongGuess(true);
-      if (retries > 0) {
-        setRetries(prev => prev - 1);
-      }
-
     }
     if (guess.length > 0 && character === 'Backspace') {
       setGuess(prev => prev.slice(0, prev.length - 1));
@@ -150,9 +151,12 @@ export default function Game() {
       return;
     }
 
+    setRetries(prev => Math.max(0, prev - 1));
+
     const timeoutId = window.setTimeout(() => {
       setWrongGuess(false);
     }, 820);
+
     return () => {
       setGuess("");
       window.clearTimeout(timeoutId);
@@ -180,9 +184,7 @@ export default function Game() {
             </div>}
             {gameState === game.over &&
             <div className="col-start-2 font-semibold text-2xl justify-self-center self-center">
-              {<h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}
-              {/* Adding GameRank componente */}
-              {<GameRank retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />}
+              <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>
             </div>}
             <div className="self-center">
               {gameState === game.playing &&
@@ -198,6 +200,7 @@ export default function Game() {
             </div>
             <div className="col-start-1 row-span-6 justify-self-start sm:justify-self-center">
               {gameState === game.playing && <Retry retries={retries} />}
+
             </div>
             <div className="col-start-2 row-span-6 justify-self-center h-game">
               <Grid
@@ -219,10 +222,12 @@ export default function Game() {
             </div>
             :
             <div className="mt-1">
-              <GameCountdown onComplete={() => window.location.reload()} />
               <div className="mt-3">
+                <h1 className="text-center font-semibold text-2xl">RESULT</h1>
+                <GameRank hintsUsed={extraHints} maxHints={maxHints} retriesLeft={retries} maxRetries={maxRetries} winningTime={winningTime} />
                 <GameResults retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />
               </div>
+              <GameCountdown onComplete={() => window.location.reload()} />
             </div>
           }
         </section>
