@@ -174,12 +174,16 @@ export default function Game() {
             <div className="col-start-2 justify-self-center self-center">
               <GameTimer interval={timeLimit} countDirection="down" gameState={[gameState, setGameState]} setWinningTime={setWinningTime} />
             </div>
+            {gameState === game.playing &&
+            <div className="col-start-1 col-span-2 sm:col-start-2 sm:col-span-1 font-semibold text-2xl justify-self-center self-center">
+              {step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
+            </div>}
+            {gameState === game.over &&
             <div className="col-start-2 font-semibold text-2xl justify-self-center self-center">
-              {gameState === game.over && <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}
-             {/* Adding GameRank componente */}
-              {gameState === game.over && <GameRank retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />}
-              {gameState === game.playing && step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
-            </div>
+              {<h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>}
+              {/* Adding GameRank componente */}
+              {<GameRank retries={maxRetries - retries} winningTime={winningTime} hintsUsed={maxHints - extraHints} />}
+            </div>}
             <div className="self-center">
               {gameState === game.playing &&
                 <ExtraHint
@@ -192,11 +196,10 @@ export default function Game() {
                   numOfHints={extraHints}
                 />}
             </div>
-            <div className="row-span-6 justify-self-end">
+            <div className="col-start-1 row-span-6 justify-self-start sm:justify-self-center">
               {gameState === game.playing && <Retry retries={retries} />}
-           
             </div>
-            <div className="row-span-6 justify-self-center h-game">
+            <div className="col-start-2 row-span-6 justify-self-center h-game">
               <Grid
                 puzzle={puzzle}
                 maxSteps={maxSteps}
@@ -211,7 +214,9 @@ export default function Game() {
         }
         <section className="flex-1">
           {gameState !== game.over ?
-            <VirtualKeyboard keyFunction={handleInput} />
+            <div className="hidden sm:block" >
+              <VirtualKeyboard keyFunction={handleInput} />
+            </div>
             :
             <div className="mt-1">
               <GameCountdown onComplete={() => window.location.reload()} />
