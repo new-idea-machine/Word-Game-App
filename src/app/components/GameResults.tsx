@@ -12,6 +12,8 @@ export default function GameResults({ winningTime, retries, hintsUsed }: Results
   const seconds = Math.floor((winningTime / 1000) % 60);
   const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
+  // TODO: Implement sharing function based on this module
+
   return (
     <section className="w-full flex flex-col content-center">
       <table className="border border-slate-300">
