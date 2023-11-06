@@ -1,10 +1,10 @@
 "use client";
 
-const jwt = require('jsonwebtoken')
-const secretKey = 'baseOnBalls'
-import { FormEvent, useEffect, useState } from "react";
+const jwt = require('jsonwebtoken');
+const secretKey = 'baseOnBalls';
+import { FormEvent, useState } from "react";
 
-export default function Auth(props: {
+export default function Login(props: {
   setHasUser: (arg0: boolean) => void;
   setCookie: (arg0: string, arg1: string) => void;
 }) {
@@ -17,7 +17,7 @@ export default function Auth(props: {
   const [errorMessage, setErrorMessage] = useState<String | null>(null);
   const [mode, setMode] = useState<"Login" | "Registration" | null>("Login");
 
-  const handleLogin = async function (event: FormEvent<HTMLFormElement>) {
+  const handleLogin = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage(null);
     console.log("Submitting:", { username, password });
@@ -42,18 +42,18 @@ export default function Auth(props: {
         setUsername(null);
         setPassword(null);
         const decoded = jwt.verify(encodedValue, secretKey);
-        console.log(decoded)
+        console.log(decoded);
       } else {
         setErrorMessage("Incorrect username or password.");
       }
     } catch (err) {
       // handle error
       console.log("error!");
-      console.log(err)
+      console.log(err);
     }
   };
 
-  const handleRegistration = async function (
+  const handleRegistration = async function(
     event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
@@ -82,6 +82,7 @@ export default function Auth(props: {
         props.setHasUser(true);
         setUsername(null);
         setPassword(null);
+        
       } else {
         setErrorMessage("This email is already in use");
       }
@@ -111,7 +112,7 @@ export default function Auth(props: {
               />
             </section>
             <section className="flex flex-row self-center w-1/5 my-1">
-              <label className="mx-2  w-1/3" htmlFor="current-password">
+              <label className="mx-2 w-1/3" htmlFor="current-password">
                 Password
               </label>
               <input
