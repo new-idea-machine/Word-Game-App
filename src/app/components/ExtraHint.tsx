@@ -11,10 +11,10 @@ export default function ExtraHint({ hint, step, setHint, numOfHints }: Props) {
 
   const extraHintFormat = classnames(
 
-    "h-12 text-xl rounded transition flex items-center justify-center",
+    "h-12 text-xl mx-auto rounded transition flex items-center justify-center",
     {
-      "bg-lime-600 cursor-default revealHint": typeof hint === 'string',
-      "bg-sky-800 text-white hover:bg-sky-600 px-4 gap-2": !hint && numOfHints > 0,
+      "bg-lime-600 cursor-default w-full revealHint": typeof hint === 'string',
+      "bg-sky-800 text-white hover:bg-sky-600 px-4 gap-2 w-fit": !hint && numOfHints > 0,
       "bg-gray-600 hover:bg-gray-600 cursor-not-allowed px-3": !hint && numOfHints <= 0
     }
   );

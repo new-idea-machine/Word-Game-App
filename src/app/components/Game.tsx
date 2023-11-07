@@ -174,7 +174,7 @@ export default function Game() {
       <div className="w-full h-full px-4 flex flex-col items-center">
         {/* When the puzzle is coming in from an API we will need to wait for it to load before rendering */}
         {puzzle &&
-          <section className="flex-1 h-full w-full m-auto grid grid-cols-3 grid-rows-{8} gap-2">
+          <section className="flex-1 h-full w-full m-auto flex flex-col items-stretch md:grid grid-cols-3 grid-rows-{8} gap-2">
             <div className="col-start-2 justify-self-center self-center">
               <GameTimer interval={timeLimit} countDirection="down" gameState={[gameState, setGameState]} setWinningTime={setWinningTime} />
             </div>
@@ -186,7 +186,7 @@ export default function Game() {
             <div className="col-start-1 col-span-3 font-semibold text-2xl justify-self-center self-center">
               <h2 className={step >= maxSteps ? "animate-bounce" : "animate-droop"}>{step < maxSteps ? "Better luck next time..." : "CONGRATULATIONS!"}</h2>
             </div>}
-            <div className="self-center">
+            <div className="self-center w-full col-start-3">
               {gameState === game.playing &&
                 <ExtraHint
                   hint={hintRevealed ? puzzle[step].extraHint : null}
@@ -198,11 +198,11 @@ export default function Game() {
                   numOfHints={extraHints}
                 />}
             </div>
-            <div className="col-start-1 row-span-6 justify-self-start sm:justify-self-center">
+            <div className="row-span-6 justify-self-end">
               {gameState === game.playing && <Retry retries={retries} />}
 
             </div>
-            <div className="col-start-2 row-span-6 justify-self-center h-game">
+            <div className="row-span-6 justify-self-center h-game col-start-2">
               <Grid
                 puzzle={puzzle}
                 maxSteps={maxSteps}
