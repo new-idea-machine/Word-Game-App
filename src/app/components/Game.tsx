@@ -86,7 +86,7 @@ export default function Game() {
     }
   };
 
-  //Initialize game
+  //Initialize game with the puzzle object and establish game's rules at the beginning
   useEffect(() => {
     dispatch(setPuzzle(placeholderPuzzle)); // Reference to the puzzle array goes here
     dispatch(setRules({ maxRetries: 4, maxExtraHints: 2, timeLimit: 180000 })); //Set puzzle rules explicitly
