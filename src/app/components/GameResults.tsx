@@ -1,12 +1,9 @@
-import { useEffect } from "react";
+import { useAppSelector } from "../redux/store";
 
-interface ResultsProps {
-  hintsUsed: number;
-  retries: number;
-  winningTime: number;
-}
+export default function GameResults() {
 
-export default function GameResults({ winningTime, retries, hintsUsed }: ResultsProps) {
+  const { retries, extraHints, maxExtraHints, winningTime } = useAppSelector(state => state.gameReducer.value);
+  const hintsUsed = maxExtraHints - extraHints;
 
   const minutes = Math.floor((winningTime / 1000 / 60) % 60);
   const seconds = Math.floor((winningTime / 1000) % 60);
