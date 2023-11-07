@@ -2,16 +2,11 @@
 
 import classnames from 'classnames';
 import { useState } from 'react';
+import { useAppSelector } from '../redux/store';
 
-interface Props {
-  hintsUsed: number;
-  maxHints: number;
-  retriesLeft: number;
-  maxRetries: number;
-  winningTime: number;
-}
+export default function GameRank() {
 
-export default function GameRank({ hintsUsed, maxHints, retriesLeft, maxRetries, winningTime }: Props) {
+  const { retries, maxRetries, extraHints, maxExtraHints, timeLimit, winningTime } = useAppSelector(state => state.gameReducer.value);
 
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
@@ -20,7 +15,7 @@ export default function GameRank({ hintsUsed, maxHints, retriesLeft, maxRetries,
     {
       "revealStar": imagesLoaded
     }
-  )
+  );
 
   const maxStars = 3; ///Number of stars, in case we decide to change it
 
@@ -33,15 +28,15 @@ export default function GameRank({ hintsUsed, maxHints, retriesLeft, maxRetries,
 
   const calculateRank = function() {
 
-    if (winningTime === -1 || retriesLeft <= 0) {
+    if (winningTime === -1 || retries <= 0) {
       return 0;
     }
 
     const timeInSeconds = winningTime / 1000;
     const timeRank = maxStars - Number(timeInSeconds > 30) - Number(timeInSeconds > 60); // Under 30 seconds: 3 stars, under 60 seconds: 2 stars, otherwise 1
 
-    const retriesRank = percentRank(retriesLeft, maxRetries);
-    const hintsRank = percentRank(hintsUsed, maxHints);
+    const retriesRank = percentRank(retries, maxRetries);
+    const hintsRank = percentRank(extraHints, maxExtraHints);
 
     return Math.floor((timeRank + retriesRank + hintsRank) / maxStars);
   };
@@ -49,7 +44,7 @@ export default function GameRank({ hintsUsed, maxHints, retriesLeft, maxRetries,
   const rank = calculateRank();
 
   const stars = Array(maxStars).fill("/star-empty.svg").fill("/star-filled.svg", 0, rank);
-  
+
   const renderedStars = stars.map((star, index) => {
     return <img key={`star${index}`} className={starClass} alt="Star rank" src={star} loading='eager' onLoad={() => setImagesLoaded(true)} />;
   });
