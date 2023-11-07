@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-interface Props {
-  timeLimit: number
-  gameState: [string, React.Dispatch<React.SetStateAction<string>>]
-  setWinningTime: React.Dispatch<React.SetStateAction<number>>
-}
+import { useDispatch } from 'react-redux';
+import { gameMode, endGame, setWinningTime } from '@/app/redux/features/gameSlice';
+import { useAppSelector } from '@/app/redux/store';
 
-export default function CountDown({ timeLimit, gameState: [gameState, setGameState], setWinningTime }: Props) {
+export default function CountDown() {
+
+  const dispatch = useDispatch();
+
+  const { timeLimit, gameState } = useAppSelector(state => state.gameReducer.value);
+
   const [timeRemaining, setTimeRemaining] = useState(timeLimit);
   const [timerOn, setTimerOn] = useState(false);
 
@@ -26,28 +29,29 @@ export default function CountDown({ timeLimit, gameState: [gameState, setGameSta
   // handle the gameState coming from <Game />
   useEffect(() => {
     switch (gameState) {
-    case 'start':
-      setTimerOn(false);
-      break;
-    case 'playing':
-      setTimerOn(true);
-      break;
-    case 'over':
-      setTimerOn(false);
-      setWinningTime(timeLimit - timeRemaining);
-      break;
-    default:
-      return;
+      case gameMode.start:
+        setTimerOn(false);
+        setTimeRemaining(timeLimit);
+        break;
+      case gameMode.playing:
+        setTimerOn(true);
+        break;
+      case gameMode.over:
+        dispatch(setWinningTime(timeRemaining > 0 ? timeLimit - timeRemaining : -1));
+        setTimerOn(false);
+        break;
+      default:
+        return;
     }
-  }, [gameState, setWinningTime, timeLimit, timeRemaining]);
+  }, [gameState, timeLimit, timeRemaining]);
 
   // handle out of time event
   useEffect(() => {
-    if (timeRemaining === 0) {
-      setTimerOn(false);
-      setGameState('over');
+    if (timeRemaining <= 0) {
+      setTimeRemaining(0);
+      dispatch(endGame());
     }
-  }, [setGameState, timeRemaining]);
+  }, [timeRemaining]);
 
   return (
     <div className={`${timerOn ? 'pulse' : ''} bg-sky-600 rounded-[50%] h-16 w-32 flex justify-center items-center will-change-transform`}>

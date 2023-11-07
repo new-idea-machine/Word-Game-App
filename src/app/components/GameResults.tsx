@@ -1,15 +1,14 @@
-import { useEffect } from "react";
+import { useAppSelector } from "../redux/store";
 
-interface ResultsProps {
-  hintsUsed: number;
-  retries: number;
-  winningTime: number;
-}
+export default function GameResults() {
 
-export default function GameResults({ winningTime, retries, hintsUsed }: ResultsProps) {
+  const { retries, maxRetries, extraHints, maxExtraHints, winningTime, timeLimit } = useAppSelector(state => state.gameReducer.value);
+  const hintsUsed = maxExtraHints - extraHints;
 
-  const minutes = Math.floor((winningTime / 1000 / 60) % 60);
-  const seconds = Math.floor((winningTime / 1000) % 60);
+  const timePlayed = (winningTime === -1 || winningTime === null) ? timeLimit : winningTime;
+
+  const minutes = Math.floor((timePlayed / 1000 / 60) % 60);
+  const seconds = Math.floor((timePlayed / 1000) % 60);
   const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
   return (
@@ -25,7 +24,7 @@ export default function GameResults({ winningTime, retries, hintsUsed }: Results
         <tbody>
           <tr className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
             <td className="border border-slate-300">{formattedTime}</td>
-            <td className="border border-slate-300">{retries}</td>
+            <td className="border border-slate-300">{maxRetries - retries}</td>
             <td className="border border-slate-300">{hintsUsed}</td>
           </tr>
         </tbody>
