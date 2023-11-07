@@ -38,10 +38,10 @@ export default function Game() {
 
   const dispatch = useDispatch<AppDispatch>();
   
-  const { puzzle, guess, step, retries, timeLimit, winningTime, gameState } = useAppSelector(state => state.gameReducer.value);
+  const { puzzle, guess, step, retries, winningTime, gameState } = useAppSelector(state => state.gameReducer.value);
 
   //Dynamic variables defined by the puzzle itself
-  const maxSteps: number = puzzle.length || Infinity;
+  const maxSteps: number = puzzle.length || 5;
   const wordLength: number = puzzle[0]?.word.length;
 
   const [fadeIn, setFadeIn] = useState(false);
@@ -89,13 +89,12 @@ export default function Game() {
   //Initialize game
   useEffect(() => {
     dispatch(setPuzzle(placeholderPuzzle)); // Reference to the puzzle array goes here
-    dispatch(setRules({ maxRetries: 3, extraHints: 3, timeLimit: 18000 })); //Set puzzle rules explicitly
+    dispatch(setRules({ maxRetries: 4, maxExtraHints: 2, timeLimit: 180000 })); //Set puzzle rules explicitly
   }, []);
 
   // Handle checking for game over condition
   useEffect(() => {
-    const gameCompleted = step >= maxSteps || retries <= 0 || winningTime >= timeLimit;
-    console.log(step >= maxSteps, retries <= 0, winningTime >= timeLimit);
+    const gameCompleted = step >= maxSteps || retries <= 0;
     if (gameCompleted) {
       setTimeoutCookie();
       dispatch(endGame());
@@ -175,8 +174,7 @@ export default function Game() {
                 <ExtraHint />}
             </div>
             <div className="row-span-6 justify-self-end">
-              {gameState === gameMode.playing && <Retry retries={retries} />}
-
+              {gameState === gameMode.playing && <Retry />}
             </div>
             <div className="row-span-6 justify-self-center h-game col-start-2">
               <Grid

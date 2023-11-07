@@ -37,8 +37,8 @@ export default function CountDown() {
         setTimerOn(true);
         break;
       case gameMode.over:
+        dispatch(setWinningTime(timeRemaining > 0 ? timeLimit - timeRemaining : -1));
         setTimerOn(false);
-        dispatch(setWinningTime(timeLimit - timeRemaining));
         break;
       default:
         return;
@@ -48,7 +48,7 @@ export default function CountDown() {
   // handle out of time event
   useEffect(() => {
     if (timeRemaining <= 0) {
-      setTimerOn(false);
+      setTimeRemaining(0);
       dispatch(endGame());
     }
   }, [timeRemaining]);

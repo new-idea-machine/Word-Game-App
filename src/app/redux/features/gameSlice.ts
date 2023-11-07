@@ -27,7 +27,7 @@ type GameSettings = {
   maxExtraHints: number;
   extraHints: number;
   timeLimit: number;
-  winningTime: number;
+  winningTime: null | number;
   gameState: string;
 };
 
@@ -42,7 +42,7 @@ const initialState = {
     extraHints: 3,
     maxExtraHints: 3,
     timeLimit: 180000,
-    winningTime: -1,
+    winningTime: null,
     gameState: gameMode.start
   } as GameSettings
 } as InitialState;
@@ -60,6 +60,8 @@ export const game = createSlice({
     },
     setRules: (state, action: PayloadAction<Object>) => {
       state.value = { ...state.value, ...action.payload };
+      state.value.retries = state.value.maxRetries;
+      state.value.extraHints = state.value.maxExtraHints;
     },
     startGame: (state) => {
       state.value.gameState = gameMode.playing;

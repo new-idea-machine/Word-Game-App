@@ -1,8 +1,9 @@
-export interface Props {
-  retries: number;
-}
+import { useAppSelector } from "../redux/store";
 
-export default function Retry({ retries }: Props) {
+export default function Retry() {
+
+  const retries = useAppSelector(state => state.gameReducer.value.retries);
+
   return (
     <div className="w-fit h-full flex flex-row md:flex-col">
       {Array.from(Array(retries).keys())

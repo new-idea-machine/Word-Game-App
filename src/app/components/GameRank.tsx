@@ -28,10 +28,9 @@ export default function GameRank() {
 
   const calculateRank = function() {
 
-    if (winningTime === -1 || retries <= 0) {
+    if (winningTime === null || winningTime <= 0 || retries <= 0) {
       return 0;
     }
-
     const timeInSeconds = winningTime / 1000;
     const timeRank = maxStars - Number(timeInSeconds > 30) - Number(timeInSeconds > 60); // Under 30 seconds: 3 stars, under 60 seconds: 2 stars, otherwise 1
 
