@@ -6,7 +6,7 @@ import { useAppSelector } from '../redux/store';
 
 export default function GameRank() {
 
-  const { retries, maxRetries, extraHints, maxExtraHints, timeLimit, winningTime } = useAppSelector(state => state.gameReducer.value);
+  const { retries, maxRetries, extraHints, maxExtraHints, winningTime } = useAppSelector(state => state.gameReducer.value);
 
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
