@@ -1,13 +1,12 @@
+import { useAppSelector } from "@/app/redux/store";
 import { useEffect, useState } from "react";
 
-interface Props {
-  limit: number
-}
-
-export default function Stopwatch({ limit }: Props) {
+export default function Stopwatch() {
   const [time, setTime] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+
+  const limit = useAppSelector(state => state.gameReducer.value.timer);
 
   useEffect(() => {
     let interval: ReturnType<typeof setTimeout> | undefined = undefined;

@@ -1,20 +1,19 @@
 "use client";
 
+import { useAppSelector } from '../redux/store';
 import { type Puzzle } from './Game';
 import Row from "./Row";
 
 interface GridProps {
-  puzzle: Puzzle[];
-  maxSteps: number;
-  step: number;
-  guess: string;
   wrongGuess: boolean;
   fadeIn: boolean;
   randomIndices: number[];
 }
 
-export default function Grid({ puzzle, maxSteps, step, guess, wrongGuess, fadeIn, randomIndices }: GridProps) {
+export default function Grid({ wrongGuess, fadeIn, randomIndices }: GridProps) {
   // Only show the words that have been guessed and the clue to the next word
+  const { puzzle, step, guess } = useAppSelector(state => state.gameReducer.value);
+  const maxSteps = puzzle.length;
 
   const completedWords = puzzle.slice(0, step);
   // The guess needs to be 5 letters long to render the divs, so pad with spaces

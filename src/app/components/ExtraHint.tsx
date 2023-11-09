@@ -1,38 +1,49 @@
 import classnames from "classnames";
 
-interface Props {
-  hint: string | null;
-  step: number;
-  setHint: Function;
-  numOfHints: number;
-}
+import { useEffect, useState } from "react";
 
-export default function ExtraHint({ hint, step, setHint, numOfHints }: Props) {
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../redux/store";
+import { setHints } from "../redux/features/gameSlice";
+
+export default function ExtraHint() {
+
+  const dispatch = useDispatch();
+
+  const [hintRevealed, setHintRevealed] = useState(false);
+
+  const { step, extraHints } = useAppSelector(state => state.gameReducer.value);
+  const hint = useAppSelector(state => state.gameReducer.value.puzzle[step]?.extraHint);
 
   const extraHintFormat = classnames(
-
-    "h-12 text-xl rounded transition flex items-center justify-center",
+    "h-12 text-xl mx-auto rounded transition flex items-center justify-center",
     {
-      "bg-lime-600 cursor-default revealHint": typeof hint === 'string',
-      "bg-sky-800 text-white hover:bg-sky-600 px-4 gap-2": !hint && numOfHints > 0,
-      "bg-gray-600 hover:bg-gray-600 cursor-not-allowed px-3": !hint && numOfHints <= 0
+      "bg-lime-600 cursor-default w-full revealHint": hintRevealed,
+      "bg-sky-800 text-white hover:bg-sky-600 px-4 gap-2 w-fit": !hintRevealed && extraHints > 0,
+      "bg-gray-600 hover:bg-gray-600 cursor-not-allowed px-3": !hintRevealed && extraHints <= 0
     }
   );
+
+  useEffect(() => {
+    setHintRevealed(false);
+  }, [step]);
+
   return (
     <button
       className={extraHintFormat}
       onClick={e => {
         e.preventDefault();
-        if (!!hint || numOfHints <= 0) {
+        if (hintRevealed || extraHints <= 0) {
           return;
         }
-        setHint(true);
+        setHintRevealed(true);
+        dispatch(setHints(extraHints - 1));
       }}
-      title={hint ? 'Extra hint' : numOfHints <= 0 ? 'You are out of extra hints' : 'Click to get an extra hint'}
+      title={hint ? 'Extra hint' : extraHints <= 0 ? 'You are out of extra hints' : 'Click to get an extra hint'}
     >
-      {!hint && <img src={!hint && numOfHints > 0 ? "/hint.svg" : "/x.svg"} />}
+      {!hintRevealed && <img src={extraHints > 0 ? "/hint.svg" : "/x.svg"} />}
       <span>
-        {hint || (numOfHints > 0 && `x ${numOfHints}`)}
+        {hintRevealed ? hint : (extraHints > 0 && `x ${extraHints}`)}
       </span>
     </button>
   );
