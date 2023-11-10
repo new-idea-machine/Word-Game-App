@@ -29,19 +29,19 @@ export default function CountDown() {
   // handle the gameState coming from <Game />
   useEffect(() => {
     switch (gameState) {
-      case gameMode.start:
-        setTimerOn(false);
-        setTimeRemaining(timeLimit);
-        break;
-      case gameMode.playing:
-        setTimerOn(true);
-        break;
-      case gameMode.over:
-        dispatch(setWinningTime(timeRemaining > 0 ? timeLimit - timeRemaining : -1));
-        setTimerOn(false);
-        break;
-      default:
-        return;
+    case gameMode.start:
+      setTimerOn(false);
+      setTimeRemaining(timeLimit);
+      break;
+    case gameMode.playing:
+      setTimerOn(true);
+      break;
+    case gameMode.over:
+      dispatch(setWinningTime(timeRemaining > 0 ? timeLimit - timeRemaining : -1));
+      setTimerOn(false);
+      break;
+    default:
+      return;
     }
   }, [gameState, timeLimit, timeRemaining]);
 

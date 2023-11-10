@@ -13,7 +13,6 @@ export default function GameTimer({ countDirection }: Props) {
     <>
       {countDirection === 'down'
         ? <CountDown />
-        // ? <Timer interval={interval} gameState={gameState} />
         : <Stopwatch />
       }
     </>
