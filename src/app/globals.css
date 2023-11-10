@@ -307,3 +307,10 @@ button:hover {
     border-[#6AAA64]
     bg-[#6AAA64]
 }
+
+.synonym {
+  @apply
+    ml-2
+    text-sm
+    font-light
+}
