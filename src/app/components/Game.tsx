@@ -18,26 +18,10 @@ import GameRank from "./GameRank";
 
 import { secondsToMidnight } from "@/helpers/helpers";
 
-export interface Puzzle {
-  id: number;
-  word: string;
-  clue: string;
-  extraHint: string;
-}
-
-const placeholderPuzzle: Puzzle[] = [
-  { id: 1, word: "BENCH", clue: "Long seat", extraHint: "Park" },
-  { id: 2, word: "BEACH", clue: "Sand", extraHint: "Vacation" },
-  { id: 3, word: "PEACH", clue: "Fruit", extraHint: "Fuzzy" },
-  { id: 4, word: "PEACE", clue: "Tranquility", extraHint: "Hippies" },
-  { id: 5, word: "PLACE", clue: "Position", extraHint: "Residence" },
-  // { id: 6, word: "PLANE", clue: "Wings", extraHint: "Pilot" }
-];
-
-export default function Game() {
+export default function Game({ puzzleData }: { puzzleData: { id: number; word: string; clue: string; extraHint: string; }[]; }) {
 
   const dispatch = useDispatch<AppDispatch>();
-  
+
   const { puzzle, guess, step, retries, winningTime, gameState } = useAppSelector(state => state.gameReducer.value);
 
   //Dynamic variables defined by the puzzle itself
@@ -88,18 +72,19 @@ export default function Game() {
 
   //Initialize game with the puzzle object and establish game's rules at the beginning
   useEffect(() => {
-    dispatch(setPuzzle(placeholderPuzzle)); // Reference to the puzzle array goes here
-    dispatch(setRules({ maxRetries: 4, maxExtraHints: 2, timeLimit: 180000 })); //Set puzzle rules explicitly
+    dispatch(setPuzzle(puzzleData)); // Reference to the puzzle array goes here
   }, []);
 
   // Handle checking for game over condition
   useEffect(() => {
-    const gameCompleted = step >= maxSteps || retries <= 0;
+    const gameCompleted = retries <= 0;
     if (gameCompleted) {
-      setTimeoutCookie();
       dispatch(endGame());
     }
-  }, [step, retries, winningTime, maxSteps]);
+    if (gameState === gameMode.over) {
+      setTimeoutCookie();
+    }
+  }, [step, retries, winningTime, maxSteps, gameState]);
 
   // Handle physical keyboard
   useEffect(() => {
