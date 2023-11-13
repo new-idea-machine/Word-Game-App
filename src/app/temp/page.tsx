@@ -1,4 +1,5 @@
 import wordList from '@/wordLists/targetWords';
+import './temp.css'
 import Clues from './Clues';
 
 export const getPuzzle = function() {
