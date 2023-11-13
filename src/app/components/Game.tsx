@@ -18,7 +18,7 @@ import GameRank from "./GameRank";
 
 import { secondsToMidnight } from "@/helpers/helpers";
 
-export default function Game({ puzzleData }: { puzzleData: { id: number; word: string; clue: string; extraHint: string; }[]; }) {
+export default function Game() {
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -69,11 +69,6 @@ export default function Game({ puzzleData }: { puzzleData: { id: number; word: s
       dispatch(guessLetter(character.toUpperCase() + (nextFilled ? puzzle[0].word[guess.length + 1] : "")));
     }
   };
-
-  //Initialize game with the puzzle object and establish game's rules at the beginning
-  useEffect(() => {
-    dispatch(setPuzzle(puzzleData)); // Reference to the puzzle array goes here
-  }, []);
 
   // Handle checking for game over condition
   useEffect(() => {

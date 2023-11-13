@@ -53,7 +53,7 @@ export default function GameLauncher() {
 
   return (
     <div className="container h-full w-fit pt-10 mx-auto">
-      {launch && (puzzleData.length > 0 ? <Game puzzleData={puzzleData}/> : <Loading />)}
+      {launch && (puzzleData.length > 0 ? <Game /> : <Loading />)}
       {!launch &&
         <>
           <GameCountdown onComplete={() => setLaunch(true)} />
