@@ -19,7 +19,7 @@ export default function ExtraHint() {
     "h-12 text-xl mx-auto rounded transition flex items-center justify-center",
     {
       "bg-lime-600 cursor-default w-full revealHint": hintRevealed,
-      "bg-sky-800 text-white hover:bg-sky-600 px-4 gap-2 w-fit": !hintRevealed && extraHints > 0,
+      "bg-sky-800 text-white hover:bg-sky-600 px-4 py-2 gap-2 w-fit": !hintRevealed && extraHints > 0,
       "bg-gray-600 hover:bg-gray-600 cursor-not-allowed px-3": !hintRevealed && extraHints <= 0
     }
   );
@@ -41,7 +41,7 @@ export default function ExtraHint() {
       }}
       title={hint ? 'Extra hint' : extraHints <= 0 ? 'You are out of extra hints' : 'Click to get an extra hint'}
     >
-      {!hintRevealed && <img src={extraHints > 0 ? "/hint.svg" : "/x.svg"} />}
+      {!hintRevealed && <img className="max-h-full" src={extraHints > 0 ? "/hint.svg" : "/x.svg"} />}
       <span>
         {hintRevealed ? hint : (extraHints > 0 && `x ${extraHints}`)}
       </span>
