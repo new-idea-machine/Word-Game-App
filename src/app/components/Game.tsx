@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { setCookie } from "cookies-next";
-import { gameMode, resetGame, setPuzzle, setRules, startGame, endGame, setGuess, guessLetter, eraseLetter, setRetries, setHints, nextWord } from '@/app/redux/features/gameSlice';
+import { gameMode, startGame, endGame, setGuess, guessLetter, eraseLetter, setRetries, nextWord } from '@/app/redux/features/gameSlice';
 import { AppDispatch, useAppSelector } from "../redux/store";
 import { useDispatch } from "react-redux";
 
