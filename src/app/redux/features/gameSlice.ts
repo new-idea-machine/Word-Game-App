@@ -10,7 +10,7 @@ type InitialState = {
   value: GameSettings;
 };
 
-type PuzzleWord = {
+export type PuzzleWord = {
   id: number,
   word: string,
   clue: string,
@@ -90,6 +90,9 @@ export const game = createSlice({
     nextWord: (state) => {
       state.value.step++;
       state.value.guess = "";
+      if(state.value.step >= state.value.puzzle.length) {
+        state.value.gameState = gameMode.over;
+      }
     }
   }
 });

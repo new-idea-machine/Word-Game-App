@@ -1,4 +1,6 @@
 import wordList from '@/wordLists/targetWords';
+import './temp.css'
+import Clues from './Clues';
 
 export const getPuzzle = function() {
   const nbWords = wordList.length;
@@ -62,8 +64,14 @@ export default function Home() {
   const { ladder, process } = getPuzzle();
 
   const puzzle = ladder.map(word => {
-    return <li key={word}>{word.toUpperCase()}</li>;
+    return (
+      <li key={word}>
+        {word.toUpperCase()}
+        <Clues word={word} />
+      </li>
+    );
   });
+
   const verbose = process.map(action => {
     return <li key={action}>{action}</li>;
   });
@@ -73,13 +81,13 @@ export default function Home() {
       <section className="result">
         <h2>Ladder Result:</h2>
         <ul>{puzzle}</ul>
-        <form action={'/temp'}>
-          <button type='submit'>Refresh</button>
-        </form>
       </section>
       <section className="process">
         <h2>How did we get here?</h2>
         <ul>{verbose}</ul>
+        <form action={'/temp'}>
+          <button type='submit'>Refresh</button>
+        </form>
       </section>
     </main>
   );
