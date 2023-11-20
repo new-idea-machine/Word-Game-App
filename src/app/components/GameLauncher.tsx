@@ -21,15 +21,6 @@ export interface Puzzle {
   extraHint: string;
 }
 
-const placeholderPuzzle = [
-  { id: 1, word: "BENCH", clue: "Long seat", extraHint: "Park" },
-  { id: 2, word: "BEACH", clue: "Sand", extraHint: "Vacation" },
-  { id: 3, word: "PEACH", clue: "Fruit", extraHint: "Fuzzy" },
-  { id: 4, word: "PEACE", clue: "Tranquility", extraHint: "Hippies" },
-  { id: 5, word: "PLACE", clue: "Position", extraHint: "Residence" },
-  // { id: 6, word: "PLANE", clue: "Wings", extraHint: "Pilot" }
-];
-
 export default function GameLauncher() {
 
   const [launch, setLaunch] = useState(false);
