@@ -3,7 +3,7 @@ sqlite3.verbose();
 import targetWords from "./targetWords.js";
 import fs from 'fs';
 
-const schemaSql = fs.readFileSync("./db/schema.sql").toString();
+const schemaSql = fs.readFileSync("./db/00_schema.sql").toString();
 const puzzleSeedSql = fs.readFileSync("./db/01_puzzle.sql").toString();
 
 const db = new sqlite3.Database('./db/wordgame.db', (err) => {
