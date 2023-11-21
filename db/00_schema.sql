@@ -26,11 +26,11 @@ CREATE TABLE "puzzles" (
 CREATE TABLE "puzzle_word" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
   "puzzle_id" INTEGER,
+  "sequence_index" INTEGER NOT NULL,
   "word" VARCHAR,
-  "next_word" VARCHAR,
 
   CONSTRAINT puzzle_column FOREIGN KEY ("puzzle_id") REFERENCES puzzles("id")
-  CONSTRAINT word_columns FOREIGN KEY ("word", "next_word") REFERENCES words("word", "word")
+  CONSTRAINT word_columns FOREIGN KEY ("word") REFERENCES words("word")
 );
 
 CREATE TABLE "puzzles_played" (

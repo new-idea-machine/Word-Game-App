@@ -28,7 +28,7 @@ export default function GameLauncher() {
     if (!timeoutCookie) {
       setLaunch(true);
       if (!puzzleData.length) {
-        fetch('/api/puzzles')
+        fetch('/api/get-puzzle')
           .then(response => response.json())
           .then((puzzle: Puzzle[]) => {
             dispatch(setPuzzle(puzzle));

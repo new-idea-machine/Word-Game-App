@@ -35,8 +35,7 @@ db.exec(puzzleSeedSql, (err) => {
 db.serialize(() => {
   db.run("BEGIN TRANSACTION;");
   targetWords.forEach(word => {
-    const query = `INSERT OR IGNORE INTO words (word) VALUES (?)`;
-    db.run(query, [word], err => {
+    db.run(`INSERT OR IGNORE INTO words (word) VALUES (?)`, [word], err => {
       if (err) {
         console.log(err);
       }

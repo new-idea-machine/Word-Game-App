@@ -23,24 +23,24 @@ export default function handler(
   const query = `SELECT puzzle_word.*, words.hints FROM puzzle_word
   JOIN words ON puzzle_word.word = words.word
   JOIN (SELECT id, max(created_at) AS date FROM puzzles) as puzzle ON puzzle_word.puzzle_id = puzzle.id
-  ORDER BY puzzle_word.id ASC`;
+  ORDER BY puzzle_word.sequence_index ASC`;
 
-  db.all(query, [], (err: Error, rows: any) => {
+  const queryRandom = `SELECT puzzle_word.*, words.hints FROM puzzle_word
+  JOIN words ON puzzle_word.word = words.word
+  JOIN (SELECT id, created_at AS date FROM puzzles ORDER BY RANDOM() LIMIT 1) as puzzle ON puzzle_word.puzzle_id = puzzle.id
+  ORDER BY puzzle_word.sequence_index ASC`;
+
+  db.all(queryRandom, [], (err: Error, rows: any) => {
     if (err) {
       return res.status(500).json({ message: 'Failed to query puzzles' });
     }
 
-    // Extra measure to make sure that the words are in the proper order in case database IDs are out of order
-    const results = rows.sort((a: { word: string, next_word: string | null; }, b: { word: string, next_word: string | null; }) => {
-      if (a.next_word === null || a.word === b.next_word) {
-        return 1;
-      }
-      if (b.next_word === null || b.word === a.next_word) {
-        return -1;
-      }
-      return 0;
-    });
+    // Extra measure to make sure that the words are in the proper order
+    const results: any[] = [...rows.sort((a: { sequence_index: number; }, b: { sequence_index: number; }) => {
+      return a.sequence_index - b.sequence_index;
+    })];
 
+    console.log(results);
     const puzzle = results.map((row: any) => {
       const { id, word, hints } = row;
       const possibleHints: string[] = hints.split(':').sort(() => Math.sign(Math.random() - Math.random()));
@@ -52,7 +52,6 @@ export default function handler(
       };
       return puzzleWord;
     }) as Puzzle[];
-    
     res.status(200).json(puzzle);
 
   });

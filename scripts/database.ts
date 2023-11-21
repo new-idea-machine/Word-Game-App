@@ -1,7 +1,5 @@
 import sqlite3 from 'sqlite3';
 
-import { Puzzle } from '@/app/components/GameLauncher';
-
 const db = new sqlite3.Database('./puzzles.db', (err) => {
   if (err) {
     console.error(err.message);
