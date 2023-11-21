@@ -13,7 +13,7 @@ export default function ExtraHint() {
   const [hintRevealed, setHintRevealed] = useState(false);
 
   const { step, extraHints } = useAppSelector(state => state.gameReducer.value);
-  const hint = useAppSelector(state => state.gameReducer.value.puzzle[step]?.extraHint || "n/a");
+  const hint = useAppSelector(state => state.gameReducer.value.puzzle[step]?.extraHints || "n/a")[0];
 
   const extraHintFormat = classnames(
     "h-12 text-xl rounded transition flex items-center justify-center",

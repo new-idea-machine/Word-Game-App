@@ -7,7 +7,7 @@ INSERT OR IGNORE INTO words (id, word, hints) values (6, "plane", "wings:pilot:f
 -- Duplicate insert, testing to make sure it gets ignored and doesn't throw an error
 INSERT OR IGNORE INTO words (id, word, hints) values (7, "plane", "wings:pilot"); 
 
-INSERT INTO puzzles (id) values (1);
+INSERT INTO puzzles (id, created_at) values (1, '2023-11-20 16:14:35');
 
 INSERT INTO puzzle_word (puzzle_id, word, next_word) values (1, "bench", "beach");
 INSERT INTO puzzle_word (puzzle_id, word, next_word) values (1, "beach", "peach");

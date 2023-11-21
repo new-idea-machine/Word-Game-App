@@ -15,7 +15,7 @@ export interface Puzzle {
   id: number;
   word: string;
   clue: string;
-  extraHint: string;
+  extraHints: string[];
 }
 
 export default function GameLauncher() {
@@ -30,11 +30,11 @@ export default function GameLauncher() {
       if (!puzzleData.length) {
         fetch('/api/puzzles')
           .then(response => response.json())
-          .then((puzzles: Puzzle[]) => {
-            dispatch(setPuzzle(puzzles));
+          .then((puzzle: Puzzle[]) => {
+            dispatch(setPuzzle(puzzle));
           })
           .catch(error => {
-            console.error('Error fetching puzzles:', error);
+            console.error('Error fetching puzzle:', error);
           });
       }
     }
