@@ -12,11 +12,10 @@ export default function getBothRulesLadder() {
     return wordList[randomWordIndex];
   };
 
-  const addWord = function(currentWord) {
+  const getPossibles = function(currentWord, inital, limit, step) {
     let allPossibles = [];
 
-    // Try to find possibles from just indexes 1, 2, & 3
-    for (let i = 1; i < 4; i++) {
+    for (let i = inital; i < limit; i += step) {
       if (i === forbiddenIndex) {
         // Do not repeat last-used index
         continue;
@@ -38,26 +37,18 @@ export default function getBothRulesLadder() {
       }
     } // end of for loop
 
+    return allPossibles;
+  };
+
+  const addWord = function(currentWord) {
+    // Try to find possibles from just indexes 1, 2, & 3 ---for (let i = 1; i < 4; i++)
+    let allPossibles = getPossibles(currentWord, 1, 4, 1);
+
     // If 1, 2 & 3 return no possibles, try 0 & 4
     if (allPossibles.length === 0) {
       process.push(`${currentWord}: no matches in letters 2, 3 & 4, trying 1 & 5...`);
-      for (let i = 0; i < 5; i += 4) {
-        const possibles = wordList.filter(word => {
-          return word.slice(0, i) === currentWord.slice(0, i)
-                && word.slice(i + 1, 5) === currentWord.slice(i + 1, 5)
-                && word !== currentWord
-                && !ladder.includes(word);
-        });
-      
-        if (possibles.length > 0) {
-          process.push(`Letter ${i + 1} possibles: ${possibles.join(', ')}`);
-          const possibleWithIndex = possibles.map(word => {
-            return { word: word, index: i };
-          });
-  
-          allPossibles = allPossibles.concat(possibleWithIndex);
-        }
-      } // end of for loop
+      // for (let i = 0; i < 5; i += 4)
+      allPossibles = getPossibles(currentWord, 0, 5, 4);
     }
 
     // If no possible next word could be found, return false
