@@ -25,54 +25,63 @@ export default function GameResults() {
   const saveAsImage = () => {
     const resultTable = document.getElementById("result");
     const downloadButton = document.getElementById("download");
-    console.log(resultTable);
+    
     if (resultTable && downloadButton) {
       html2canvas(resultTable).then((canvas) => {
         resultImage = canvas;
-        const imageData = resultImage.toDataURL("image/png")
-        const newData = imageData.replace(/^data:image\/png/, "data:application/octet-stream");
-        downloadButton.setAttribute('href', newData)
-        downloadButton.setAttribute('download', 'result.png')
-        downloadButton.click()
+        const imageData = resultImage.toDataURL("image/png");
+        const newData = imageData.replace(
+          /^data:image\/png/,
+          "data:application/octet-stream"
+        );
+        document.body.appendChild(canvas);
+        downloadButton.setAttribute("href", newData);
+        downloadButton.setAttribute("download", "result.png");
+        downloadButton.click();
       });
     }
   };
 
-  // TODO: Implement sharing function based on this module
-
   return (
-    <section className="w-full flex flex-col content-center">
-      <table id="result" className="border border-slate-300">
-        <thead>
-          <tr>
-            {["Time Played", "Wrong Guesses", "Extra Hints"].map((label) => {
-              return (
-                <th
-                  key={label}
-                  className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 text-black"
-                >
-                  {label}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
-            <td className="border border-slate-300">{formattedTime}</td>
-            <td className="border border-slate-300">{maxRetries - retries}</td>
-            <td className="border border-slate-300">{hintsUsed}</td>
-          </tr>
-        </tbody>
-      </table>
-      <a className="bg-white w-1/5 h-12 mt-2 self-center justify-center content-center" id="download" download={resultImage}>
-        <button
-          onClick={saveAsImage}
-          
-        >
+    <div className="w-full flex flex-col content-center">
+      <section id="result" className="w-full flex flex-col content-center">
+        <table className="border border-slate-300">
+          <thead>
+            <tr className="bg-background">
+              {["Time Played", "Wrong Guesses", "Extra Hints"].map((label) => {
+                return (
+                  <th
+                    key={label}
+                    className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 text-black"
+                  >
+                    {label}
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
+              <td className="border border-slate-300 pb-3">
+                {formattedTime}
+              </td>
+              <td className="border border-slate-300 pb-3">
+                {maxRetries - retries}
+              </td>
+              <td className="border border-slate-300 pb-3">{hintsUsed}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <a
+        className="flex bg-white w-1/5 h-8 mt-2 self-center justify-center content-center"
+        id="download"
+        download={resultImage}
+      >
+        <button onClick={saveAsImage} className="self-center">
           Save Result
         </button>
       </a>
-    </section>
+    </div>
   );
 }
