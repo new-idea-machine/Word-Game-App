@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:reset": "node db/dbReset.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",

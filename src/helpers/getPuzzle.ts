@@ -1,4 +1,3 @@
-
 interface ApiResponse {
   synonyms: string[];
   // Add other properties from the API response if needed
@@ -45,7 +44,7 @@ const createSequence = (sequence: string[], wordList: string[], puzzleLength: nu
 };
 
 
-export const getPuzzle = async (wordList: string[]) => {
+export const createPuzzle = async (wordList: string[]) => {
   const sequence = createSequence(getFirstWord(wordList), wordList, 5);
   const API_KEY = '+J71cPB9FYuOr+hgjXPHAA==x1N63HIhndpoopFx'; // Use environment variable in production
 
@@ -60,16 +59,14 @@ export const getPuzzle = async (wordList: string[]) => {
       }
 
       const data = await response.json() as ApiResponse;
-      const possibleClues = data.synonyms.filter((synonym: string) => !synonym.includes(word));
+      const hints = data.synonyms.filter((synonym: string) => !synonym.includes(word));
 
-      const clue = possibleClues.length ? possibleClues[Math.floor(Math.random() * possibleClues.length)].trim() : "No clue provided";
-      const extraHint = possibleClues.length ? possibleClues[Math.floor(Math.random() * possibleClues.length)].trim() : "No clue provided";
+      // const clue = possibleClues.length ? possibleClues[Math.floor(Math.random() * possibleClues.length)].trim() : "No clue provided";
+      // const extraHint = possibleClues.length ? possibleClues[Math.floor(Math.random() * possibleClues.length)].trim() : "No clue provided";
 
       return {
-        id,
         word,
-        clue,
-        extraHint
+        hints
       };
     })
   );

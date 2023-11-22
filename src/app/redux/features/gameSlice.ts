@@ -14,7 +14,7 @@ export type PuzzleWord = {
   id: number,
   word: string,
   clue: string,
-  extraHint: string;
+  extraHints: string[];
 };
 
 type GameSettings = {
