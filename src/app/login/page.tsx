@@ -3,11 +3,10 @@
 const jwt = require('jsonwebtoken');
 const secretKey = 'baseOnBalls';
 import { FormEvent, useState } from "react";
+import { hasCookie, getCookies, setCookie  } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 
-export default function Login(props: {
-  setHasUser: (arg0: boolean) => void;
-  setCookie: (arg0: string, arg1: string) => void;
-}) {
+export default function Login() {
   // const token = jwt.sign({ foo: 'bar' }, secretKey);
   const [username, setUsername] = useState<String | null>(null);
   const [password, setPassword] = useState<String | null | any>(null);
@@ -17,6 +16,8 @@ export default function Login(props: {
   const [errorMessage, setErrorMessage] = useState<String | null>(null);
   const [mode, setMode] = useState<"Login" | "Registration" | null>("Login");
   const [message, setMessage] = useState<String | null>(null);
+
+  const router = useRouter();
 
   const handleLogin = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,12 +39,12 @@ export default function Login(props: {
       if (data.username) {
         const encodedValue = jwt.sign({ username: data.username }, secretKey);;
         console.log("encoded value:", encodedValue);
-        props.setCookie("username", encodedValue);
-        props.setHasUser(true);
+        setCookie("username", encodedValue);
         setUsername(null);
         setPassword(null);
         const decoded = jwt.verify(encodedValue, secretKey);
         console.log(decoded);
+        router.push("/");
       } else {
         setErrorMessage("Incorrect username or password.");
       }

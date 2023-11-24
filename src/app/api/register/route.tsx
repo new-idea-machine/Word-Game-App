@@ -24,7 +24,7 @@ export async function POST(req: Request, res: any) {
   if (validUser) {
     return NextResponse.json(
       { message: "Registration failed" },
-      { status: 200 }
+      { status: 401 }
     );
   } else {
     try{
