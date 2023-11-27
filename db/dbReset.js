@@ -4,7 +4,8 @@ import targetWords from "./targetWords.js";
 import fs from 'fs';
 
 const schemaSql = fs.readFileSync("./db/00_schema.sql").toString();
-const puzzleSeedSql = fs.readFileSync("./db/01_puzzle.sql").toString();
+const puzzleSeedSql = fs.readFileSync("./db/01_puzzles.sql").toString();
+const userSeedSql = fs.readFileSync("./db/02_users.sql").toString();
 
 const db = new sqlite3.Database('./db/wordgame.db', (err) => {
   if (err) {
@@ -27,6 +28,15 @@ db.exec(puzzleSeedSql, (err) => {
   }
   console.log("Sample puzzle seeded successfully.");
 });
+
+db.exec(userSeedSql, (err) => {
+  if (err) {
+    return console.log(err);
+  }
+  console.log("Sample users seeded successfully.");
+});
+
+
 
 /*
   Add all the words into the database
