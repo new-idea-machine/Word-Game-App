@@ -25,8 +25,9 @@ export default function GameResults() {
   const saveAsImage = () => {
     const resultTable = document.getElementById("result");
     const downloadButton = document.getElementById("download");
-    
+
     if (resultTable && downloadButton) {
+      resultTable.style.visibility = "visible";
       html2canvas(resultTable).then((canvas) => {
         resultImage = canvas;
         const imageData = resultImage.toDataURL("image/png");
@@ -35,6 +36,7 @@ export default function GameResults() {
           "data:application/octet-stream"
         );
         document.body.appendChild(canvas);
+        resultTable.style.visibility = "hidden";
         downloadButton.setAttribute("href", newData);
         downloadButton.setAttribute("download", "result.png");
         downloadButton.click();
@@ -44,7 +46,7 @@ export default function GameResults() {
 
   return (
     <div className="w-full flex flex-col content-center">
-      <section id="result" className="w-full flex flex-col content-center">
+      <section className="w-full flex flex-col content-center">
         <table className="border border-slate-300">
           <thead>
             <tr className="bg-background">
@@ -62,17 +64,55 @@ export default function GameResults() {
           </thead>
           <tbody>
             <tr className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
-              <td className="border border-slate-300 pb-3">
+              <td className="resulttd border border-slate-300">
                 {formattedTime}
               </td>
-              <td className="border border-slate-300 pb-3">
+              <td className="resulttd border border-slate-300">
                 {maxRetries - retries}
               </td>
-              <td className="border border-slate-300 pb-3">{hintsUsed}</td>
+              <td className="resulttd border border-slate-300">{hintsUsed}</td>
             </tr>
           </tbody>
         </table>
       </section>
+      <div className="overflow-hidden relative">
+        <section
+          id="result"
+          className="absolute right-50 top-50 invisible w-full flex flex-col content-center"
+        >
+          <table className="border border-slate-300">
+            <thead>
+              <tr className="bg-background">
+                {["Time Played", "Wrong Guesses", "Extra Hints"].map(
+                  (label) => {
+                    return (
+                      <th
+                        key={label}
+                        className="font-bold pb-4 px-4 border-b border-l text-center border-gray-500 text-black"
+                      >
+                        {label}
+                      </th>
+                    );
+                  }
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
+                <td className="resulttd border border-slate-300 pb-4">
+                  {formattedTime}
+                </td>
+                <td className="resulttd border border-slate-300 pb-4">
+                  {maxRetries - retries}
+                </td>
+                <td className="resulttd border border-slate-300 pb-4">
+                  {hintsUsed}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
       <a
         className="flex bg-white w-1/5 h-8 mt-2 self-center justify-center content-center"
         id="download"
