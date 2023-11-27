@@ -1,6 +1,7 @@
 import { Birthstone_Bounce } from "next/font/google";
 import { useAppSelector } from "../redux/store";
 import html2canvas from "html2canvas";
+import React from "react";
 
 export default function GameResults() {
   const {
@@ -35,7 +36,6 @@ export default function GameResults() {
           /^data:image\/png/,
           "data:application/octet-stream"
         );
-        document.body.appendChild(canvas);
         resultTable.style.visibility = "hidden";
         downloadButton.setAttribute("href", newData);
         downloadButton.setAttribute("download", "result.png");
