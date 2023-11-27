@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+import sessionReducer from './features/sessionSlice';
 import gameReducer from './features/gameSlice';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
-    gameReducer
+    gameReducer,
+    sessionReducer
   }
 });
 
