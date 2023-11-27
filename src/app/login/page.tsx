@@ -3,11 +3,12 @@
 const jwt = require('jsonwebtoken');
 const secretKey = 'baseOnBalls';
 import { FormEvent, useState } from "react";
+import { useRouter } from 'next/navigation';
+import { setCookie } from 'cookies-next';
+import { useDispatch } from "react-redux";
+import { resetSession, setUser } from "@/app/redux/features/sessionSlice";
 
-export default function Login(props: {
-  setHasUser: (arg0: boolean) => void;
-  setCookie: (arg0: string, arg1: string) => void;
-}) {
+export default function Login() {
   // const token = jwt.sign({ foo: 'bar' }, secretKey);
   const [username, setUsername] = useState<String | null>(null);
   const [password, setPassword] = useState<String | null | any>(null);
@@ -16,6 +17,11 @@ export default function Login(props: {
   );
   const [errorMessage, setErrorMessage] = useState<String | null>(null);
   const [mode, setMode] = useState<"Login" | "Registration" | null>("Login");
+  const [message, setMessage] = useState<String | null>(null);
+
+  const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const handleLogin = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,14 +41,15 @@ export default function Login(props: {
       const data = await response.json();
       console.log("data: ", data);
       if (data.username) {
-        const encodedValue = jwt.sign({ username: data.username }, secretKey);;
+        const encodedValue = jwt.sign({ username: data.username, admin: data.admin }, secretKey);;
         console.log("encoded value:", encodedValue);
-        props.setCookie("username", encodedValue);
-        props.setHasUser(true);
+        setCookie("user", encodedValue);
         setUsername(null);
         setPassword(null);
         const decoded = jwt.verify(encodedValue, secretKey);
         console.log(decoded);
+        dispatch(setUser({ email: decoded.username, admin: decoded.admin }))
+        router.push("/");
       } else {
         setErrorMessage("Incorrect username or password.");
       }
@@ -76,13 +83,12 @@ export default function Login(props: {
       const data = await response.json();
       console.log("data: ", data);
       if (data.username) {
-        const encodedValue = jwt.sign({ username: data.username }, secretKey);;
+        const encodedValue = jwt.sign({ username: data.username, admin: false }, secretKey);;
         console.log("encoded value:", encodedValue);
-        props.setCookie("username", encodedValue);
-        props.setHasUser(true);
         setUsername(null);
         setPassword(null);
-        
+        setMode("Login");
+        setMessage("Account registered successfully. Please sign in here.");
       } else {
         setErrorMessage("This email is already in use");
       }
@@ -96,6 +102,7 @@ export default function Login(props: {
     <div className="flex flex-col p-5 justify-center">
       {mode === "Login" && (
         <div className="flex flex-col">
+          <div className="text-green-700 my-2 self-center">{message && message}</div>
           <h1 className="text-center font-bold">Sign in</h1>
           <form className="flex flex-col text-center justify-center" onSubmit={handleLogin} method="post">
             <section className="flex flex-row self-center w-1/5 my-1">
@@ -136,6 +143,7 @@ export default function Login(props: {
                   e.preventDefault();
                   setMode("Registration");
                   setErrorMessage(null);
+                  setMessage(null);
                 }}
               >
                 I don&apos;t have an account

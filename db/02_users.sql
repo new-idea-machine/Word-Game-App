@@ -1,0 +1,1 @@
+INSERT INTO users (email, password, admin) VALUES ("admin@letterladder.com", "$2a$10$kL/tvqd/fVVPy65YtXYDm.HeLLNONg.3vuJKRdAYJEmYGQ0NAKtRq", TRUE);
