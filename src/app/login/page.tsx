@@ -3,11 +3,10 @@
 const jwt = require('jsonwebtoken');
 const secretKey = 'baseOnBalls';
 import { FormEvent, useState } from "react";
+import { hasCookie, getCookies, setCookie  } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 
-export default function Login(props: {
-  setHasUser: (arg0: boolean) => void;
-  setCookie: (arg0: string, arg1: string) => void;
-}) {
+export default function Login() {
   // const token = jwt.sign({ foo: 'bar' }, secretKey);
   const [username, setUsername] = useState<String | null>(null);
   const [password, setPassword] = useState<String | null | any>(null);
@@ -16,6 +15,9 @@ export default function Login(props: {
   );
   const [errorMessage, setErrorMessage] = useState<String | null>(null);
   const [mode, setMode] = useState<"Login" | "Registration" | null>("Login");
+  const [message, setMessage] = useState<String | null>(null);
+
+  const router = useRouter();
 
   const handleLogin = async function(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -37,12 +39,12 @@ export default function Login(props: {
       if (data.username) {
         const encodedValue = jwt.sign({ username: data.username }, secretKey);;
         console.log("encoded value:", encodedValue);
-        props.setCookie("username", encodedValue);
-        props.setHasUser(true);
+        setCookie("username", encodedValue);
         setUsername(null);
         setPassword(null);
         const decoded = jwt.verify(encodedValue, secretKey);
         console.log(decoded);
+        router.push("/");
       } else {
         setErrorMessage("Incorrect username or password.");
       }
@@ -78,10 +80,10 @@ export default function Login(props: {
       if (data.username) {
         const encodedValue = jwt.sign({ username: data.username }, secretKey);;
         console.log("encoded value:", encodedValue);
-        props.setCookie("username", encodedValue);
-        props.setHasUser(true);
         setUsername(null);
         setPassword(null);
+        setMode("Login");
+        setMessage("Account registered successfully. Please sign in here.");
         
       } else {
         setErrorMessage("This email is already in use");
@@ -96,6 +98,7 @@ export default function Login(props: {
     <div className="flex flex-col p-5 justify-center">
       {mode === "Login" && (
         <div className="flex flex-col">
+          <div className="text-green-700 my-2 self-center">{message && message}</div>
           <h1 className="text-center font-bold">Sign in</h1>
           <form className="flex flex-col text-center justify-center" onSubmit={handleLogin} method="post">
             <section className="flex flex-row self-center w-1/5 my-1">
@@ -136,6 +139,7 @@ export default function Login(props: {
                   e.preventDefault();
                   setMode("Registration");
                   setErrorMessage(null);
+                  setMessage(null);
                 }}
               >
                 I don&apos;t have an account

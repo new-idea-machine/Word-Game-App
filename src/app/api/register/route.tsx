@@ -1,20 +1,25 @@
 import { NextResponse } from "next/server";
+import sqlite3 from 'sqlite3';
+import { Database, open } from "sqlite";
+sqlite3.verbose();
 
 const bcrypt = require("bcryptjs");
 
-type userInfo = { username: string; password: any };
-const mockUsers: userInfo[] = [
-  { username: "Mike", password: bcrypt.hashSync("password", 10) },
-  {
-    username: "Jon",
-    password: "$2a$10$B5fmfHrGGbntV8uKFIJpS.kSDfgXhiwPjABkDyAnuLujQ4GYwAAES",
-  },
-];
+let db: Database<sqlite3.Database, sqlite3.Statement> | null = null;
 
 export async function POST(req: Request, res: any) {
   const { username, password } = await req.json();
-  console.log(username, password);
-  const validUser = mockUsers.filter((user) => user.username === username)[0];
+
+  const dbPath = './db/wordgame.db';
+
+  if (!db) {
+    db = await open({
+      filename: dbPath,
+      driver: sqlite3.Database,
+    });
+  }
+
+  const validUser = await db.get("SELECT * FROM users WHERE email = ?", [username]);
 
   if (validUser) {
     return NextResponse.json(
@@ -22,14 +27,18 @@ export async function POST(req: Request, res: any) {
       { status: 401 }
     );
   } else {
-    mockUsers.push({
-      username: username,
-      password: bcrypt.hashSync(password, 10),
-    });
-
-    return NextResponse.json(
-      { message: "Registration successful", username: username },
-      { status: 200 }
-    );
+    try{
+      await db.run(`INSERT INTO users (email, password) VALUES (?, ?)`, [username, bcrypt.hashSync(password, 10)]);
+      return NextResponse.json(
+        { message: "Registration successful", username: username },
+        { status: 200 }
+      );
+    }
+    catch(err){
+      return NextResponse.json(
+        { message: "Error adding new user" },
+        { status: 500 }
+      );
+    }  
   }
 }
