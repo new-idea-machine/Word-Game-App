@@ -30,7 +30,7 @@ export async function POST(req: Request, res: any) {
     const validPass = bcrypt.compareSync(password, validUser.password);
     if (validPass) {
       return NextResponse.json(
-        { message: "Authentication passed", username: validUser.email },
+        { message: "Authentication passed", username: validUser.email, admin: Boolean(validUser.admin) },
         { status: 200 },
       );
     } else {
