@@ -6,20 +6,21 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { resetSession, setUser } from "./redux/features/sessionSlice";
 import Logout from "./components/Logout";
+import secretKey from "../helpers/secretKey";
 
 export default function Home() {
 
   const dispatch = useDispatch();
   const user = useAppSelector(state => state.sessionReducer.value.user);
 
+  
   const jwt = require('jsonwebtoken');
-  const secretKey = 'baseOnBalls';
+  const key = secretKey();
 
   useEffect(() => {
-
     const usernameCookie = getCookie("user");
     if (usernameCookie) {
-      const decodedUser = jwt.verify(usernameCookie, secretKey);
+      const decodedUser = jwt.verify(usernameCookie, key);
       dispatch(setUser({ email: decodedUser.username, admin: decodedUser.admin }));
     } else {
       dispatch(resetSession());
