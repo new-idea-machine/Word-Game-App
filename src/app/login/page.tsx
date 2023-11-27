@@ -3,8 +3,10 @@
 const jwt = require('jsonwebtoken');
 const secretKey = 'baseOnBalls';
 import { FormEvent, useState } from "react";
-import { hasCookie, getCookies, setCookie  } from 'cookies-next';
 import { useRouter } from 'next/navigation';
+import { setCookie } from 'cookies-next';
+import { useDispatch } from "react-redux";
+import { resetSession, setUser } from "@/app/redux/features/sessionSlice";
 
 export default function Login() {
   // const token = jwt.sign({ foo: 'bar' }, secretKey);
@@ -16,6 +18,8 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState<String | null>(null);
   const [mode, setMode] = useState<"Login" | "Registration" | null>("Login");
   const [message, setMessage] = useState<String | null>(null);
+
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -37,13 +41,14 @@ export default function Login() {
       const data = await response.json();
       console.log("data: ", data);
       if (data.username) {
-        const encodedValue = jwt.sign({ username: data.username }, secretKey);;
+        const encodedValue = jwt.sign({ username: data.username, admin: data.admin }, secretKey);;
         console.log("encoded value:", encodedValue);
-        setCookie("username", encodedValue);
+        setCookie("user", encodedValue);
         setUsername(null);
         setPassword(null);
         const decoded = jwt.verify(encodedValue, secretKey);
         console.log(decoded);
+        dispatch(setUser({ email: decoded.username, admin: decoded.admin }))
         router.push("/");
       } else {
         setErrorMessage("Incorrect username or password.");
@@ -78,13 +83,12 @@ export default function Login() {
       const data = await response.json();
       console.log("data: ", data);
       if (data.username) {
-        const encodedValue = jwt.sign({ username: data.username }, secretKey);;
+        const encodedValue = jwt.sign({ username: data.username, admin: false }, secretKey);;
         console.log("encoded value:", encodedValue);
         setUsername(null);
         setPassword(null);
         setMode("Login");
         setMessage("Account registered successfully. Please sign in here.");
-        
       } else {
         setErrorMessage("This email is already in use");
       }
