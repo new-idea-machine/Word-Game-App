@@ -2,16 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
 sqlite3.verbose();
 
-interface Puzzle {
-  id: number;
-  word: string;
-  clue: string;
-  extraHints: string[];
-}
-
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Puzzle[] | { message: string; }>
+  res: NextApiResponse<PuzzleObject[] | { message: string; }>
 ) {
   const { puzzle } = req.body;
 
@@ -36,7 +29,6 @@ export default function handler(
       puzzle.forEach((row: any, index: number) => {
         const hints: string = row.hints;
         const word: string = row.word;
-        const nextWord: string | null = index < puzzle.length - 1 ? puzzle[index + 1].word : null;
         db.run('INSERT OR REPLACE INTO words (word, hints) VALUES (?,?)', [word, hints])
           .run('INSERT INTO puzzle_word (puzzle_id, word, sequence_index) VALUES (?, ?, ?)', [puzzleID, word, index], err => {
             if (err) {

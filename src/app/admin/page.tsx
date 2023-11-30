@@ -7,6 +7,7 @@ import { useAppSelector } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { setUser, resetSession } from "../redux/features/sessionSlice";
 import secretKey from "@/helpers/secretKey";
+import PuzzleGenerator from "./PuzzleGenerator";
 
 export default function Admin() {
 
@@ -34,10 +35,24 @@ export default function Admin() {
   }, []);
 
   return (
-    <div>
-      {`User: ${email}`}
-      <br />
-      {`Admin status: ${admin}`}
-    </div>
+    <main className="Admin h-screen">
+      <nav className="admin-navbar flex justify-around">
+        <span>
+          {`User: ${email}`}
+        </span>
+        <span>
+          {`Admin: ${admin}`}
+        </span>
+      </nav>
+      <div className="grid h-full grid-cols-2 gap-1 m-1">
+        <section className="border-black border-solid border">
+          <PuzzleGenerator />
+        </section>
+        <section className="border-black border-solid border">
+
+        </section>
+      </div>
+
+    </main>
   );
 }

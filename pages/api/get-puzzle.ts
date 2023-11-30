@@ -1,16 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
 
-interface Puzzle {
-  id: number;
-  word: string;
-  clue: string;
-  extraHints: string[];
-}
-
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Puzzle[] | { message: string; }>
+  res: NextApiResponse<PuzzleObject[] | { message: string; }>
 ) {
   const dbPath = './db/wordgame.db';
   const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READONLY, (err) => {
@@ -51,7 +44,7 @@ export default function handler(
         extraHints: possibleHints.slice(1),
       };
       return puzzleWord;
-    }) as Puzzle[];
+    }) as PuzzleObject[];
     res.status(200).json(puzzle);
 
   });

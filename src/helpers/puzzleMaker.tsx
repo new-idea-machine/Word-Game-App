@@ -1,50 +1,77 @@
 import OpenAI from "openai";
 
-const getFirstWord = function(words: string[]) {
-  const randomWordIndex = Math.floor(Math.random() * words.length);
-  return [words[randomWordIndex]];
+const formatQueryWordObject = function(id: number, word: string, hintsString: string) {
+  if (!hintsString) {
+    return { word, hints: [] } as WordObject;
+  }
+  return { word, hints: hintsString.split(':') } as WordObject;
 };
 
-const createSequence = function(sequence: string[], wordList: string[], puzzleLength: number, forbiddenIndex: number): any {
-  const puzzle = [...sequence];
-  const currentWord: string = sequence[sequence.length - 1];
-  const wordLength = currentWord.length;
-  if (puzzle.length >= puzzleLength) {
-    return [...puzzle];
-  }
+const getFirstWord = function(wordList: wordQueryObject[]) {
+  const randomWordIndex = Math.floor(Math.random() * wordList.length);
+  const { id, word, hints } = wordList[randomWordIndex];
+  return [formatQueryWordObject(id, word, hints)];
+};
 
-  const allPossibles: { word: string, index: number; }[] = [];
+const filterWords = function(wordList: wordQueryObject[], sequence: WordObject[], startIndex: number, endIndex: number, forbidden: number) {
+  const sequenceWords = sequence.map(item => item.word);
+  const word = sequenceWords[sequenceWords.length - 1];
+  const wordLength = word.length;
+  const possibleWords = [];
 
-  for (let i = 1; i < wordLength - 1; i++) {
-    if (i === forbiddenIndex) {
+  for (let i = startIndex; i < endIndex; i++) {
+    if (i === forbidden) {
       // Do not repeat last-used index
       continue;
     }
     // Try to find possibles from just indexes 1, 2, & 3
-    const possibles = wordList.filter(word => {
-      return word.slice(0, i) === currentWord.slice(0, i)
-        && word.slice(i + 1, wordLength) === currentWord.slice(i + 1, wordLength)
-        && word !== currentWord
-        && !sequence.includes(word);
+    const possibles = wordList.filter(wordItem => {
+      const listWord = wordItem.word;
+      return listWord.slice(0, i) === word.slice(0, i)
+        && listWord.slice(i + 1, wordLength) === word.slice(i + 1, wordLength)
+        && listWord !== word
+        && !sequenceWords.includes(listWord);
     });
-    allPossibles.push(...possibles.map(word => { return { word, index: i }; }));
+    possibleWords.push(...possibles.map(wordItem => {
+      const { id, word, hints } = wordItem;
+      const formattedWord = formatQueryWordObject(id, word, hints) as WordObject;
+      return { formattedWord, index: i };
+    }));
   }
 
+  return possibleWords;
+};
+
+const createSequence = function(sequence: WordObject[], wordList: wordQueryObject[], puzzleLength: number, forbiddenIndex: number): any {
+  const puzzle = [...sequence];
+  const currentWord: WordObject = sequence[sequence.length - 1];
+  const wordLength = currentWord.word.length;
+
+  if (puzzle.length >= puzzleLength) {
+    return [...puzzle];
+  }
+
+  const allPossibles: { formattedWord: WordObject, index: number; }[] = [];
+
+  // for (let i = 1; i < wordLength - 1; i++) {
+  //   if (i === forbiddenIndex) {
+  //     // Do not repeat last-used index
+  //     continue;
+  //   }
+  //   // Try to find possibles from just indexes 1, 2, & 3
+  //   const possibles = wordList.filter(wordItem => {
+  //     return word.slice(0, i) === currentWord.slice(0, i)
+  //       && word.slice(i + 1, wordLength) === currentWord.slice(i + 1, wordLength)
+  //       && word !== currentWord
+  //       && !sequence.includes(word);
+  //   });
+  //   allPossibles.push(...possibles.map(word => { return { word, index: i }; }));
+  // }
+
+  allPossibles.push(...filterWords(wordList, sequence, 1, wordLength - 1, forbiddenIndex));
+
   if (!allPossibles.length) {
-    for (let i = 0; i < wordLength; i++) {
-      if (i === forbiddenIndex) {
-        // Do not repeat last-used index
-        continue;
-      }
-      // Try to find possibles from just indexes 1, 2, & 3
-      const possibles = wordList.filter(word => {
-        return word.slice(0, i) === currentWord.slice(0, i)
-          && word.slice(i + 1, wordLength) === currentWord.slice(i + 1, wordLength)
-          && word !== currentWord
-          && !sequence.includes(word);
-      });
-      allPossibles.push(...possibles.map(word => { return { word, index: i }; }));
-    }
+    allPossibles.push(...filterWords(wordList, sequence, 0, wordLength, forbiddenIndex));
   }
 
   if (!allPossibles.length) {
@@ -54,13 +81,13 @@ const createSequence = function(sequence: string[], wordList: string[], puzzleLe
   const chosenWord = allPossibles[Math.floor(Math.random() * allPossibles.length)];
 
   forbiddenIndex = chosenWord.index;
-  puzzle.push(chosenWord.word);
+  puzzle.push(chosenWord.formattedWord);
 
   return createSequence(puzzle, wordList, puzzleLength, forbiddenIndex);
 
 };
 
-export const getPuzzle = async function(wordList: string[]) {
+export const getPuzzle = async function(wordList: wordQueryObject[]) {
   const sequence = createSequence(getFirstWord(wordList), wordList, 5, -1);
   //Non-AI way
   // const puzzle = await Promise.all(
@@ -90,12 +117,20 @@ export const getPuzzle = async function(wordList: string[]) {
     Add NEXT_PUBLIC_OPENAI_API_KEY="Your API key"
     Add .env to your gitignore
   */
+  const cluelessWords = sequence.filter((wordItem: WordObject) => {
+    if (wordItem.hints.length < 2) {
+      return true;
+    }
+  }).map((wordItem: WordObject) => {
+    return wordItem.word;
+  });
+
   const openai = new OpenAI({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, dangerouslyAllowBrowser: true });
 
   const response = await openai.chat.completions.create({
     messages: [
       { role: "system", content: "JSON object with an array of words, where the key is each of the words provided." },
-      { role: "user", content: `Generate 10 short clues for each of these words: ${sequence}` }
+      { role: "user", content: `Generate 5 short clues for each of these words: ${cluelessWords}` }
     ],
     model: "gpt-3.5-turbo-1106",
     response_format: { type: "json_object" }
@@ -104,16 +139,18 @@ export const getPuzzle = async function(wordList: string[]) {
 
   const data = JSON.parse(content);
 
-  const puzzle = Object.keys(data).map((word: string) => {
-
-    const possibleClues = data[word].filter((clue: string) => !clue.includes(word));
-
-    const possibleCluesFormatted = possibleClues.join(":");
+  const puzzle = sequence.map((wordItem: WordObject) => {
+    const possibleHints = wordItem.hints;
+    if (!possibleHints.length) {
+      const filteredHints = data[wordItem.word].filter((clue: string) => !clue.includes(wordItem.word));
+      possibleHints.push(filteredHints);
+    }
 
     return {
-      word,
-      hints: possibleCluesFormatted
-    };
+      word: wordItem.word,
+      hints: possibleHints
+    } as WordObject;
   });
+
   return puzzle;
 };
