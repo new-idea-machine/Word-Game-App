@@ -4,13 +4,6 @@ type InitialState = {
   value: Session;
 };
 
-export type PuzzleWord = {
-  id: number,
-  word: string,
-  clue: string,
-  extraHints: string[];
-};
-
 type Session = {
   user: {
     email: string,

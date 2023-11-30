@@ -7,13 +7,13 @@ const formatQueryWordObject = function(id: number, word: string, hintsString: st
   return { word, hints: hintsString.split(':') } as WordObject;
 };
 
-const getFirstWord = function(wordList: wordQueryObject[]) {
+const getFirstWord = function(wordList: WordQueryObject[]) {
   const randomWordIndex = Math.floor(Math.random() * wordList.length);
   const { id, word, hints } = wordList[randomWordIndex];
   return [formatQueryWordObject(id, word, hints)];
 };
 
-const filterWords = function(wordList: wordQueryObject[], sequence: WordObject[], startIndex: number, endIndex: number, forbidden: number) {
+const filterWords = function(wordList: WordQueryObject[], sequence: WordObject[], startIndex: number, endIndex: number, forbidden: number) {
   const sequenceWords = sequence.map(item => item.word);
   const word = sequenceWords[sequenceWords.length - 1];
   const wordLength = word.length;
@@ -42,7 +42,7 @@ const filterWords = function(wordList: wordQueryObject[], sequence: WordObject[]
   return possibleWords;
 };
 
-const createSequence = function(sequence: WordObject[], wordList: wordQueryObject[], puzzleLength: number, forbiddenIndex: number): any {
+const createSequence = function(sequence: WordObject[], wordList: WordQueryObject[], puzzleLength: number, forbiddenIndex: number): any {
   const puzzle = [...sequence];
   const currentWord: WordObject = sequence[sequence.length - 1];
   const wordLength = currentWord.word.length;
@@ -87,7 +87,7 @@ const createSequence = function(sequence: WordObject[], wordList: wordQueryObjec
 
 };
 
-export const getPuzzle = async function(wordList: wordQueryObject[]) {
+export const getPuzzle = async function(wordList: WordQueryObject[]) {
   const sequence = createSequence(getFirstWord(wordList), wordList, 5, -1);
   //Non-AI way
   // const puzzle = await Promise.all(
@@ -143,7 +143,7 @@ export const getPuzzle = async function(wordList: wordQueryObject[]) {
     const possibleHints = wordItem.hints;
     if (!possibleHints.length) {
       const filteredHints = data[wordItem.word].filter((clue: string) => !clue.includes(wordItem.word));
-      possibleHints.push(filteredHints);
+      possibleHints.push(...filteredHints);
     }
 
     return {

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setUser, resetSession } from "../redux/features/sessionSlice";
 import secretKey from "@/helpers/secretKey";
 import PuzzleGenerator from "./PuzzleGenerator";
+import PuzzleForm from "./PuzzleForm";
 
 export default function Admin() {
 
@@ -47,6 +48,7 @@ export default function Admin() {
       <div className="grid h-full grid-cols-2 gap-1 m-1">
         <section className="border-black border-solid border">
           <PuzzleGenerator />
+          <PuzzleForm />
         </section>
         <section className="border-black border-solid border">
 

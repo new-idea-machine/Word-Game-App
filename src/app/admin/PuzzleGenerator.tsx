@@ -1,6 +1,8 @@
 import { getPuzzle } from "@/helpers/puzzleMaker";
-
+import { useAppSelector } from "../redux/store";
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import { resetPuzzle, setWordList, setGeneratedPuzzle } from "../redux/features/puzzleGenSlice";
 
 type Notification = {
   message: string,
@@ -9,18 +11,20 @@ type Notification = {
 
 export default function PuzzleGenerator() {
 
+  const dispatch = useDispatch();
+
   const [generateLoader, setGenerateLoader] = useState(false as boolean);
-  const [wordList, setWordList] = useState([] as wordQueryObject[]);
-  const [generatedPuzzle, setGeneratedPuzzle] = useState([] as WordObject[]);
   const [notification, setNotification] = useState([] as Notification[]);
+
+  const wordList = useAppSelector(state => state.puzzleGenReducer.value.wordList);
 
   useEffect(() => {
     if (!wordList.length) {
       setNotification([]);
       fetch('/api/get-wordlist')
         .then(res => res.json())
-        .then((list: wordQueryObject[]) => {
-          setWordList([...list]);
+        .then((list: WordQueryObject[]) => {
+          dispatch(setWordList([...list]));
           setNotification(prev => [...prev, { message: "Word list fetched from Database, ready to generate puzzle!", success: true }]);
         })
         .catch(err => setNotification(prev => [...prev, { message: `Unable to fetch words from database: ${err.message}`, success: null }]));
@@ -29,11 +33,12 @@ export default function PuzzleGenerator() {
 
   const cratePuzzle = function() {
     setGenerateLoader(true);
+    dispatch(resetPuzzle());
     setNotification([]);
     console.log("Clicked Puzzle Gen Button");
     getPuzzle(wordList)
       .then(puzzle => {
-        setGeneratedPuzzle(puzzle);
+        dispatch(setGeneratedPuzzle(puzzle));
       })
       .catch(err => setNotification(prev => [...prev, { message: `Unable to create puzzle: ${err.message}`, success: null }]))
       .finally(() => setGenerateLoader(false));

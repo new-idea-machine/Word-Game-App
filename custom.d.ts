@@ -1,7 +1,7 @@
 export { };
 
 declare global {
-  type wordQueryObject = { id: number, word: string, hints: string; };
+  type WordQueryObject = { id: number, word: string, hints: string; };
 
   type WordObject = { word: string, hints: string[]; };
 
