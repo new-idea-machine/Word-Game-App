@@ -9,6 +9,7 @@ import { setUser, resetSession } from "../redux/features/sessionSlice";
 import secretKey from "@/helpers/secretKey";
 import PuzzleGenerator from "./PuzzleGenerator";
 import PuzzleForm from "./PuzzleForm";
+import SimilarPuzzles from "./SimilarPuzzles";
 
 export default function Admin() {
 
@@ -17,6 +18,7 @@ export default function Admin() {
   const dispatch = useDispatch();
 
   const { email, admin } = useAppSelector(state => state.sessionReducer.value.user);
+  const notification = useAppSelector(state => state.puzzleGenReducer.value.notification);
 
   const jwt = require('jsonwebtoken');
   const key = secretKey();
@@ -35,6 +37,11 @@ export default function Admin() {
     }
   }, []);
 
+  const notifications = notification.map((n, i) => {
+    const elementClasses = `w-full p-1 ${n.success ? "bg-emerald-300 text-green-950" : "bg-rose-300 text-red-950"}`;
+    return <li key={`notif${i}`} className={elementClasses}>{n.message}</li>;
+  });
+
   return (
     <main className="Admin h-screen">
       <nav className="admin-navbar flex justify-around">
@@ -45,13 +52,18 @@ export default function Admin() {
           {`Admin: ${admin}`}
         </span>
       </nav>
+      <div className="notifications">
+        <ul>
+          {notifications}
+        </ul>
+      </div>
       <div className="grid h-full grid-cols-2 gap-1 m-1">
-        <section className="border-black border-solid border">
+        <section className="border-black border-solid border overflow-y-scroll">
           <PuzzleGenerator />
           <PuzzleForm />
         </section>
         <section className="border-black border-solid border">
-
+          <SimilarPuzzles />
         </section>
       </div>
 
