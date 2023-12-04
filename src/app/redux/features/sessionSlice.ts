@@ -4,13 +4,6 @@ type InitialState = {
   value: Session;
 };
 
-export type PuzzleWord = {
-  id: number,
-  word: string,
-  clue: string,
-  extraHints: string[];
-};
-
 type Session = {
   user: {
     email: string,
@@ -35,8 +28,10 @@ export const session = createSlice({
       return initialState;
     },
     setUser: (state, action) => {
+      console.log("Set user:", action.payload.email);
+      console.log("Set admin:", action.payload.admin);
       state.value.user.email = action.payload.email;
-      state.value.user.admin = action.payload.admin || false;
+      state.value.user.admin = action.payload.admin;
     }
   }
 });

@@ -11,13 +11,6 @@ import Game from "./Game";
 import GameStats from "./GameStats";
 import Loading from "../loading";
 
-export interface Puzzle {
-  id: number;
-  word: string;
-  clue: string;
-  extraHints: string[];
-}
-
 export default function GameLauncher() {
   const [launch, setLaunch] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -30,7 +23,7 @@ export default function GameLauncher() {
       if (!puzzleData.length) {
         fetch('/api/get-puzzle')
           .then(response => response.json())
-          .then((puzzle: Puzzle[]) => {
+          .then((puzzle: PuzzleObject[]) => {
             dispatch(setPuzzle(puzzle));
           })
           .catch(error => {

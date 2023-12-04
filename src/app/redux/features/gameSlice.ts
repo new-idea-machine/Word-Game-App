@@ -10,7 +10,7 @@ type InitialState = {
   value: GameSettings;
 };
 
-export type PuzzleWord = {
+type PuzzleWord = {
   id: number,
   word: string,
   clue: string,
