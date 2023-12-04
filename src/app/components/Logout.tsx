@@ -1,11 +1,11 @@
 import { deleteCookie  } from 'cookies-next';
 import { useRouter } from 'next/navigation';
+import { useAppSelector } from '../redux/store';
 
-interface Props {
-  username: String | null;
-}
+export default function Logout() {
 
-export default function Logout({ username }: Props) {
+  const userName = useAppSelector(state => state.sessionReducer.value.user.email);
+
   const router = useRouter();
 
   const handleLogout = function() {
@@ -14,9 +14,9 @@ export default function Logout({ username }: Props) {
   };
 
   return (
-    <div className='fixed right-10 top-3 font-medium'>
+    <div className='font-medium'>
       <span className='pr-1 text-blue-800 italic'>Welcome</span>
-      <span className='pr-2 text-green-800 italic'>{username}</span>
+      <span className='pr-2 text-green-800 italic'>{userName}</span>
       <button onClick={handleLogout} className="rounded text-sm px-3 py-1.5 text-white bg-blue-500 hover:bg-blue-400">Logout</button>
     </div>  
   );

@@ -10,6 +10,7 @@ import secretKey from "@/helpers/secretKey";
 import PuzzleGenerator from "./PuzzleGenerator";
 import PuzzleForm from "./PuzzleForm";
 import SimilarPuzzles from "./SimilarPuzzles";
+import Logout from "../components/Logout";
 
 export default function Admin() {
 
@@ -17,7 +18,6 @@ export default function Admin() {
 
   const dispatch = useDispatch();
 
-  const { email, admin } = useAppSelector(state => state.sessionReducer.value.user);
   const notification = useAppSelector(state => state.puzzleGenReducer.value.notification);
 
   const jwt = require('jsonwebtoken');
@@ -43,21 +43,16 @@ export default function Admin() {
   });
 
   return (
-    <main className="Admin h-screen">
-      <nav className="admin-navbar flex justify-around">
-        <span>
-          {`User: ${email}`}
-        </span>
-        <span>
-          {`Admin: ${admin}`}
-        </span>
+    <main className="Admin h-screen flex flex-col">
+      <nav className="admin-navbar absolute bg-slate-300 flex w-screen justify-end items-center h-12 px-4">
+        <Logout />
       </nav>
-      <div className="notifications">
+      <div className="notifications pt-14 mb-1 text-center">
         <ul>
           {notifications}
         </ul>
       </div>
-      <div className="grid h-full grid-cols-2 gap-1 m-1">
+      <div className="grid grid-cols-2 flex-1 gap-1 pb-1">
         <section className="border-black border-solid border overflow-y-scroll">
           <PuzzleGenerator />
           <PuzzleForm />
