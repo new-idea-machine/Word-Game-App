@@ -28,8 +28,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="w-screen h-screen">
-      {user.email && <Logout username={user.email} />}
+    <main className="w-screen h-screen text-black bg-background dark:text-white dark:bg-background-dark">
+      {user.email && <Logout />}
       <GameLauncher />
     </main>
   );

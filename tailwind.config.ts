@@ -18,6 +18,7 @@ const config: Config = {
       },
       colors: {
         'background':'#e0f0ff',
+        'background-dark': '#020309',
         'letter': {
           'border':'#5d677b',
           'correct':'#118f40'
@@ -31,6 +32,7 @@ const config: Config = {
       }
     },
   },
+  darkMode: 'class',
   plugins: [],
 }
 export default config

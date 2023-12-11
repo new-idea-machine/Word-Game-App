@@ -1,4 +1,3 @@
-import { Birthstone_Bounce } from "next/font/google";
 import { useAppSelector } from "../redux/store";
 import html2canvas from "html2canvas";
 import React from "react";
@@ -49,12 +48,12 @@ export default function GameResults() {
       <section className="w-full flex flex-col content-center">
         <table className="border border-slate-300">
           <thead>
-            <tr className="bg-background">
+            <tr className="bg-slate-200 dark:bg-slate-800">
               {["Time Played", "Wrong Guesses", "Extra Hints"].map((label) => {
                 return (
                   <th
                     key={label}
-                    className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 text-black"
+                    className="font-bold py-2 px-4 border-b border-l text-center border-gray-500 text-black dark:text-white"
                   >
                     {label}
                   </th>
@@ -63,7 +62,7 @@ export default function GameResults() {
             </tr>
           </thead>
           <tbody>
-            <tr className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
+            <tr className="bg-white dark:bg-black hover:!bg-stone-200 text-center">
               <td className="resulttd border border-slate-300">
                 {formattedTime}
               </td>

@@ -142,8 +142,8 @@ export default function Game() {
               <GameTimer countDirection="down" />
             </div>
             {gameState === gameMode.playing &&
-              <div className="col-start-1 col-span-2 sm:col-start-2 sm:col-span-1 font-semibold text-2xl justify-self-center self-center">
-                {step < maxSteps && <h2>{puzzle[step].clue.toUpperCase()}</h2>}
+              <div className="col-start-1 col-span-2 sm:col-start-2 sm:col-span-1 font-semibold text-center text-2xl justify-self-center self-center">
+                {step < maxSteps && <h2>{puzzle[step].clue}</h2>}
               </div>}
             {gameState === gameMode.over &&
               <div className="col-start-1 col-span-3 font-semibold text-2xl justify-self-center self-center">

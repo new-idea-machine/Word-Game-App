@@ -88,25 +88,6 @@ body {
   }
 }
 
-.revealHint {
-  animation: reveal 0.3s ease-out;
-  overflow-x: hidden;
-  /* transition: width 0.5s ease-out, color 0.5s ease-out; */
-  color: #FFFF;
-  }
-
-@keyframes reveal {
-  0% {
-    width: 0%;
-    color: #00000000;
-  }
-  
-  100% {
-    width: 100%;
-    color: white;
-  }
-}
-
 .animate-droop {
   animation: droop 2s ease-out;
 }

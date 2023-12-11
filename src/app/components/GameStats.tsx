@@ -22,14 +22,14 @@ export default function GameStats() {
         <thead>
           <tr>
             {["Games Played", "Wins", "Losses", "Date"].map(label => {
-              return <th key={label} className="font-bold py-2 px-4 border text-center border-gray-500 text-black">{label}</th>;
+              return <th key={label} className="font-bold py-2 px-4 border text-center border-gray-500 text-black dark:text-white">{label}</th>;
             })}
           </tr>
         </thead>
         <tbody>
           {stats.map(stat => {
             return (
-              <tr key={stat.id} className="odd:bg-gray-100 hover:!bg-stone-200 text-center">
+              <tr key={stat.id} className="odd:bg-gray-100 dark:odd:bg-gray-800 hover:!bg-stone-200 text-center">
                 <td className="border border-slate-300">{stat.won + stat.lost}</td>
                 <td className="border border-slate-300">{stat.won}</td>
                 <td className="border border-slate-300">{stat.lost}</td>
