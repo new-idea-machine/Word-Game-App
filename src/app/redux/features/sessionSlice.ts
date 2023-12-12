@@ -9,6 +9,9 @@ type Session = {
     email: string,
     admin: boolean;
   },
+  theme: {
+    dark: boolean;
+  };
 };
 
 const initialState = {
@@ -16,6 +19,9 @@ const initialState = {
     user: {
       email: "",
       admin: false
+    },
+    theme: {
+      dark: false
     }
   } as Session
 } as InitialState;
@@ -32,6 +38,9 @@ export const session = createSlice({
       console.log("Set admin:", action.payload.admin);
       state.value.user.email = action.payload.email;
       state.value.user.admin = action.payload.admin;
+    },
+    toggleTheme: (state) => {
+      state.value.theme.dark = !state.value.theme.dark;
     }
   }
 });
@@ -39,6 +48,7 @@ export const session = createSlice({
 export const {
   resetSession,
   setUser,
+  toggleTheme
 } = session.actions;
 
 export default session.reducer;

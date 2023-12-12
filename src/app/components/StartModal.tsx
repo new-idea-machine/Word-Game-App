@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import DarkModeSwitch from "./DarkModeSwitch";
 
 interface Props {
   onClose: Function;
@@ -24,6 +25,7 @@ export default function StartModal({ onClose }: Props) {
       {showModal &&
         <div className="bg-background dark:bg-background-dark bg-opacity-80 fixed inset-0 z-50 flex justify-center">
           <div className="mx-5 flex flex-col justify-center fixed gap-8 top-20 bg-white dark:bg-black py-7 px-7 rounded-xl shadow-2xl shadow-gray-800">
+            <DarkModeSwitch />
             <h1 className="flex justify-center text-3xl font-boldmb-10">Letter Ladder</h1>
             <div className="flex-row justify-center text-base text-gray-500">
               How to play:
