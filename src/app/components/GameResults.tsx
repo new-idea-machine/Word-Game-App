@@ -62,7 +62,7 @@ export default function GameResults() {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white dark:bg-black hover:!bg-stone-200 text-center">
+            <tr className="text-center bg-white hover:!bg-stone-200 dark:bg-black">
               <td className="resulttd border border-slate-300">
                 {formattedTime}
               </td>

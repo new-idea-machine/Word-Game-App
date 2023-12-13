@@ -15,21 +15,21 @@ const stats: Stats[] = [
 
 export default function GameStats() {
   return (
-    <section className="w-full flex flex-col content-center mt-4">
+    <section className="w-full flex flex-col content-center text-center mt-4">
       {/* <GameCountdown onComplete={() => window.location.reload()}/> */}
-      <h3 className="text-center font-bold">Statistics:</h3>
+      <h3 className="font-bold">Statistics:</h3>
       <table className="border border-slate-300">
         <thead>
           <tr>
             {["Games Played", "Wins", "Losses", "Date"].map(label => {
-              return <th key={label} className="font-bold py-2 px-4 border text-center border-gray-500 text-black dark:text-white">{label}</th>;
+              return <th key={label} className="font-bold py-2 px-4 border border-gray-500 text-black dark:text-white">{label}</th>;
             })}
           </tr>
         </thead>
         <tbody>
           {stats.map(stat => {
             return (
-              <tr key={stat.id} className="odd:bg-gray-100 dark:odd:bg-gray-800 hover:!bg-stone-200 text-center">
+              <tr key={stat.id} className="odd:bg-gray-100 hover:!bg-stone-200 dark:odd:bg-gray-800">
                 <td className="border border-slate-300">{stat.won + stat.lost}</td>
                 <td className="border border-slate-300">{stat.won}</td>
                 <td className="border border-slate-300">{stat.lost}</td>

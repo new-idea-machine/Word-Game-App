@@ -11,14 +11,14 @@ export default function DarkModeSwitch() {
 
   return (
     <div className='flex items-center'>
-      💡
+      ☀️
       <label className="switch">
         <input type="checkbox" checked={dark} onChange={e => {
           dispatch(toggleTheme());
         }} />
         <span className="slider round text-center"></span>
       </label>
-      🌑
+      🌒
     </div>
   );
 }
