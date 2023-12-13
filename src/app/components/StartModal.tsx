@@ -23,7 +23,7 @@ export default function StartModal({ onClose }: Props) {
   return (
     <>
       {showModal &&
-        <div className="bg-background bg-opacity-80 fixed inset-0 z-50 flex justify-center dark:bg-background-dark">
+        <div className="bg-background bg-opacity-80 fixed inset-0 z-50 flex justify-center dark:bg-background-dark dark:bg-opacity-80">
           <div className="mx-5 flex flex-col justify-center fixed gap-8 top-20 bg-white py-7 px-7 rounded-xl shadow-2xl shadow-gray-800 dark:bg-black">
             <DarkModeSwitch />
             <h1 className="flex justify-center text-3xl font-boldmb-10">Letter Ladder</h1>
