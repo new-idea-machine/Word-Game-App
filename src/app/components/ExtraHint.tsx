@@ -16,10 +16,10 @@ export default function ExtraHint() {
   const hint = useAppSelector(state => state.gameReducer.value.puzzle[step]?.extraHints || "n/a")[0];
 
   const extraHintFormat = classnames(
-    "h-12 text-xl rounded transition flex items-center justify-center",
+    "min-h-[3rem] text-xl rounded transition flex items-center justify-center w-full transition",
     {
-      "bg-lime-600 cursor-default w-full revealHint": hintRevealed,
-      "bg-sky-800 text-white hover:bg-sky-600 px-4 py-2 gap-2 w-fit": !hintRevealed && extraHints > 0,
+      "cursor-default h-full bg-lime-600 dark:bg-lime-900 dark:text-emerald-200": hintRevealed,
+      "h-[3rem] bg-sky-800 text-white hover:bg-sky-600 px-4 py-2 gap-2 dark:bg-background-dark dark:border-2 dark:hover:bg-sky-950": !hintRevealed && extraHints > 0,
       "bg-gray-600 hover:bg-gray-600 cursor-not-allowed px-3": !hintRevealed && extraHints <= 0
     }
   );

@@ -99,7 +99,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col p-5 justify-center">
+    <main className="flex flex-col p-5 justify-center">
       {mode === "Login" && (
         <div className="flex flex-col">
           <div className="text-green-700 my-2 self-center">{message && message}</div>
@@ -219,6 +219,6 @@ export default function Login() {
           </form>
         </div>
       )}
-    </div>
+    </main>
   );
 }

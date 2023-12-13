@@ -43,25 +43,24 @@ export default function Admin() {
   });
 
   return (
-    <main className="Admin h-screen flex flex-col">
-      <nav className="admin-navbar absolute bg-slate-300 flex w-screen justify-end items-center h-12 px-4">
-        <Logout />
-      </nav>
-      <div className="notifications pt-14 mb-1 text-center">
-        <ul>
-          {notifications}
-        </ul>
-      </div>
-      <div className="grid grid-cols-2 flex-1 gap-1 pb-1">
-        <section className="border-black border-solid border overflow-y-scroll">
-          <PuzzleGenerator />
-          <PuzzleForm />
-        </section>
-        <section className="border-black border-solid border">
-          <SimilarPuzzles />
-        </section>
-      </div>
-
-    </main>
+      <main className="Admin h-screen flex flex-col">
+        <nav className="admin-navbar absolute bg-slate-300 flex w-screen justify-end items-center h-12 px-4">
+          <Logout />
+        </nav>
+        <div className="notifications pt-14 mb-1 text-center">
+          <ul>
+            {notifications}
+          </ul>
+        </div>
+        <div className="grid grid-cols-2 flex-1 gap-1 pb-1">
+          <section className="border-black border-solid border overflow-y-scroll">
+            <PuzzleGenerator />
+            <PuzzleForm />
+          </section>
+          <section className="border-black border-solid border">
+            <SimilarPuzzles />
+          </section>
+        </div>
+      </main>
   );
 }
