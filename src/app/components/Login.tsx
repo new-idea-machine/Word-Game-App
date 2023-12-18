@@ -92,12 +92,19 @@ export default function Login({ setViewName }: Props) {
           <div className="flex items-center justify-between mx-5">
             <button type="submit" className="rounded px-4 py-2 text-white bg-blue-500 hover:bg-blue-400">Sign in</button>
             <div>
-              <p className="text-sm"><button onClick={(e) => {
+              <p className="text-sm"><button className="underline text-blue-800 dark:text-blue-300" onClick={(e) => {
                 e.preventDefault();
                 setErrorMessage(null);
                 setViewName("register");
               }}>I don&apos;t have an account</button></p>
             </div>
+          </div>
+
+          <div className="flex items-center justify-center mx-5 mt-10">  
+              <p className="text-sm"><button className="underline" onClick={() => {
+                setErrorMessage(null);
+                setViewName("start");
+              }}>Play as a guest</button></p>
           </div>
         </form>
     </>
