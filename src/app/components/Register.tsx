@@ -60,7 +60,7 @@ export default function Register({ setViewName }: Props) {
     <>
       <h1 className="flex justify-center text-3xl font-boldmb-10">Registration</h1>
         <form
-          className="flex flex-col text-center justify-center px-20 my-4 gap-4"
+          className="flex flex-col text-center justify-center px-20 my-4 gap-4 dark:text-gray-200"
           onSubmit={handleRegistration}
           method="post"
         >
@@ -69,7 +69,7 @@ export default function Register({ setViewName }: Props) {
               Username
             </label>
             <input
-              className="mx-2  w-4/6 border-zinc-400 border-2 rounded"
+              className="mx-2  w-4/6 border-zinc-400 border-2 rounded dark:text-black"
               onChange={(e) => setUsername(e.target.value)}
               id="username"
               name="username"
@@ -82,7 +82,7 @@ export default function Register({ setViewName }: Props) {
               Password
             </label>
             <input
-              className="mx-2  w-4/6 border-zinc-400 border-2 rounded"
+              className="mx-2  w-4/6 border-zinc-400 border-2 rounded dark:text-black"
               onChange={(e) => setPassword(e.target.value)}
               id="current-password"
               name="password"
@@ -95,7 +95,7 @@ export default function Register({ setViewName }: Props) {
               Confirm Password
             </label>
             <input
-              className="mx-2  w-4/6 border-zinc-400 border-2 rounded"
+              className="mx-2  w-4/6 border-zinc-400 border-2 rounded dark:text-black"
               onChange={(e) => setConfirmPassword(e.target.value)}
               id="confirm-password"
               name="password"

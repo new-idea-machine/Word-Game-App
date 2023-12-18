@@ -47,7 +47,7 @@ export default function StartModal({ onClose }: Props) {
                 <h4>Are you ready to play?</h4>
                 <button onClick={handleStartClick} className="transition rounded-full px-8 py-2 text-white bg-green-700 hover:bg-green-600 active:bg-green-800">Start</button>
                 {!userEmail && <div>
-                  <p className="text-sm"><button onClick={() => setViewName("login")}>Log In</button> or <button onClick={() => setViewName("register")}>Register</button> an account to keep track of your stats.</p>
+                  <p className="text-sm"><button className="text-blue-600 underline font-semibold dark:text-blue-300" onClick={() => setViewName("login")}>Log In</button> or <button className="text-blue-600 underline font-semibold dark:text-blue-300" onClick={() => setViewName("register")}>Register</button> an account to keep track of your stats.</p>
                 </div>}
               </footer>
             </>

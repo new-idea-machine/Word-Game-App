@@ -59,13 +59,13 @@ export default function Login({ setViewName }: Props) {
   return (
     <>
         <h1 className="flex justify-center text-3xl font-boldmb-10">Sign in</h1>
-        <form className="flex flex-col text-center justify-center mx-28 my-4 gap-4" onSubmit={handleLogin} method="post">
+        <form className="flex flex-col text-center justify-center mx-28 my-4 gap-4 dark:text-gray-200" onSubmit={handleLogin} method="post">
           <section className="flex flex-row self-center my-1">
             <label className="mx-2 w-1/3" htmlFor="username">
               Username
             </label>
             <input
-              className="mx-2  w-4/6 border-zinc-400 border-2 rounded"
+              className="mx-2  w-4/6 border-zinc-400 border-2 rounded dark:text-black"
               onChange={(e) => setUsername(e.target.value)}
               id="username"
               name="username"
@@ -78,7 +78,7 @@ export default function Login({ setViewName }: Props) {
               Password
             </label>
             <input
-              className="mx-2  w-4/6 border-zinc-400 border-2 rounded"
+              className="mx-2  w-4/6 border-zinc-400 border-2 rounded dark:text-black"
               onChange={(e) => setPassword(e.target.value)}
               id="current-password"
               name="password"
