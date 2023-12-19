@@ -1,16 +1,13 @@
 import { deleteCookie  } from 'cookies-next';
-import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../redux/store';
 
 export default function Logout() {
 
   const userName = useAppSelector(state => state.sessionReducer.value.user.email);
 
-  const router = useRouter();
-
   const handleLogout = function() {
-    deleteCookie("username");
-    router.push("/login");
+    deleteCookie("user");
+    window.location.reload();
   };
 
   return (
