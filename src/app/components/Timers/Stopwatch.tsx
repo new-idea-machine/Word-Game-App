@@ -6,7 +6,7 @@ export default function Stopwatch() {
   const [timerOn, setTimerOn] = useState(false);
   const [gameOver, setGameOver] = useState(false);
 
-  const limit = useAppSelector(state => state.gameReducer.value.timer);
+  const limit = useAppSelector(state => state.gameReducer.value.timeLimit);
 
   useEffect(() => {
     let interval: ReturnType<typeof setTimeout> | undefined = undefined;

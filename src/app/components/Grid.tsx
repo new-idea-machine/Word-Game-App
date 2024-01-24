@@ -1,7 +1,6 @@
 "use client";
 
 import { useAppSelector } from '../redux/store';
-import { type Puzzle } from './Game';
 import Row from "./Row";
 
 interface GridProps {
